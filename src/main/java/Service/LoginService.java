@@ -22,11 +22,11 @@ public class LoginService {
 			try (ResultSet rs = ps.executeQuery()){
 				
 				if(rs.next()) {
-					accounts user = new accounts(
+					accounts accounts = new accounts(
 								rs.getString("mail"),
 								rs.getString("password")
 							);
-					return user;
+					return accounts;
 				}
 				
 			}catch(Exception e) {
