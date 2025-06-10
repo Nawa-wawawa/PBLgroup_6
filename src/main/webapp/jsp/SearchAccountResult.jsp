@@ -57,7 +57,7 @@
                                     <td>1</td>
                                     <td>イチロー</td>
                                     <td>ichiro@sak.com</td>
-                                    <td>権限</td>
+                                    <td>アカウント登録</td>
                                 </tr>
                             </c:forEach>
                         </tbody>

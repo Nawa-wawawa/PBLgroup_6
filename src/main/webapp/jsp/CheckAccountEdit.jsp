@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
-<meta charset="UTF-8">
-<title>新規アカウント登録確認画面</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>アカウント詳細編集確認</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -38,13 +39,13 @@
 	</nav>
 	
   <div class="container mt-5">
-    <h1 class="mb-4">アカウントを登録してもよろしいですか？</h1>
+    <h1 class="mb-4">アカウント詳細編集確認</h1>
     <form>
 
       <!-- 氏名 -->
       <div class="mb-3 row">
         <label for="name" class="col-sm-2 col-form-label text-end">
-          氏名 
+          氏名
         </label>
         <div class="col-sm-10">
           <input type="text" class="form-control" id="name" placeholder="氏名を入力" disabled>
@@ -54,7 +55,7 @@
       <!-- メールアドレス -->
       <div class="mb-3 row">
         <label for="email" class="col-sm-2 col-form-label text-end">
-          メールアドレス 
+          メールアドレス
         </label>
         <div class="col-sm-10">
           <input type="email" class="form-control" id="email" placeholder="メールアドレス" disabled>
@@ -64,7 +65,7 @@
       <!-- パスワード -->
       <div class="mb-3 row">
         <label for="password" class="col-sm-2 col-form-label text-end">
-          パスワード 
+          パスワード
         </label>
         <div class="col-sm-10">
           <input type="password" class="form-control" id="password" placeholder="パスワードを入力" disabled>
@@ -74,7 +75,7 @@
       <!-- パスワード確認 -->
       <div class="mb-3 row">
         <label for="confirmPassword" class="col-sm-2 col-form-label text-end">
-          パスワード（確認） 
+          パスワード（確認）
         </label>
         <div class="col-sm-10">
           <input type="password" class="form-control" id="confirmPassword" placeholder="パスワード（確認）" disabled>
@@ -84,7 +85,7 @@
       <!-- 権限 -->
       <div class="mb-3 row">
         <label class="col-sm-2 col-form-label text-end">
-          権限 
+          権限
         </label>
         <div class="col-sm-10">
           <div class="form-check form-check-inline">
@@ -93,25 +94,27 @@
           </div>
           <div class="form-check form-check-inline">
             <input class="form-check-input" type="radio" name="role" id="roleRead" value="read" disabled>
-            <label class="form-check-label" for="roleRead">参照</label>
+            <label class="form-check-label" for="roleRead">売上登録</label>
           </div>
           <div class="form-check form-check-inline">
             <input class="form-check-input" type="radio" name="role" id="roleUpdate" value="update" disabled>
-            <label class="form-check-label" for="roleUpdate">更新</label>
+            <label class="form-check-label" for="roleUpdate">アカウント登録</label>
           </div>
         </div>
       </div>
 
-      <!-- ボタン配置（OK & キャンセル） -->
-	<div class="row">
+      <!-- 登録ボタン -->
+      <div class="row">
   		<div class="offset-sm-2 col-sm-10">
-    		<button type="submit" class="btn btn-primary">OK</button>
+    		<button type="submit" class="btn btn-primary">✓OK</button>
   	  		<button type="button" class="btn btn-light ms-2" onclick="history.back()">キャンセル</button>
   		</div>
 	</div>
+
     </form>
- 	</div>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+

@@ -58,7 +58,7 @@
           メールアドレス <span class="badge rounded-pill text-bg-secondary">必須</span>
         </label>
         <div class="col-sm-10">
-          <input type="email" class="form-control" id="email" placeholder="example@example.com">
+          <input type="email" class="form-control" id="email" placeholder="メールアドレス">
         </div>
       </div>
 
@@ -75,10 +75,10 @@
       <!-- パスワード確認 -->
       <div class="mb-3 row">
         <label for="confirmPassword" class="col-sm-2 col-form-label text-end">
-          パスワード確認 <span class="badge rounded-pill text-bg-secondary">必須</span>
+          パスワード（確認） <span class="badge rounded-pill text-bg-secondary">必須</span>
         </label>
         <div class="col-sm-10">
-          <input type="password" class="form-control" id="confirmPassword" placeholder="もう一度パスワードを入力">
+          <input type="password" class="form-control" id="confirmPassword" placeholder="パスワード（確認）">
         </div>
       </div>
 
