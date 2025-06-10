@@ -88,17 +88,17 @@
           権限 <span class="badge rounded-pill text-bg-secondary">必須</span>
         </label>
         <div class="col-sm-10">
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="role" id="roleNone" value="none" checked>
-            <label class="form-check-label" for="roleNone">権限なし</label>
+<!--          <div class="form-check form-check-inline">-->
+<!--            <input class="form-check-input" type="radio" name="role" id="roleNone" value="0" checked>-->
+<!--            <label class="form-check-label" for="roleNone">権限なし</label>-->
+<!--          </div>-->
+          <div class="form-check form-check-inline mt-2">
+            <input class="form-check-input" type="checkbox" name="role" id="roleRead" value="0">
+            <label class="form-check-label" for="roleRead">売上登録</label>
           </div>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="role" id="roleRead" value="read">
-            <label class="form-check-label" for="roleRead">参照</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="role" id="roleUpdate" value="update">
-            <label class="form-check-label" for="roleUpdate">更新</label>
+            <input class="form-check-input" type="checkbox" name="role" id="roleUpdate" value="update">
+            <label class="form-check-label" for="roleUpdate">アカウント登録</label>
           </div>
         </div>
       </div>
