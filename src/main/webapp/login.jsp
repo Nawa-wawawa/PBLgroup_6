@@ -1,12 +1,31 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+  pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+  rel="stylesheet" />
+<!-- どこに置く？？ -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ログイン｜物品売上管理システム</title>
 </head>
-<body>
-<h1>ログインです</h1>
+<body class="d-flex justify-content-center min-vh-100">
+    <div class="container p-5 text-center">
+      <h1>物品売上管理システム</h1>
+      <form>
+        <div class="row mb-3">
+        <div class="row mb-3 justify-content-center">
+        <div class="col-md-5">
+            <input type="email" class="form-control mb-3" name ="mail" placeholder="メールアドレス">
+            <input type="password" class="form-control mb-3" name ="password" placeholder="パスワード">
+           	<div class="d-grid col-12 mx-auto">
+            <input type="submit" class="btn btn-primary m-1" value="ログイン">
+            </div>
+        </div>
+        </div>
+        </div>
+      </form>
 </body>
 </html>
