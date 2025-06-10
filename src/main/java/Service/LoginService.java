@@ -10,7 +10,7 @@ import util.Db;
 
 public class LoginService {
 	public accounts authenticate(String mail,String password) throws SQLException{
-		String sql = "select * from pbl6  where mail=? and password=?";
+		String sql = "select * from accounts  where mail=? and password=?";
 		
 		try (
 			Connection conn =Db.open();

@@ -11,7 +11,7 @@
 <body class="d-flex justify-content-center min-vh-100">
     <div class="container p-5 text-center">
       <h1>物品売上管理システム</h1>
-      <form>
+      <form action="LoginServlet" method="POST">
         <div class="row mb-3">
         <div class="row mb-3 justify-content-center">
         <div class="col-md-5">
