@@ -1,11 +1,15 @@
 package controller;
 
+import java.io.IOException;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
+
+import service.LoginService;
+
 
 /**
  * Servlet implementation class LoginServlet
@@ -34,8 +38,22 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		String mail = request.getParameter("mail");
+		String password =request.getParameter("password");
+		
+		try {
+			LoginService ls = new LoginService();
+			User user = ls.authenticate(mail, password);
+			if(user != null) {
+				request.setAttribute("user", user);
+				response.sendRedirect("/dashboard.jsp");
+			}else {
+				request.serAttribute("error","メールまたはパスワードが間違っています");
+				request.getRequestDispatcher("/login.jsp").forward(request, response);
+			}			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
-
 }
