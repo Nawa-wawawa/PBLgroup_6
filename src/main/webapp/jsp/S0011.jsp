@@ -36,8 +36,8 @@
 			</div>
 		</div>
 	</nav>
-
-	<div class="mt-4">
+	
+	<div class="col-3 text-end mt-5">
 		<h2>登録確認確認</h2>
 	</div>
 
@@ -127,7 +127,8 @@
 			</div>
 			<div class="row">
 				<div class="offset-2 col-2 text-end">
-					<button type="submit" class="btn btn-primary">登録</button>
+					<button type="submit" class="btn btn-primary">OK</button>
+					<button type="button" class="btn btn-light">キャンセル</button>
 				</div>
 			</div>
 		</form>

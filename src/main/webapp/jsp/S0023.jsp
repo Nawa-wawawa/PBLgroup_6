@@ -6,7 +6,7 @@
 <head>
 <link href="../css/bootstrap.min.css" rel="stylesheet" />
 <meta charset="UTF-8">
-<title>売上登録</title>
+<title>売上詳細編集</title>
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -38,7 +38,7 @@
 	</nav>
 
 	<div class="col-2 text-end mt-5">
-		<h2>売上登録</h2>
+		<h2>売上詳細編集</h2>
 	</div>
 
 	<div class="container">
@@ -131,7 +131,8 @@
 			</div>
 			<div class="row">
 				<div class="offset-2 col-2 text-end">
-					<button type="submit" class="btn btn-primary">登録</button>
+					<button type="submit" class="btn btn-primary">更新</button>
+					<button type="submit" class="btn btn-light">キャンセル</button>
 				</div>
 			</div>
 		</form>
