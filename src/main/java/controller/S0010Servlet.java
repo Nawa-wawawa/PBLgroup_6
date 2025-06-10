@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -45,6 +46,11 @@ public class S0010Servlet extends HttpServlet {
 		try (Connection con = Db.open()) {
 			Sales sv = new Sales();
 			salelist = sv.select();
+
+			sales sl = new sales(Date.valueOf("2020-01-28"),2,2,"ika",500,1,"そこそこおいしい");
+			
+			sv.update(sl, 4);
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (NamingException e1) {

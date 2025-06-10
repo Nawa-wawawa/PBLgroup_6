@@ -1,6 +1,6 @@
 package Bean;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class sales {
 	private int sale_id;
@@ -17,6 +17,18 @@ public class sales {
 			String note) {
 		super();
 		this.sale_id = sale_id;
+		this.sale_date = sale_date;
+		this.account_id = account_id;
+		this.category_id = category_id;
+		this.trade_name = trade_name;
+		this.unit_price = unit_price;
+		this.sale_number = sale_number;
+		this.note = note;
+	}
+
+	public sales(Date sale_date, int account_id, int category_id, String trade_name, int unit_price,
+			int sale_number, String note) {
+		super();
 		this.sale_date = sale_date;
 		this.account_id = account_id;
 		this.category_id = category_id;

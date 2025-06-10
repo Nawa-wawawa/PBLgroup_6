@@ -1,17 +1,14 @@
 package Service;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javax.naming.NamingException;
 
 import Bean.sales;
-import beans.Todo;
 import utils.Db;
 
 public class Sales {
@@ -44,57 +41,25 @@ public class Sales {
 		}
 		return salelist;
 	}
+	public void insert(sales sale) {
 
-	public ArrayList<Todo> select(int i) {
-		ArrayList<Todo> Todolist = new ArrayList<>();
-		String sql = "SELECT tasklist.*, loglist.name ,loglist.id FROM tasklist JOIN loglist ON tasklist.user_id = logl.id;";
-		try (
-				Connection use_connection = Db.open();
-				PreparedStatement ps = use_connection.prepareStatement(sql);
-				ResultSet rs = ps.executeQuery();) {
-			while (rs.next()) {
-				if (i == rs.getInt("loglist.id")) {
-					Todo todo = new Todo(
-							rs.getInt("id"),
-							rs.getString("status"),
-							rs.getString("task"),
-							LocalDate.parse(rs.getString("deadline")),
-							rs.getString("loglist.name"));
-					Todolist.add(todo);
-				}
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (NamingException e1) {
-			// TODO 自動生成された catch ブロック
-			e1.printStackTrace();
-		}
-		return Todolist;
-	}
+		String sql = "INSERT INTO sales ( sale_date, account_id, category_id, trade_name, unit_price, sale_number, note) VALUES (?,?,?,?,?,?,?)";
 
-	public void insert(Todo todo, int id) {
-
-		String sql = "INSERT INTO tasklist (status,task,deadline,user_id) VALUES (?,?,?,?)";
-		//		int id = 0;
 
 		try (Connection use_connection = Db.open();
 				PreparedStatement ps = use_connection.prepareStatement(sql,
 						java.sql.Statement.RETURN_GENERATED_KEYS);) {
-
-			ps.setString(1, todo.getStatus());
-			ps.setString(2, todo.getTask());
-			ps.setDate(3, Date.valueOf(todo.getDeadline()));
-			ps.setInt(4, id);
-
-			//			ResultSet res = ps.getGeneratedKeys();
-
+			
+			ps.setDate(1,sale.getSale_date());
+			ps.setInt(2,sale.getAccount_id());
+			ps.setInt(3,sale.getCategory_id());
+			ps.setString(4,sale.getTrade_name());					
+			ps.setInt(5,sale.getUnit_price());
+			ps.setInt(6,sale.getSale_number());
+			ps.setString(7,sale.getNote());
+			
+			
 			ps.executeUpdate();
-
-			//	System.out.println(todo.getStatus() + "service");
-			//			if (res.next()) {
-			//				id = res.getInt(1);
-			//			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (NamingException e1) {
@@ -104,18 +69,23 @@ public class Sales {
 		//return id;
 	}
 
-	public void update(Todo todo, int id) {
-		String sql = "UPDATE tasklist SET status = ?, task = ?, deadline = ?, user_id = ? WHERE id = ?";
+	public void update(sales sale, int id) {
+		String sql = "UPDATE sales 	SET sale_date = ?, account_id = ?, category_id = ?, trade_name = ?, unit_price = ?, sale_number = ?, note = ?WHERE sale_id = ?";
 		try (
 				Connection use_connection = Db.open();
 				PreparedStatement ps = use_connection.prepareStatement(sql);) {
-			ps.setString(1, todo.getStatus());
-			ps.setString(2, todo.getTask());
-			ps.setDate(3, Date.valueOf(todo.getDeadline()));
-			ps.setInt(4, id);
-			ps.setInt(5, todo.getId());
+			
+			
+			ps.setDate(1,sale.getSale_date());
+			ps.setInt(2,sale.getAccount_id());
+			ps.setInt(3,sale.getCategory_id());
+			ps.setString(4,sale.getTrade_name());					
+			ps.setInt(5,sale.getUnit_price());
+			ps.setInt(6,sale.getSale_number());
+			ps.setString(7,sale.getNote());
+			ps.setInt(8,id);
+			
 			ps.executeUpdate();
-
 			System.out.println("更新の完了");
 		} catch (SQLException e) {
 			e.printStackTrace();
