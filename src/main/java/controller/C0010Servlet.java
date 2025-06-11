@@ -14,14 +14,14 @@ import Service.LoginService;
 /**
  * Servlet implementation class LoginServlet
  */
-@WebServlet("/LoginServlet")
-public class LoginServlet extends HttpServlet {
+@WebServlet("/C0010Servlet")
+public class C0010Servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoginServlet() {
+    public C0010Servlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -44,10 +44,11 @@ public class LoginServlet extends HttpServlet {
 			LoginService ls = new LoginService();
 			accounts accounts = ls.authenticate(mail,password);
 			if (accounts != null) {
-				request.getRequestDispatcher("/dashboard.jsp").forward(request, response);
+				request.getRequestDispatcher("/C0020.jsp").forward(request, response);
+				//セッションに保存（未実装）
 			} else {
 				request.setAttribute("error", "メールアドレスまたはパスワードが間違っています");
-				request.getRequestDispatcher("/login.jsp").forward(request, response);
+				request.getRequestDispatcher("/C0010.jsp").forward(request, response);
 			}
 		}catch(Exception e) {
 			e.printStackTrace();

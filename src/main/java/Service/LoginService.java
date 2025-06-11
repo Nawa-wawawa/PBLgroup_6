@@ -28,14 +28,24 @@ public class LoginService {
 							);
 					return accounts;
 				}
-				
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
 			return null;
+		}				
+	}
+	
+	public boolean digitAlphabetCheck(String input) {//パスワードの形式チェック
+		for(int i=0; i < input.length(); i++) {
+			char c= input.charAt(i);
+			if((c < '0'|| c > '9')&&
+				(c < 'a'|| c > 'z')&&
+				(c < 'A' || c > 'Z')
+				) {
+				return false;
+			}
 		}
-		
-		
+		return true;
 	}
 	
 }
