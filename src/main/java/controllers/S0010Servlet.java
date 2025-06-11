@@ -1,8 +1,7 @@
-package controller;
+package controllers;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -14,8 +13,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import Bean.sales;
-import Service.Sales;
+import beans.categories;
+import beans.sales;
+import services.Categories;
 import utils.Db;
 
 /**
@@ -41,17 +41,13 @@ public class S0010Servlet extends HttpServlet {
 		
 
 		ArrayList<sales> salelist = null;
+		ArrayList<categories> categorylist = null;
 
 		
 		try (Connection con = Db.open()) {
-			Sales sv = new Sales();
-			salelist = sv.select();
+			Categories ct = new Categories();
+			categorylist = ct.select();
 
-			sales sl = new sales(Date.valueOf("2020-01-28"),2,2,"ika",500,1,"かなりおいしい");
-			
-			sv.update(sl, 2);
-			
-			sv.delete(3);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -59,8 +55,8 @@ public class S0010Servlet extends HttpServlet {
 			// TODO 自動生成された catch ブロック
 			e1.printStackTrace();
 		}
-		for(sales sale : salelist) {
-			System.out.println(sale.getTrade_name());
+		for(categories sale : categorylist) {
+			System.out.println(sale.getCategory_name());
 		}
 		
 		//request.getRequestDispatcher("/jsp/S0010.jsp").forward(request, response);

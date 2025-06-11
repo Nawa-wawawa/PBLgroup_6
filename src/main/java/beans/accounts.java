@@ -1,4 +1,4 @@
-package Bean;
+package beans;
 
 public class accounts {
 

@@ -1,4 +1,4 @@
-package Service;
+package services;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import javax.naming.NamingException;
 
-import Bean.sales;
+import beans.sales;
 import utils.Db;
 
 public class Sales {
@@ -138,7 +138,4 @@ public class Sales {
 
 		return userName;
 	}
-
-	
-	
 }

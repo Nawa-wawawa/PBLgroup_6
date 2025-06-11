@@ -137,6 +137,6 @@
 		</form>
 	</div>
 
-	<script src="js/bootstrap.bundle.min.js" defer></script>
+	<script src="${pageContext.request.contextPath}/js/bootstrap.bundle.min.js" defer></script>
 </body>
 </html>

@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link href="../css/bootstrap.min.css" rel="stylesheet" />
+<link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet" />
 <meta charset="UTF-8">
 <title>売上登録確認</title>
 </head>
@@ -133,5 +133,6 @@
 			</div>
 		</form>
 	</div>
+	<script src="${pageContext.request.contextPath}/js/bootstrap.bundle.min.js" defer></script>
 </body>
 </html>
