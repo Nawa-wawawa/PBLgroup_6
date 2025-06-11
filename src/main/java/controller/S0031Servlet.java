@@ -9,70 +9,102 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import beans.Account;
+import services.AccountService;
 
-/**
- * Servlet implementation class CheckNewAccountServlet
- */
 @WebServlet("/S0031Servlet")
 public class S0031Servlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+    private static final long serialVersionUID = 1L;
+
     public S0031Servlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		
-		request.getRequestDispatcher("/S0031.jsp").forward(request, response);
-	}
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // GETは使わない想定 → 入力画面に戻す
+        response.sendRedirect("S0030Servlet");
+    }
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	// S0031Servlet.java
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	    request.setCharacterEncoding("UTF-8");
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
 
-	    // 入力値取得
-	    String name = request.getParameter("name");
-	    String mail = request.getParameter("mail");
-	    String password = request.getParameter("password");
-	    String confirmPassword = request.getParameter("confirmPassword");
-	    
-	    // 権限の処理（例として簡易版）
-	    String[] roles = request.getParameterValues("role");
-	    int authority = 0;
-	    if (roles != null) {
-	        for (String role : roles) {
-	            if ("read".equals(role)) authority |= 1;
-	            if ("update".equals(role)) authority |= 2;
-	        }
-	    }
+        String action = request.getParameter("action");
 
-	    // パスワード確認などの簡単なバリデーション
-	    if (!password.equals(confirmPassword)) {
-	        request.setAttribute("error", "パスワードが一致しません");
-	        request.getRequestDispatcher("/jsp/S0030.jsp").forward(request, response);
-	        return;
-	    }
+        if ("register".equals(action)) {
+            // 「確認画面のOK」ボタンが押されたとき
 
-	    // Accountインスタンスを作成（idは未登録なので0など）
-	    Account account = new Account(0, name, mail, password, authority);
+            String name = request.getParameter("name");
+            String mail = request.getParameter("mail");
+            String password = request.getParameter("password");
+            String confirmPassword = request.getParameter("confirmPassword");
+            String[] roles = request.getParameterValues("role");
 
-	    // 確認画面に渡す
-	    request.setAttribute("account", account);
+            int authority = 0;
+            if (roles != null) {
+                for (String role : roles) {
+                    if ("0".equals(role)) {
+                        authority |= 1; // 売上登録
+                    } else if ("update".equals(role)) {
+                        authority |= 2; // アカウント登録
+                    }
+                }
+            }
 
-	    // 確認画面へ
-	    request.getRequestDispatcher("/jsp/S0031.jsp").forward(request, response);
-	}
+            // パスワードチェック
+            if (!password.equals(confirmPassword)) {
+                request.setAttribute("error", "パスワードが一致しません");
+                request.setAttribute("account", new Account(0, name, mail, password, authority));
+                request.getRequestDispatcher("/jsp/S0031.jsp").forward(request, response);
+                return;
+            }
 
+            // 登録
+            Account account = new Account(0, name, mail, password, authority);
+            AccountService service = new AccountService();
 
+            try {
+                service.insert(account);
+                // 成功：入力画面にリダイレクト
+                response.sendRedirect("S0030Servlet");
+            } catch (Exception e) {
+                request.setAttribute("error", "登録に失敗しました: " + e.getMessage());
+                request.setAttribute("account", account);
+                request.getRequestDispatcher("/jsp/S0031.jsp").forward(request, response);
+            }
+
+        } else {
+            // S0030から最初に確認画面へ遷移する場合
+
+            String name = request.getParameter("name");
+            String mail = request.getParameter("mail");
+            String password = request.getParameter("password");
+            String confirmPassword = request.getParameter("confirmPassword");
+            String[] roles = request.getParameterValues("role");
+
+            int authority = 0;
+            if (roles != null) {
+                for (String role : roles) {
+                    if ("0".equals(role)) {
+                        authority |= 1;
+                    } else if ("update".equals(role)) {
+                        authority |= 2;
+                    }
+                }
+            }
+
+            Account account = new Account(0, name, mail, password, authority);
+
+            if (!password.equals(confirmPassword)) {
+                request.setAttribute("error", "パスワードが一致しません");
+                request.setAttribute("account", account);
+                request.getRequestDispatcher("/jsp/S0030.jsp").forward(request, response);
+                return;
+            }
+
+            // 確認画面へ渡す
+            request.setAttribute("account", account);
+            request.getRequestDispatcher("/jsp/S0031.jsp").forward(request, response);
+        }
+    }
 }

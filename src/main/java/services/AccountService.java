@@ -25,14 +25,14 @@ public class AccountService {
 			            ResultSet rs = pstmt.executeQuery();
 
 			            while (rs.next()) {
-			                Account a = new Account(
+			                Account account = new Account(
 			                    rs.getInt("account_id"),
 			                    rs.getString("name"),
 			                    rs.getString("mail"),
 			                    rs.getString("password"),
 			                    rs.getInt("authority")
 			                );
-			                list.add(a);
+			                list.add(account);
 			            }
 			        } catch (SQLException | NamingException e) {
 			            e.printStackTrace();
@@ -40,21 +40,24 @@ public class AccountService {
 			        return list;
 	}
 	
-	public void insert(Account a) {
-		String sql = "INSERT INTO accounts (name, mail, password, authority) VALUES (?, ?, ?, ?)";
-		try (Connection conn = Db.open(); 
-	             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-	            
-	            pstmt.setString(1, a.getName());
-	            pstmt.setString(2, a.getMail());
-	            pstmt.setString(3, a.getPassword());
-	            pstmt.setInt(4, a.getAuthority());
+	public boolean insert(Account a) {
+	    String sql = "INSERT INTO accounts (name, mail, password, authority) VALUES (?, ?, ?, ?)";
+	    try (Connection conn = Db.open(); 
+	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+	        
+	        pstmt.setString(1, a.getName());
+	        pstmt.setString(2, a.getMail());
+	        pstmt.setString(3, a.getPassword());
+	        pstmt.setInt(4, a.getAuthority());
 
-	            pstmt.executeUpdate();
-	        } catch (SQLException | NamingException e) {
-	            e.printStackTrace();
-	        }
-		}
+	        int affectedRows = pstmt.executeUpdate();
+	        return affectedRows > 0;
+	    } catch (SQLException | NamingException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
+
 	public void update(Account a) {
         String sql = "UPDATE accounts SET name = ?, mail = ?, password  = ? ";
         try (Connection conn = Db.open();
@@ -70,7 +73,7 @@ public class AccountService {
         }
     }
 	public void delete(Account a) {
-        String sql = "DELETE FROM account WHERE id = ?";
+		String sql = "DELETE FROM accounts WHERE account_id = ?";
         try (Connection conn = Db.open();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
@@ -81,21 +84,21 @@ public class AccountService {
         }
     }
 	public Account findById(int id) {
-        String sql = "SELECT * FROM accounts WHERE id = ?";
+		String sql = "SELECT * FROM accounts WHERE account_id = ?";
         try (Connection conn = Db.open();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
             pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                Account a = new Account(
+                Account account = new Account(
                     rs.getInt("id"),
                     rs.getString("name"),
                     rs.getString("mail"),
                     rs.getString("password"),
                     rs.getInt("authority")
                 );
-                return a;
+                return account;
             }
         } catch (SQLException | NamingException e) {
             e.printStackTrace();
