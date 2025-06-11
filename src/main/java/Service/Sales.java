@@ -96,7 +96,7 @@ public class Sales {
 	}
 
 	public void delete(int id) {
-		String sql = "DELETE  FROM tasklist WHERE id = ?";
+		String sql = "DELETE  FROM sales WHERE sale_id = ?";
 
 		try (
 				Connection use_connection = Db.open();
@@ -117,7 +117,7 @@ public class Sales {
 	public String getUsername(int id) {
 
 		String userName = "";
-		String sql = "SELECT name FROM loglist WHERE id = ?";
+		String sql = "SELECT name FROM sales WHERE id = ?";
 
 		try (
 				Connection use_connection = Db.open();
