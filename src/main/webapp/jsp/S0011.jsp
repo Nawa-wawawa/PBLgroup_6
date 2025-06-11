@@ -4,7 +4,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet" />
+<link href="${pageContext.request.contextPath}/css/bootstrap.min.css"
+	rel="stylesheet" />
 <meta charset="UTF-8">
 <title>売上登録確認</title>
 </head>
@@ -36,7 +37,7 @@
 			</div>
 		</div>
 	</nav>
-	
+
 	<div class="col-3 text-end mt-5">
 		<h2>登録確認確認</h2>
 	</div>
@@ -46,11 +47,11 @@
 			<div class="row mb-3">
 				<div class="col-2 text-end">
 					<span class="d-inline-flex align-items-center gap-1"> <span>販売日</span>
-
 					</span>
 				</div>
 				<div class="col-2">
-					<input type="date" name="sale_date" class="form-control" disabled>
+					<input type="date" name="sale_date" class="form-control"
+						id="saleDate">
 				</div>
 			</div>
 
@@ -78,9 +79,9 @@
 				<div class="col-4">
 					<select name="category" class="form-control" disabled>
 						<option value="">選択してください</option>
+						<c:forEach var="item" items="${list}">
 						<option value="食品">食品</option>
-						<option value="日用品">日用品</option>
-						<option value="家電">家電</option>
+						</c:forEach>
 					</select>
 				</div>
 			</div>
@@ -128,11 +129,14 @@
 			<div class="row">
 				<div class="offset-2 col-2 text-end">
 					<button type="submit" class="btn btn-primary">OK</button>
-					<button type="button" class="btn btn-light">キャンセル</button>
+					<a href="${pageContext.request.contextPath}/S0010Servlet"
+						class="btn btn-light" role="button">キャンセル</a>
 				</div>
 			</div>
 		</form>
 	</div>
-	<script src="${pageContext.request.contextPath}/js/bootstrap.bundle.min.js" defer></script>
+	<script
+		src="${pageContext.request.contextPath}/js/bootstrap.bundle.min.js"
+		defer></script>
 </body>
 </html>

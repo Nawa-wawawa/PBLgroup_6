@@ -3,6 +3,7 @@ package controllers;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javax.naming.NamingException;
@@ -14,7 +15,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import beans.categories;
-import beans.sales;
 import services.Categories;
 import utils.Db;
 
@@ -39,35 +39,37 @@ public class S0010Servlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-
-		ArrayList<sales> salelist = null;
+		String today = LocalDate.now().toString();
+//		ArrayList<sales> salelist = null;
 		ArrayList<categories> categorylist = null;
 
 		
 		try (Connection con = Db.open()) {
 			Categories ct = new Categories();
 			categorylist = ct.select();
-
-			
+//			Sales sl = new Sales();
+//			salelist = sl.select();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (NamingException e1) {
 			// TODO 自動生成された catch ブロック
 			e1.printStackTrace();
 		}
-		for(categories sale : categorylist) {
-			System.out.println(sale.getCategory_name());
-		}
 		
-		//request.getRequestDispatcher("/jsp/S0010.jsp").forward(request, response);
+	    request.setAttribute("today", today);
+	    request.setAttribute("categorylist", categorylist);
+	  //request.setAttribute("saccountlist", accountlist);
+	    
+	    
+		
+		request.getRequestDispatcher("/jsp/S0010.jsp").forward(request, response);
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		response.sendRedirect(request.getContextPath() + "/S0011Servlet");
 	}
 
 }

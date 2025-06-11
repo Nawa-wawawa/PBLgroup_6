@@ -42,7 +42,7 @@
 	</div>
 
 	<div class="container">
-		<form method="post" action="">
+		<form method="post" action="S0010Servlet">
 			<div class="row mb-3">
 				<div class="col-2 text-end">
 					<span class="d-inline-flex align-items-center gap-1"> <span>販売日</span>
@@ -50,7 +50,7 @@
 					</span>
 				</div>
 				<div class="col-2">
-					<input type="date" name="sale_date" class="form-control">
+					<input type="date" name="sale_date" class="form-control" value="${today}">
 				</div>
 			</div>
 
@@ -77,11 +77,11 @@
 					</span>
 				</div>
 				<div class="col-4">
-					<select name="category" class="form-control">
-						<option value="">選択してください</option>
-						<option value="食品">食品</option>
-						<option value="日用品">日用品</option>
-						<option value="家電">家電</option>
+						<select name="category" class="form-control">
+							<option value="">選択してください</option>
+					<c:forEach var="category" items="${categorylist}">
+							<option value="${category.category_name}">${category.category_name}</option>
+						</c:forEach>
 					</select>
 				</div>
 			</div>
