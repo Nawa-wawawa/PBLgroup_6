@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -14,7 +15,7 @@ import services.AccountService;
 /**
  * Servlet implementation class SerchAccountServlet
  */
-@WebServlet("/S0040Servlet")
+@WebServlet("/S0040.html")
 public class S0040Servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -31,7 +32,7 @@ public class S0040Servlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.getRequestDispatcher("/S0040.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/jsp/S0040.jsp").forward(request, response);
 	}
 
 	/**
@@ -45,14 +46,14 @@ public class S0040Servlet extends HttpServlet {
         int authority = Integer.parseInt(request.getParameter("authority"));
 
         AccountService service = new AccountService();
-        Account account = service.findByAccount(name, mail, authority); 
+        ArrayList<Account> account = service.findByAccount(name, mail, authority); 
 
         if (account != null) {
             request.setAttribute("account", account);
-            request.getRequestDispatcher("/S0041.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/jsp/S0041.jsp").forward(request, response);
         } else {
             request.setAttribute("error", "該当するアカウントが見つかりません。");
-            request.getRequestDispatcher("/S0040.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/jsp/S0040.jsp").forward(request, response);
         }
 	    // ❌ ログイン失敗：エラーメッセージ付きでログイン画面に戻る
 //	    request.setAttribute("error", "メールアドレスまたはパスワードが違います。");

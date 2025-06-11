@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,7 +35,7 @@
     <h1 class="mb-4">アカウント検索結果表示</h1>
     <form>
             <c:choose>
-                <c:when test="${not empty todo}">
+                <c:when test="${not empty account}">
                     <table class="table only-horizontal-lines">
                         <thead>
                             <tr>
@@ -46,18 +47,19 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <c:forEach var="item" items="${todo}">
-                                <tr style="cursor:pointer;" onclick="location.href='DetailtaskServlet?id=${item.id}'">
+                            <c:forEach var="item" items="${account}">
+                            <!-- ↓ここでエラー出てるっぽい -->
+                                <tr style="cursor:pointer;" onclick="location.href='DetailtaskServlet?id=${item['account_id']}'">
                                     <td>
                                         <div class="d-flex">
                                             <button type="submit" class="btn btn-primary btn-sm me-2">✓編集</button>
                                            <button type="button" class="btn btn-danger btn-sm" onclick="event.stopPropagation(); history.back();">×削除</button>
                                         </div>
                                     </td>
-                                    <td>1</td>
-                                    <td>イチロー</td>
-                                    <td>ichiro@sak.com</td>
-                                    <td>アカウント登録</td>
+                                    <td>${item.account_id}</td>
+                                    <td>${item.name}</td>
+                                    <td>${item.mail}</td>
+                                    <td>${item.authority}</td>
                                 </tr>
                             </c:forEach>
                         </tbody>
@@ -66,5 +68,11 @@
             </c:choose>
     </form>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+	<script>
+	function event.stopPropagation(); history.back();{
+		
+		}
+	</script>
 </body>
 </html>

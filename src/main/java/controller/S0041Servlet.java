@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class S0041Servlet
  */
-@WebServlet("/S0041Servlet")
+@WebServlet("/S0041.html")
 public class S0041Servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

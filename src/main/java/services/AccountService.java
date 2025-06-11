@@ -3,17 +3,14 @@ package services;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.naming.NamingException;
-
 import beans.Account;
-import utils.Db;
+import util.Db;
 
 public class AccountService {
-	public List<Account> select(String mail) {
+	public List<Account> select(int n) {
 		List<Account> list = new ArrayList<>();
 				String sql = "SELECT * FROM accounts";
 //				String sql = "SELECT * FROM accounts";
@@ -21,9 +18,9 @@ public class AccountService {
 				try (Connection conn = Db.open();
 			             PreparedStatement pstmt = conn.prepareStatement(sql)) {
 			            
-			            pstmt.setString(1, mail);
+			            pstmt.setInt(1, n);
 			            ResultSet rs = pstmt.executeQuery();
-
+//
 			            while (rs.next()) {
 			                Account a = new Account(
 			                    rs.getInt("account_id"),
@@ -34,7 +31,7 @@ public class AccountService {
 			                );
 			                list.add(a);
 			            }
-			        } catch (SQLException | NamingException e) {
+			        } catch (Exception e) {
 			            e.printStackTrace();
 			        }
 			        return list;
@@ -51,7 +48,7 @@ public class AccountService {
 	            pstmt.setInt(4, a.getAuthority());
 
 	            pstmt.executeUpdate();
-	        } catch (SQLException | NamingException e) {
+	        } catch (Exception e) {
 	            e.printStackTrace();
 	        }
 		}
@@ -65,7 +62,7 @@ public class AccountService {
             pstmt.setString(3, a.getPassword());
 
             pstmt.executeUpdate();
-        } catch (SQLException | NamingException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -76,35 +73,44 @@ public class AccountService {
             
             pstmt.setInt(1, a.getId());
             pstmt.executeUpdate();
-        } catch (SQLException | NamingException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-	public Account findById(int id) {
-        String sql = "SELECT * FROM accounts WHERE id = ?";
+	public ArrayList<Account> findById(int authority) {
+		
+        String sql = "SELECT * FROM accounts WHERE authority = ?";
+        
+        ArrayList<Account> accounts = new ArrayList<>();
+        
         try (Connection conn = Db.open();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
-            pstmt.setInt(1, id);
+            pstmt.setInt(1,authority);
             ResultSet rs = pstmt.executeQuery();
+            
             if (rs.next()) {
-                Account a = new Account(
-                    rs.getInt("id"),
+                Account account = new Account(
+                    rs.getInt("account_id"),
                     rs.getString("name"),
                     rs.getString("mail"),
                     rs.getString("password"),
                     rs.getInt("authority")
                 );
-                return a;
+                return accounts;
             }
-        } catch (SQLException | NamingException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 	
-	public Account findByAccount(String name, String mail, int authority) {
-	    String sql = "SELECT * FROM accounts WHERE name = ? AND mail = ? AND authority = ?";
+	public ArrayList<Account> findByAccount(String name, String mail, int authority) {	
+		
+	    String sql = "SELECT * FROM accounts WHERE name LIKE ? AND mail LIKE ? AND authority = ?;";
+	    
+	    ArrayList<Account> accounts = new ArrayList<>();
+	    
 	    try (Connection conn = Db.open();
 	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
@@ -113,16 +119,18 @@ public class AccountService {
 	        pstmt.setInt(3, authority);
 
 	        ResultSet rs = pstmt.executeQuery();
-	        if (rs.next()) {
-	            return new Account(
-	                rs.getInt("id"),
-	                rs.getString("name"),
-	                rs.getString("mail"),
-	                rs.getString("password"),
-	                rs.getInt("authority")
-	            );
-	        }
-	    } catch (SQLException | NamingException e) {
+	        while (rs.next()) {
+               accounts.add(
+            		   new Account(
+                    rs.getInt("account_id"),
+                    rs.getString("name"),
+                    rs.getString("mail"),
+                    rs.getString("password"),
+                    rs.getInt("authority"))
+                );
+                return accounts;
+            }
+	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
 	    return null;
