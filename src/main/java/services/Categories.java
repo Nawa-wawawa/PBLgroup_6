@@ -38,4 +38,31 @@ public class Categories {
 		}
 		return categorylist;
 	}
+	
+
+	public String getCategoryname(int id) {
+
+		String categoryName = "";
+		String sql = "SELECT category_name FROM categories WHERE category_id = ?";
+
+		try (
+				Connection use_connection = Db.open();
+				PreparedStatement ps = use_connection.prepareStatement(sql)) {
+
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
+
+			if (rs.next()) {
+				categoryName = rs.getString("category_name");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+
+		return categoryName;
+	}
+
 }

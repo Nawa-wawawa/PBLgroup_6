@@ -63,9 +63,9 @@
 				<div class="col-4">
 					<select name="staff" class="form-control">
 						<option value="">担当者を選択してください</option>
-						<option value="">名和</option>
-						<option value="">相馬</option>
-						<option value="">鈴木</option>
+					<c:forEach var="account" items="${accountslist}">
+							<option value="${account.account_id}">${account.name}</option>
+						</c:forEach>
 					</select>
 				</div>
 			</div>
@@ -80,7 +80,7 @@
 						<select name="category" class="form-control">
 							<option value="">選択してください</option>
 					<c:forEach var="category" items="${categorylist}">
-							<option value="${category.category_name}">${category.category_name}</option>
+							<option value="${category.category_id}">${category.category_name}</option>
 						</c:forEach>
 					</select>
 				</div>

@@ -43,30 +43,28 @@
 	</div>
 
 	<div class="container">
-		<form method="post" action="">
+		<form method="post" action="${pageContext.request.contextPath}/S0011Servlet" >
 			<div class="row mb-3">
 				<div class="col-2 text-end">
 					<span class="d-inline-flex align-items-center gap-1"> <span>販売日</span>
+						<span class="badge rounded-pill text-bg-secondary">必須</span>
 					</span>
 				</div>
 				<div class="col-2">
 					<input type="date" name="sale_date" class="form-control"
-						id="saleDate">
+						value="${sessionScope.sale_date}"disabled>
 				</div>
 			</div>
 
 			<div class="row mb-3">
 				<div class="col-2 text-end">
 					<span class="d-inline-flex align-items-center gap-1"> <span>担当</span>
-
+						<span class="badge rounded-pill text-bg-secondary">必須</span>
 					</span>
 				</div>
 				<div class="col-4">
 					<select name="staff" class="form-control" disabled>
-						<option value="">担当者を選択してください</option>
-						<option value="">名和</option>
-						<option value="">相馬</option>
-						<option value="">鈴木</option>
+							<option value="${staff}">${accountname}</option>
 					</select>
 				</div>
 			</div>
@@ -74,14 +72,12 @@
 			<div class="row mb-3">
 				<div class="col-2 text-end">
 					<span class="d-inline-flex align-items-center gap-1"> <span>商品カテゴリー</span>
+						<span class="badge rounded-pill text-bg-secondary">必須</span>
 					</span>
 				</div>
 				<div class="col-4">
 					<select name="category" class="form-control" disabled>
-						<option value="">選択してください</option>
-						<c:forEach var="item" items="${list}">
-						<option value="食品">食品</option>
-						</c:forEach>
+							<option value="${category}">${categoryname}</option>	
 					</select>
 				</div>
 			</div>
@@ -89,33 +85,36 @@
 			<div class="row mb-3">
 				<div class="col-2 text-end">
 					<span class="d-inline-flex align-items-center gap-1"> <span>商品名</span>
+						<span class="badge rounded-pill text-bg-secondary">必須</span>
 					</span>
 				</div>
 				<div class="col-4">
 					<input type="text" name="product_name" class="form-control"
-						placeholder="商品名を入力" disabled>
+						placeholder="商品名を入力" value="${product_name}" disabled>
 				</div>
 			</div>
 
 			<div class="row mb-3">
 				<div class="col-2 text-end">
 					<span class="d-inline-flex align-items-center gap-1"> <span>単価</span>
+						<span class="badge rounded-pill text-bg-secondary">必須</span>
+					</span>
 				</div>
 				<div class="col-2">
 					<input type="number" name="unit_price" class="form-control"
-						placeholder="円単位で入力" disabled>
+						placeholder="円単位で入力" value="${unit_price}"disabled>
 				</div>
 			</div>
 
 			<div class="row mb-3">
 				<div class="col-2 text-end">
 					<span class="d-inline-flex align-items-center gap-1"> <span>個数</span>
-
+						<span class="badge rounded-pill text-bg-secondary">必須</span>
 					</span>
 				</div>
 				<div class="col-2">
 					<input type="number" name="quantity" class="form-control"
-						placeholder="個数を入力" disabled>
+						placeholder="個数を入力" value="${quantity}"disabled>
 				</div>
 			</div>
 
@@ -123,14 +122,14 @@
 				<div class="col-2 text-end">備考</div>
 				<div class="col-4">
 					<textarea name="remarks" class="form-control" rows="3"
-						placeholder="特記事項などがあれば入力" disabled></textarea>
+						placeholder="特記事項などがあれば入力" value="${remarks}"disabled>${remarks}</textarea>
 				</div>
 			</div>
 			<div class="row">
 				<div class="offset-2 col-2 text-end">
-					<button type="submit" class="btn btn-primary">OK</button>
-					<a href="${pageContext.request.contextPath}/S0010Servlet"
-						class="btn btn-light" role="button">キャンセル</a>
+					<button type="submit" class="btn btn-primary">登録</button>
+					<a href="${pageContext.request.contextPath}/S0010Servlet" class="btn btn-light" role="button">キャンセル</a>
+
 				</div>
 			</div>
 		</form>
