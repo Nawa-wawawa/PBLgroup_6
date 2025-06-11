@@ -1,5 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="beans.Account" %>
+<%
+    // 確認画面に渡されたAccountオブジェクトを取得
+    Account account = (Account)request.getAttribute("account");
+    if(account == null){
+        response.sendRedirect("S0030.jsp"); // 入力画面に戻す
+        return;
+    }
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,7 +29,6 @@
 			</button>
  
 			<div class="collapse navbar-collapse" id="navbarNav">
-				<!-- 左側のメニュー -->
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 					<li class="nav-item"><a class="nav-link" href="#">ダッシュボード</a></li>
 					<li class="nav-item"><a class="nav-link" href="#">売上登録</a></li>
@@ -29,7 +37,6 @@
 					<li class="nav-item"><a class="nav-link" href="#">アカウント検索</a></li>
 				</ul>
  
-				<!-- ログアウトだけ右端に -->
 				<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 					<li class="nav-item"><a class="nav-link" href="#">ログアウト</a></li>
 				</ul>
@@ -39,15 +46,14 @@
 	
   <div class="container mt-5">
     <h1 class="mb-4">アカウントを登録してもよろしいですか？</h1>
-    <form>
-
+    <form action="S0031_2Servlet" method="POST">
       <!-- 氏名 -->
       <div class="mb-3 row">
         <label for="name" class="col-sm-2 col-form-label text-end">
           氏名 
         </label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" id="name" placeholder="氏名を入力" disabled>
+          <input type="text" class="form-control" id="name" name="name" value="<%=account.getName()%>" disabled>
         </div>
       </div>
 
@@ -57,7 +63,7 @@
           メールアドレス 
         </label>
         <div class="col-sm-10">
-          <input type="email" class="form-control" id="email" placeholder="メールアドレス" disabled>
+          <input type="email" class="form-control" id="email" name="mail" value="<%=account.getMail()%>" disabled>
         </div>
       </div>
 
@@ -67,7 +73,7 @@
           パスワード 
         </label>
         <div class="col-sm-10">
-          <input type="password" class="form-control" id="password" placeholder="パスワードを入力" disabled>
+          <input type="password" class="form-control" id="password" name="password" value="<%=account.getPassword()%>" disabled>
         </div>
       </div>
 
@@ -77,7 +83,7 @@
           パスワード（確認） 
         </label>
         <div class="col-sm-10">
-          <input type="password" class="form-control" id="confirmPassword" placeholder="パスワード（確認）" disabled>
+          <input type="password" class="form-control" id="confirmPassword" value="<%=account.getPassword()%>" disabled>
         </div>
       </div>
 
@@ -88,27 +94,27 @@
         </label>
         <div class="col-sm-10">
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="role" id="roleNone" value="none" checked disabled>
+            <input class="form-check-input" type="radio" name="authority" id="roleNone" value="0" <%= (account.getAuthority() == 0) ? "checked" : "" %> disabled>
             <label class="form-check-label" for="roleNone">権限なし</label>
           </div>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="role" id="roleRead" value="read" disabled>
+            <input class="form-check-input" type="radio" name="authority" id="roleRead" value="1" <%= ((account.getAuthority() & 1) == 1) ? "checked" : "" %> disabled>
             <label class="form-check-label" for="roleRead">参照</label>
           </div>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="role" id="roleUpdate" value="update" disabled>
+            <input class="form-check-input" type="radio" name="authority" id="roleUpdate" value="2" <%= ((account.getAuthority() & 2) == 2) ? "checked" : "" %> disabled>
             <label class="form-check-label" for="roleUpdate">更新</label>
           </div>
         </div>
       </div>
 
       <!-- ボタン配置（OK & キャンセル） -->
-	<div class="row">
+	  <div class="row">
   		<div class="offset-sm-2 col-sm-10">
     		<button type="submit" class="btn btn-primary">OK</button>
   	  		<button type="button" class="btn btn-light ms-2" onclick="history.back()">キャンセル</button>
   		</div>
-	</div>
+	  </div>
     </form>
  	</div>
 

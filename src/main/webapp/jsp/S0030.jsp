@@ -40,7 +40,7 @@
 	
   <div class="container mt-5">
     <h1 class="mb-4">アカウント登録</h1>
-    <form>
+    <form action="S0031Servlet" method="POST">
 
       <!-- 氏名 -->
       <div class="mb-3 row">
@@ -48,7 +48,7 @@
           氏名 <span class="badge rounded-pill text-bg-secondary">必須</span>
         </label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" id="name" placeholder="氏名を入力">
+          <input type="text" class="form-control" id="name" name="name" placeholder="氏名を入力">
         </div>
       </div>
 
@@ -58,7 +58,7 @@
           メールアドレス <span class="badge rounded-pill text-bg-secondary">必須</span>
         </label>
         <div class="col-sm-10">
-          <input type="email" class="form-control" id="email" placeholder="メールアドレス">
+          <input type="email" class="form-control" id="mail" name="mail" placeholder="メールアドレス">
         </div>
       </div>
 
@@ -68,7 +68,7 @@
           パスワード <span class="badge rounded-pill text-bg-secondary">必須</span>
         </label>
         <div class="col-sm-10">
-          <input type="password" class="form-control" id="password" placeholder="パスワードを入力">
+          <input type="password" class="form-control" id="password" name="password" placeholder="パスワードを入力">
         </div>
       </div>
 
@@ -78,7 +78,7 @@
           パスワード（確認） <span class="badge rounded-pill text-bg-secondary">必須</span>
         </label>
         <div class="col-sm-10">
-          <input type="password" class="form-control" id="confirmPassword" placeholder="パスワード（確認）">
+          <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="パスワード（確認）">
         </div>
       </div>
 

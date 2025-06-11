@@ -14,14 +14,14 @@ import services.AccountService;
 /**
  * Servlet implementation class NewAccountServlet
  */
-@WebServlet("/NewAccountServlet")
-public class NewAccountServlet extends HttpServlet {
+@WebServlet("/S0030Servlet")
+public class S0030Servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public NewAccountServlet() {
+    public S0030Servlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,7 +31,7 @@ public class NewAccountServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.getRequestDispatcher("/NewAccount.jsp").forward(request, response);
+		request.getRequestDispatcher("/jsp/S0030.jsp").forward(request, response);
 	}
 
 	/**
@@ -43,13 +43,24 @@ public class NewAccountServlet extends HttpServlet {
 		String name = request.getParameter("name");
 		String mail = request.getParameter("mail");
 		String password = request.getParameter("password");
-		int authority = Integer.parseInt(request.getParameter("authority"));
+		String[] roles = request.getParameterValues("role");
+		int authority = 0;
+
+		if (roles != null) {
+		    for (String role : roles) {
+		        if ("0".equals(role)) {
+		            authority |= 1; // 売上登録 → 1
+		        } else if ("update".equals(role)) {
+		            authority |= 2; // アカウント登録 → 2
+		        }
+		    }
+		}
 
 		Account a = new Account(0,name,mail,password,authority);
 		AccountService as = new AccountService();
 		as.insert(a);
 		
-		response.sendRedirect("???");
+		response.sendRedirect("S0031Servlet");
 	}
 
 }
