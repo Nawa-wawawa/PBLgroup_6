@@ -43,7 +43,7 @@
 	</div>
 
 	<div class="container">
-		<form method="post" action="${pageContext.request.contextPath}/S0011Servlet" >
+		<form method="post" action="S0011.html" >
 			<div class="row mb-3">
 				<div class="col-2 text-end">
 					<span class="d-inline-flex align-items-center gap-1"> <span>販売日</span>
@@ -128,7 +128,7 @@
 			<div class="row">
 				<div class="offset-2 col-2 text-end">
 					<button type="submit" class="btn btn-primary">登録</button>
-					<a href="${pageContext.request.contextPath}/S0010Servlet" class="btn btn-light" role="button">キャンセル</a>
+					<a href="S0010.html" class="btn btn-light" role="button">キャンセル</a>
 
 				</div>
 			</div>

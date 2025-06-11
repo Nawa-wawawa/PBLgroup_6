@@ -25,7 +25,7 @@ import utils.Db;
 /**
  * Servlet implementation class S0010Servlet
  */
-@WebServlet("/S0010Servlet")
+@WebServlet("/S0010.html")
 public class S0010Servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -64,7 +64,7 @@ public class S0010Servlet extends HttpServlet {
 	    request.setAttribute("categorylist", categorylist);
 	    request.setAttribute("accountslist", accountslist);
 		
-		request.getRequestDispatcher("/jsp/S0010.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/jsp/S0010.jsp").forward(request, response);
 	}
 
 	/**
@@ -81,6 +81,15 @@ public class S0010Servlet extends HttpServlet {
 		String remarks = request.getParameter("remarks");
 		
 		
+		//1-2
+		//1-6
+		//1-8
+		//1-9
+		//1-11
+		//1-12
+		//1-13
+		
+		
 	    HttpSession session = request.getSession();
 	    session.setAttribute("sale_date", sale_date);
 	    session.setAttribute("staff_id", staff);
@@ -90,7 +99,7 @@ public class S0010Servlet extends HttpServlet {
 	    session.setAttribute("quantity", quantity);
 	    session.setAttribute("remarks", remarks);
 		
-		response.sendRedirect(request.getContextPath() + "/S0011Servlet");
+		response.sendRedirect(request.getContextPath() + "/S0011.html");
 	}
 
 }

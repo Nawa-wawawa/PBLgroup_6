@@ -23,7 +23,7 @@ import utils.Db;
 /**
  * Servlet implementation class S0011Servlet
  */
-@WebServlet("/S0011Servlet")
+@WebServlet("/S0011.html")
 public class S0011Servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -72,7 +72,7 @@ public class S0011Servlet extends HttpServlet {
 		request.setAttribute("categoryname", categoryname);
 		request.setAttribute("accountname", accountname);
 
-		request.getRequestDispatcher("/jsp/S0011.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/jsp/S0011.jsp").forward(request, response);
 	}
 
 	/**
@@ -118,7 +118,7 @@ public class S0011Servlet extends HttpServlet {
 			e1.printStackTrace();
 		}
 
-		response.sendRedirect(request.getContextPath() + "/S0010Servlet");
+		response.sendRedirect(request.getContextPath() + "/S0010.html");
 	}
 
 }

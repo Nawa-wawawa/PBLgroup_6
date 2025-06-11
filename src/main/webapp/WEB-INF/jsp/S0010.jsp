@@ -42,7 +42,7 @@
 	</div>
 
 	<div class="container">
-		<form method="post" action="S0010Servlet">
+		<form method="post" action="S0010.html">
 			<div class="row mb-3">
 				<div class="col-2 text-end">
 					<span class="d-inline-flex align-items-center gap-1"> <span>販売日</span>
@@ -50,7 +50,7 @@
 					</span>
 				</div>
 				<div class="col-2">
-					<input type="date" name="sale_date" class="form-control" value="${today}">
+					<input type="date" name="sale_date" class="form-control" value="${today}" required>
 				</div>
 			</div>
 
@@ -61,7 +61,7 @@
 					</span>
 				</div>
 				<div class="col-4">
-					<select name="staff" class="form-control">
+					<select name="staff" class="form-control"required>
 						<option value="">担当者を選択してください</option>
 					<c:forEach var="account" items="${accountslist}">
 							<option value="${account.account_id}">${account.name}</option>
@@ -77,7 +77,7 @@
 					</span>
 				</div>
 				<div class="col-4">
-						<select name="category" class="form-control">
+						<select name="category" class="form-control"required>
 							<option value="">選択してください</option>
 					<c:forEach var="category" items="${categorylist}">
 							<option value="${category.category_id}">${category.category_name}</option>
@@ -94,7 +94,7 @@
 				</div>
 				<div class="col-4">
 					<input type="text" name="product_name" class="form-control"
-						placeholder="商品名を入力">
+						placeholder="商品名"required>
 				</div>
 			</div>
 
@@ -106,7 +106,7 @@
 				</div>
 				<div class="col-2">
 					<input type="number" name="unit_price" class="form-control"
-						placeholder="円単位で入力">
+						placeholder="単価"required>
 				</div>
 			</div>
 
@@ -118,7 +118,7 @@
 				</div>
 				<div class="col-2">
 					<input type="number" name="quantity" class="form-control"
-						placeholder="個数を入力">
+						placeholder="個数"required>
 				</div>
 			</div>
 
