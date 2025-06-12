@@ -48,31 +48,35 @@
                         </thead>
                         <tbody>
                             <c:forEach var="item" items="${account}">
-                            <!-- ↓ここでエラー出てるっぽい -->
-                                <tr style="cursor:pointer;" onclick="location.href='DetailtaskServlet?id=${item['account_id']}'">
+                                <tr style="cursor:pointer;" onclick="location.href='DetailtaskServlet?id=${item.id}'">
                                     <td>
                                         <div class="d-flex">
                                             <button type="submit" class="btn btn-primary btn-sm me-2">✓編集</button>
                                            <button type="button" class="btn btn-danger btn-sm" onclick="event.stopPropagation(); history.back();">×削除</button>
                                         </div>
                                     </td>
-                                    <td>${item.account_id}</td>
+                                    <td>${item.id}</td>
                                     <td>${item.name}</td>
                                     <td>${item.mail}</td>
-                                    <td>${item.authority}</td>
+                                    <td>
+                                    <c:choose>
+                                    <c:when test="${item.authority == 0}">権限なし</c:when>
+                                    <c:when test="${item.authority == 1}">売上登録</c:when>
+                                    <c:when test="${item.authority == 2}">アカウント登録</c:when>
+                                    <c:when test="${item.authority == 3}">売上／アカウント登録</c:when>
+                                    </c:choose>
+                                    </td>
                                 </tr>
                             </c:forEach>
                         </tbody>
                     </table>
                 </c:when>
+                <c:when test="${error != null}">
+  						<center><p class="lead">${error}</p></center>
+                </c:when>
             </c:choose>
     </form>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-	<script>
-	function event.stopPropagation(); history.back();{
-		
-		}
-	</script>
 </body>
 </html>

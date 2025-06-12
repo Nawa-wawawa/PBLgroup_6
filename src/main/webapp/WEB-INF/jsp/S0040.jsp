@@ -39,7 +39,7 @@
 	
 	<div class="container mt-5">
     <h1 class="mb-4">アカウント検索条件入力</h1>
-    <form action="S0040.html" method="POST">
+    <form action="S0040.html" method="POST" name="search">
 
       <!-- 氏名 -->
       <div class="mb-3 row">
@@ -68,20 +68,20 @@
         </label>
         <div class="col-sm-10">
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="authority" id="roleNone" value="0" checked>
+            <input class="form-check-input" type="radio" name="role" id="roleNone" value="0" checked>
             <label class="form-check-label" for="roleNone">権限なし</label>
           </div>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="authority" id="roleRead" value="1">
+            <input class="form-check-input" type="radio" name="role" id="roleRead" value="1">
             <label class="form-check-label" for="roleRead">売上登録</label>
           </div>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="authority" id="roleUpdate" value="2">
+            <input class="form-check-input" type="radio" name="role" id="roleUpdate" value="2">
             <label class="form-check-label" for="roleUpdate">アカウント登録</label>
           </div>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="authority" id="roleAll" value="3">
-            <label class="form-check-label" for="roleAll">アカウント／売上登録</label>
+            <input class="form-check-input" type="radio" name="role" id="roleAll" value="3">
+            <label class="form-check-label" for="roleAll">売上／アカウント登録</label>
           </div>
         </div>
       </div>
@@ -90,20 +90,11 @@
       <div class="row">
   		<div class="offset-sm-2 col-sm-10">
     		<button type="submit" class="btn btn-primary">🔍検索</button>
-  	  		<button type="button" class="btn btn-light ms-2" onclick="history.back()">クリア</button>
-  	  		<!-- <button type="reset" class="btn btn-light ms-2">クリア</button> -->
+  	  		<button type="reset" class="btn btn-light ms-2">クリア</button> 
   		</div>
 	</div>
-
     </form>
-  </div>
-
- 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-	<script>
-	function history.back(){
-		<!--クリアの時の処理-->
-		}
-	</script>
-
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

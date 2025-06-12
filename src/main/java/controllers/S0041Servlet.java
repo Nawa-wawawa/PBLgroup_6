@@ -1,12 +1,16 @@
-package controller;
+package controllers;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
+import beans.Account;
+import services.AccountService;
 
 /**
  * Servlet implementation class S0041Servlet
@@ -37,7 +41,21 @@ public class S0041Servlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		String name=request.getParameter("name");
+		String mail=request.getParameter("mail");
+		String idStr=request.getParameter("id");//イント型に変えないといけない？
+		String authStr=request.getParameter("role");//0～３を取得→バリューと結び付けたい
+		byte authority = Byte.parseByte(authStr);
+		int id=Integer.parseInt(idStr);
+		
+		AccountService as = new AccountService();
+		ArrayList<Account> accounts =as.findById(id);
+		
+		if(accounts != null) {
+			request.setAttribute("accounts",accounts);
+			request.getRequestDispatcher("/WEB-INF/jsp/S0042");
+		}
+		
 		request.getRequestDispatcher("/jsp/???.jsp").forward(request, response);
 	}
 
