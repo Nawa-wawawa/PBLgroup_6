@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="beans.Account" %>
+<%@ page import="beans.accounts" %>
 <%
-    Account account = (Account) request.getAttribute("account");
+accounts account = (accounts) request.getAttribute("account");
     if (account == null) {
         response.sendRedirect("S0030Servlet");
         return;

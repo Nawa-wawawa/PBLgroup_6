@@ -1,15 +1,17 @@
-package Service;
+package services;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import Bean.accounts;
-import util.Db;
+import javax.naming.NamingException;
+
+import beans.accounts;
+import utils.Db;
 
 public class LoginService {
-	public accounts authenticate(String mail,String password) throws SQLException{
+	public accounts authenticate(String mail,String password) throws SQLException, NamingException{
 		String sql = "select * from accounts  where mail=? and password=?";
 		
 		try (

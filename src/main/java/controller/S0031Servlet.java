@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import beans.Account;
+import beans.accounts;
 import services.AccountService;
 
 @WebServlet("/S0031Servlet")
@@ -54,13 +54,13 @@ public class S0031Servlet extends HttpServlet {
             // パスワードチェック
             if (!password.equals(confirmPassword)) {
                 request.setAttribute("error", "パスワードが一致しません");
-                request.setAttribute("account", new Account(0, name, mail, password, authority));
+                request.setAttribute("account", new accounts(0, name, mail, password, authority));
                 request.getRequestDispatcher("/jsp/S0031.jsp").forward(request, response);
                 return;
             }
 
             // 登録
-            Account account = new Account(0, name, mail, password, authority);
+            accounts account = new accounts(0, name, mail, password, authority);
             AccountService service = new AccountService();
 
             try {
@@ -93,7 +93,7 @@ public class S0031Servlet extends HttpServlet {
                 }
             }
 
-            Account account = new Account(0, name, mail, password, authority);
+            accounts account = new accounts(0, name, mail, password, authority);
 
             if (!password.equals(confirmPassword)) {
                 request.setAttribute("error", "パスワードが一致しません");

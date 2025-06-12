@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import beans.Account;
+import beans.accounts;
 import services.AccountService;
 
 /**
@@ -56,7 +56,7 @@ public class S0030Servlet extends HttpServlet {
 		    }
 		}
 
-		Account a = new Account(0,name,mail,password,authority);
+		accounts a = new accounts(0,name,mail,password,authority);
 		AccountService as = new AccountService();
 		as.insert(a);
 		

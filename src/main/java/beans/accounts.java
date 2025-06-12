@@ -1,13 +1,13 @@
 package beans;
 
-public class Account {
+public class accounts {
 	private int id;
 	private String name;
 	private String mail;
 	private String password;
 	private byte authority;
 	
-	public Account(int id, String name, String mail, String password, byte authority) {
+	public accounts(int id, String name, String mail, String password, byte authority) {
 		this.id = id;
 		this.name = name;
 		this.mail = mail;
@@ -17,7 +17,7 @@ public class Account {
 	
 	
 
-	public Account(String mail, String password) {
+	public accounts(String mail, String password) {
 		super();
 		this.mail = mail;
 		this.password = password;

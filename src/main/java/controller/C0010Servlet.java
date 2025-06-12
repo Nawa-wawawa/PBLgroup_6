@@ -8,11 +8,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import Bean.accounts;
-import Service.LoginService;
-
-/**
- * Servlet implementation class LoginServlet
+import beans.accounts;
+import services.LoginService; /**
+ns * Servlet implementation class LoginServlet
  */
 @WebServlet("/C0010Servlet")
 public class C0010Servlet extends HttpServlet {
@@ -30,7 +28,7 @@ public class C0010Servlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("/login.jsp").forward(request, response);
+		request.getRequestDispatcher("/C0010.jsp").forward(request, response);
 	}
 
 	/**

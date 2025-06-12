@@ -8,60 +8,55 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import beans.Account;
+import beans.accounts;
 import services.AccountService;
 
-/**
- * Servlet implementation class S0042Servlet
- */
 @WebServlet("/S0042Servlet")
 public class S0042Servlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+    private static final long serialVersionUID = 1L;
+
     public S0042Servlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	
-    	request.getRequestDispatcher("/jsp/S0042.jsp").forward(request, response);
+        String accountIdStr = request.getParameter("accountId");
+        if (accountIdStr != null) {
+            int accountId = Integer.parseInt(accountIdStr);
+            AccountService service = new AccountService();
+            accounts account = service.findById(accountId);
+            request.setAttribute("account", account);
+
+            // JSPでEL使用のため、booleanをセット
+            request.setAttribute("hasSalesRole", (account.getAuthority() & 1) != 0);
+            request.setAttribute("hasAccountRole", (account.getAuthority() & 2) != 0);
+        }
+        request.getRequestDispatcher("/jsp/S0042.jsp").forward(request, response);
     }
-    
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
-		
-		String action = request.getParameter("action");
-		String name = request.getParameter("name");
-		String mail = request.getParameter("mail");
-		String password = request.getParameter("password");
-		String[] roles = request.getParameterValues("role");
-		byte authority = 0;
+        request.setCharacterEncoding("UTF-8");
 
-		if (roles != null) {
-		    for (String role : roles) {
-		        if ("0".equals(role)) {
-		            authority |= 1; // 売上登録 → 1
-		        } else if ("update".equals(role)) {
-		            authority |= 2; // アカウント登録 → 2
-		        }
-		    }
-		}
+        int id = Integer.parseInt(request.getParameter("id"));
+        String name = request.getParameter("name");
+        String mail = request.getParameter("mail");
+        String password = request.getParameter("password");
+        String[] roles = request.getParameterValues("role");
 
-		Account a = new Account(0,name,mail,password,authority);
-		AccountService as = new AccountService();
-		as.update(a);
-		
-		response.sendRedirect("S0043Servlet");
-	}
+        byte authority = 0;
+        if (roles != null) {
+            for (String role : roles) {
+                if ("0".equals(role)) {
+                    authority |= 1;
+                } else if ("update".equals(role)) {
+                    authority |= 2;
+                }
+            }
+        }
 
+        accounts a = new accounts(id, name, mail, password, authority);
+
+        request.getSession().setAttribute("confirmAccount", a);
+        response.sendRedirect("S0043Servlet");
+    }
 }
