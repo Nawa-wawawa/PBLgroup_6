@@ -25,6 +25,12 @@ public class accounts {
 		this.authority = authority;
 	}
 
+	public accounts(String mail, String password) {
+		super();
+		this.mail = mail;
+		this.password = password;
+	}
+
 	public int getAccount_id() {
 		return account_id;
 	}

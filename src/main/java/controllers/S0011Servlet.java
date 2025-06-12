@@ -102,7 +102,13 @@ public class S0011Servlet extends HttpServlet {
 		} else {
 			System.out.println("セッションが存在しません。");
 		}
-		session.invalidate(); 
+		
+		//1-14
+		//1-15
+		
+		
+		
+		
 		try (Connection con = Db.open()) {
 
 			Sales sl = new Sales();
