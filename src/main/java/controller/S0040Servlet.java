@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import beans.Account;
+import beans.accounts;
 import services.AccountService;
 
 /**
@@ -42,10 +42,10 @@ public class S0040Servlet extends HttpServlet {
 
         String name = request.getParameter("name");
         String mail = request.getParameter("mail");
-        int authority = Integer.parseInt(request.getParameter("authority"));
+        byte authority = 0;
 
         AccountService service = new AccountService();
-        Account account = service.findByAccount(name, mail, authority); 
+        accounts account = service.findByAccount(name, mail, authority); 
 
         if (account != null) {
             request.setAttribute("account", account);

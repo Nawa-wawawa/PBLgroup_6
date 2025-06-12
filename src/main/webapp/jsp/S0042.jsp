@@ -12,9 +12,31 @@ accounts account = (accounts) request.getAttribute("account");
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <span class="navbar-brand">物品売上管理システム</span>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+      data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+      aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link" href="#">ダッシュボード</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">売上登録</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">売上実績</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">アカウント登録</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">アカウント検索</a></li>
+      </ul>
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link" href="#">ログアウト</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
 <div class="container mt-5">
     <h1 class="mb-4">アカウント詳細編集</h1>
-    <form action="S0042Servlet" method="POST">
+    <form action="S0043Servlet" method="POST">
       <input type="hidden" name="id" value="${account.id}" />
 
       <!-- 氏名 -->
@@ -40,6 +62,13 @@ accounts account = (accounts) request.getAttribute("account");
           <input type="password" class="form-control" id="password" name="password" value="${account.password}" placeholder="パスワードを入力">
         </div>
       </div>
+      
+      <div class="mb-3 row">
+      <label class="col-sm-2 col-form-label text-end">パスワード（確認）</label>
+      <div class="col-sm-10">
+        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" value="${account.password}" >
+      </div>
+    </div>
 
       <!-- 権限 -->
       <div class="mb-3 row">

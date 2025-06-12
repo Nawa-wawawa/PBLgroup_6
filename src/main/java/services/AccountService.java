@@ -58,19 +58,24 @@ public class AccountService {
 	}
 
 	public void update(accounts a) {
-        String sql = "UPDATE accounts SET name = ?, mail = ?, password  = ? ";
-        try (Connection conn = Db.open();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            
-            pstmt.setString(1, a.getName());
-            pstmt.setString(2, a.getMail());
-            pstmt.setString(3, a.getPassword());
+	    String sql = "UPDATE accounts SET name = ?, mail = ?, password = ?, authority = ? WHERE mail = ?";
 
-            pstmt.executeUpdate();
-        } catch (SQLException | NamingException e) {
-            e.printStackTrace();
-        }
-    }
+	    try (Connection conn = Db.open();
+	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+	        pstmt.setString(1, a.getName());
+	        pstmt.setString(2, a.getMail());
+	        pstmt.setString(3, a.getPassword());
+	        pstmt.setInt(4, a.getAuthority());
+	        pstmt.setString(5, a.getMail());  // WHERE句の条件（更新対象）
+
+	        pstmt.executeUpdate();
+
+	    } catch (SQLException | NamingException e) {
+	        e.printStackTrace();
+	    }
+	}
+
 	public void delete(accounts a) {
 		String sql = "DELETE FROM accounts WHERE account_id = ?";
         try (Connection conn = Db.open();
