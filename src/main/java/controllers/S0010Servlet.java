@@ -133,26 +133,6 @@ public class S0010Servlet extends HttpServlet {
 		if (!errors.isEmpty()) {
 			request.setAttribute("errors", errors); // JSPへ渡す
 		}
-		//		//1-6
-		//		if (check.productCheck(product_name)) {
-		//			request.setAttribute("error_name", "エラーメッセージ：商品名が長すぎます。");
-		//			hasError = true;
-		//		}
-		//		//1-8
-		//		if (check.priceCheck(unit_price)) {
-		//			request.setAttribute("error_price", "エラーメッセージ：単価が長すぎます。");
-		//			hasError = true;
-		//		}
-		//		//1-11
-		//		if (check.quantityCheck(quantity)) {
-		//			request.setAttribute("error_quantity", "エラーメッセージ：個数が長すぎます。");
-		//			hasError = true;
-		//		}
-		//		//1-13
-		//		if (check.remarksCheck(remarks)) {
-		//			request.setAttribute("error_remarks", "エラーメッセージ：備考が長すぎます。");
-		//			hasError = true;
-		//		}
 
 		if (hasError) {
 			request.getRequestDispatcher("/WEB-INF/jsp/S0010.jsp").forward(request, response);

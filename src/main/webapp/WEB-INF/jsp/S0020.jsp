@@ -5,7 +5,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link href="../css/bootstrap.min.css" rel="stylesheet" />
+<link href="${pageContext.request.contextPath}/css/bootstrap.min.css"
+	rel="stylesheet" />
 <title>売上検索条件入力</title>
 </head>
 <body>
@@ -46,15 +47,15 @@
 		<h2>売上検索条件入力</h2>
 	</div>
 	<div class="container">
-		<form method="post" action="">
+		<form method="post" action="S0020.html">
 			<div class="row mb-3">
 				<div class="col-2 text-end">
 					<span class="d-inline-flex align-items-center gap-1">販売日 </span>
 				</div>
 				<div class="col-4">
 					<div class="d-flex align-items-center">
-						<input type="text" name="start_date" class="form-control me-2">
-						<span class="me-2">～</span> <input type="text" name="end_date"
+						<input type="date" name="start_date" class="form-control me-2">
+						<span class="me-2">～</span> <input type="date" name="end_date"
 							class="form-control">
 					</div>
 				</div>
@@ -69,9 +70,9 @@
 				<div class="col-4">
 					<select name="staff" class="form-control">
 						<option value="">担当者を選択してください</option>
-						<option value="">名和</option>
-						<option value="">相馬</option>
-						<option value="">鈴木</option>
+						<c:forEach var="account" items="${accountslist}">
+							<option value="${account.account_id}">${account.name}</option>
+						</c:forEach>
 					</select>
 				</div>
 			</div>
@@ -84,9 +85,9 @@
 				<div class="col-4">
 					<select name="category" class="form-control">
 						<option value="">選択してください</option>
-						<option value="食品">食品</option>
-						<option value="日用品">日用品</option>
-						<option value="家電">家電</option>
+						<c:forEach var="category" items="${categorylist}">
+							<option value="${category.category_id}">${category.category_name}</option>
+						</c:forEach>
 					</select>
 				</div>
 			</div>
@@ -122,6 +123,8 @@
 		</form>
 	</div>
 
-	<script src="js/bootstrap.bundle.min.js" defer></script>
+	<script
+		src="${pageContext.request.contextPath}/js/bootstrap.bundle.min.js"
+		defer></script>
 </body>
 </html>

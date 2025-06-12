@@ -27,12 +27,12 @@ public class Accounts {
 						rs.getByte("authority"));
 				list.add(ac);
 				
-				System.out.println(rs.getInt("account_id"));
-				System.out.println(rs.getString("name"));
-				System.out.println(rs.getString("mail"));
-				System.out.println(rs.getString("password"));
-				System.out.println(rs.getByte("authority"));
-				
+//				System.out.println(rs.getInt("account_id"));
+//				System.out.println(rs.getString("name"));
+//				System.out.println(rs.getString("mail"));
+//				System.out.println(rs.getString("password"));
+//				System.out.println(rs.getByte("authority"));
+//				
 			}
 		} catch (SQLException | NamingException e) {
 			e.printStackTrace();

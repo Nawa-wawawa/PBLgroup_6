@@ -1,6 +1,6 @@
 package services;
-
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,6 +19,7 @@ public class Sales {
 		try (
 				Connection use_connection = Db.open();
 				PreparedStatement ps = use_connection.prepareStatement(sql);
+				
 				ResultSet rs = ps.executeQuery();) {
 			while (rs.next()) {
 				sales sale = new sales(
@@ -41,6 +42,48 @@ public class Sales {
 		}
 		return salelist;
 	}
+	
+	
+	public ArrayList<sales> select(Date start,Date end,int account_id,int category_id,String name,String remark) {
+		ArrayList<sales> salelist = new ArrayList<>();
+		
+		String sql = "select * from sales where sale_date >= ? and sale_date <= ? and account_id = ? and category_id = ? and trade_name like '%?%' and note like '%?%'";
+		try (
+			    Connection use_connection = Db.open();
+			    PreparedStatement ps = use_connection.prepareStatement(sql)
+			) {
+			    ps.setDate(1, start);
+			    ps.setDate(2, end);
+			    ps.setInt(3, account_id);
+			    ps.setInt(4, category_id);
+			    ps.setString(5, name);
+			    ps.setString(6, remark);
+
+			    try (ResultSet rs = ps.executeQuery()) {
+			        while (rs.next()) {
+			            sales sale = new sales(
+			                rs.getInt("sale_id"),
+			                rs.getDate("sale_date"),
+			                rs.getInt("account_id"),
+			                rs.getInt("category_id"),
+			                rs.getString("trade_name"),
+			                rs.getInt("unit_price"),
+			                rs.getInt("sale_number"),
+			                rs.getString("note")
+			            );
+			            salelist.add(sale);
+			        }
+			    }
+			}  catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NamingException e1) {
+			// TODO 自動生成された catch ブロック
+			e1.printStackTrace();
+		}
+		return salelist;
+	}
+	
+	
 	public void insert(sales sale) {
 
 		String sql = "INSERT INTO sales ( sale_date, account_id, category_id, trade_name, unit_price, sale_number, note) VALUES (?,?,?,?,?,?,?)";
