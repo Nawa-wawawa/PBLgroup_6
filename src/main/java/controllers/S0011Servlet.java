@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.function.IntPredicate;
+import java.util.function.Predicate;
 
 import javax.naming.NamingException;
 
@@ -18,6 +22,7 @@ import beans.sales;
 import services.Accounts;
 import services.Categories;
 import services.Sales;
+import services.Salescheck;
 import utils.Db;
 
 /**
@@ -92,39 +97,77 @@ public class S0011Servlet extends HttpServlet {
 		HttpSession session = request.getSession(false); // セッションがなければ null を返す
 		if (session != null) {
 			// 例：int型IDとして使いたい場合（Integer型にキャスト）
-			sale_date =(Date) session.getAttribute("sale_date");
+			sale_date = (Date) session.getAttribute("sale_date");
 			staff = (Integer) session.getAttribute("staff_id");
 			category = (Integer) session.getAttribute("category_id");
-			product_name =(String) session.getAttribute("product_name");
-			unit_price =(Integer) session.getAttribute("unit_price");
-			quantity =(Integer) session.getAttribute("staff_id");
-			remarks = (String)session.getAttribute("remarks");
+			product_name = (String) session.getAttribute("product_name");
+			unit_price = (Integer) session.getAttribute("unit_price");
+			quantity = (Integer) session.getAttribute("staff_id");
+			remarks = (String) session.getAttribute("remarks");
 		} else {
 			System.out.println("セッションが存在しません。");
 		}
-		
+
+		Salescheck check = new Salescheck();
+		boolean hasError = false;
+
 		//1-14
 		//1-15
-		
-		
-		
-		
-		try (Connection con = Db.open()) {
+		Map<String, String> errors = new LinkedHashMap<>();
+		// Map<キー, {関数, 値, エラーメッセージ}>
+		Map<String, Object[]> validations = new LinkedHashMap<>();
+		validations.put("error_name",
+				new Object[] { (IntPredicate) check::accountCheck, staff, "エラーメッセージ：アカウントテーブルに存在しません。" });
+		validations.put("error_price",
+				new Object[] { (IntPredicate) check::categoryCheck, category, "エラーメッセージ：商品カテゴリーテーブルに存在しません。" });
 
-			Sales sl = new Sales();
+		// 共通ループでチェック
+		for (Map.Entry<String, Object[]> entry : validations.entrySet()) {
+			String key = entry.getKey();
+			Object[] valueArray = entry.getValue();
 
-			sales Newsale = new sales(sale_date, staff, category, product_name, unit_price, quantity, remarks);
-			
-			sl.insert(Newsale);
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (NamingException e1) {
-			// TODO 自動生成された catch ブロック
-			e1.printStackTrace();
+			Object function = valueArray[0];
+			Object value = valueArray[1];
+			String message = (String) valueArray[2];
+
+			boolean isError = false;
+			if (function instanceof Predicate) {
+				isError = ((Predicate<String>) function).test((String) value);
+			} else if (function instanceof IntPredicate) {
+				isError = ((IntPredicate) function).test((int) value);
+			}
+
+			if (isError) {
+				errors.put(key, message);
+				hasError = true;
+				System.out.println(message);
+			}
+		}
+		if (!errors.isEmpty()) {
+			request.setAttribute("errors", errors);
 		}
 
-		response.sendRedirect(request.getContextPath() + "/S0010.html");
+		if (hasError) {
+			request.getRequestDispatcher("/WEB-INF/jsp/S0011.jsp").forward(request, response);
+		} else {
+
+			try (Connection con = Db.open()) {
+
+				Sales sl = new Sales();
+
+				sales Newsale = new sales(sale_date, staff, category, product_name, unit_price, quantity, remarks);
+
+				sl.insert(Newsale);
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} catch (NamingException e1) {
+				// TODO 自動生成された catch ブロック
+				e1.printStackTrace();
+			}
+			response.sendRedirect(request.getContextPath() + "/S0010.html");
+		}
+
 	}
 
 }

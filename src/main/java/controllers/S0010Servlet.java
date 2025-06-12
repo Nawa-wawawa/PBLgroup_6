@@ -85,6 +85,8 @@ public class S0010Servlet extends HttpServlet {
 		int unit_price = Integer.parseInt(request.getParameter("unit_price"));
 		int quantity = Integer.parseInt(request.getParameter("quantity"));
 		String remarks = request.getParameter("remarks");
+		
+		
 
 		Salescheck check = new Salescheck();
 		boolean hasError = false;
@@ -92,12 +94,16 @@ public class S0010Servlet extends HttpServlet {
 		Map<String, String> errors = new LinkedHashMap<>();
 		// Map<キー, {関数, 値, エラーメッセージ}>
 		Map<String, Object[]> validations = new LinkedHashMap<>();
+		//1-6
 		validations.put("error_name",
 				new Object[] { (Predicate<String>) check::productCheck, product_name, "エラーメッセージ：商品名が長すぎます。" });
+		//1-8
 		validations.put("error_price",
 				new Object[] { (IntPredicate) check::priceCheck, unit_price, "エラーメッセージ：単価が長すぎます。" });
+		//1-11
 		validations.put("error_quantity",
 				new Object[] { (IntPredicate) check::quantityCheck, quantity, "エラーメッセージ：個数が長すぎます。" });
+		//1-13
 		validations.put("error_remarks",
 				new Object[] { (Predicate<String>) check::remarksCheck, remarks, "エラーメッセージ：備考が長すぎます。" });
 

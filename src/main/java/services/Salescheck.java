@@ -1,6 +1,14 @@
 package services;
 
 import java.io.UnsupportedEncodingException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import javax.naming.NamingException;
+
+import utils.Db;
 
 public class Salescheck {
 
@@ -42,6 +50,56 @@ public class Salescheck {
 		} catch (UnsupportedEncodingException e) {
 			return true; // エラー時は保守的にエラーと扱う
 		}
+	}
+
+	public boolean accountCheck(int account_id) {
+
+		boolean checker = true;
+
+		String sql = "SELECT name FROM accounts WHERE account_id = ?";
+
+		try (
+				Connection use_connection = Db.open();
+				PreparedStatement ps = use_connection.prepareStatement(sql)) {
+
+			ps.setInt(1, account_id);
+			ResultSet rs = ps.executeQuery();
+
+			if (rs.next()) {
+				checker = false;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+
+		return checker;
+	}
+
+	public boolean categoryCheck(int category_id) {
+
+		boolean checker = true;
+		String sql = "SELECT category_name FROM categories WHERE category_id = ?";
+
+		try (
+				Connection use_connection = Db.open();
+				PreparedStatement ps = use_connection.prepareStatement(sql)) {
+
+			ps.setInt(1, category_id);
+			ResultSet rs = ps.executeQuery();
+
+			if (rs.next()) {
+				checker = false;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+		return checker;
 	}
 
 }

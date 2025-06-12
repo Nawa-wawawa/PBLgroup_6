@@ -134,6 +134,39 @@
 			</div>
 		</form>
 	</div>
+	
+	
+		<c:if test="${not empty errors}">
+		<div class="modal fade" id="Modal" tabindex="-1"data-bs-backdrop="static" data-bs-keyboard="false" 
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="exampleModalLabel">入力エラー</h1>
+					</div>
+					<div class="modal-body">
+						<c:forEach var="entry" items="${errors}">
+							<div>${entry.value}</div>
+							<!-- ← ここを修正 -->
+						</c:forEach>
+					</div>
+					<div class="modal-footer">
+						<a class="btn btn-primary" href="S0010.html">分かりました。</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			document.addEventListener('DOMContentLoaded', function() {
+				var myModal = new bootstrap.Modal(document
+						.getElementById('Modal'));
+				myModal.show();
+			});
+		</script>
+	</c:if>
+	
+	
 	<script
 		src="${pageContext.request.contextPath}/js/bootstrap.bundle.min.js"
 		defer></script>
