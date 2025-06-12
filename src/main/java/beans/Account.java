@@ -5,15 +5,24 @@ public class Account {
 	private String name;
 	private String mail;
 	private String password;
-	private int authority;
+	private byte authority;
 	
-	public Account(int id, String name, String mail, String password, int authority) {
+	public Account(int id, String name, String mail, String password, byte authority) {
 		this.id = id;
 		this.name = name;
 		this.mail = mail;
 		this.password = password;
 		this.authority = authority;
 	}
+	
+	
+
+	public Account(String mail, String password) {
+		super();
+		this.mail = mail;
+		this.password = password;
+	}
+
 
 	public int getId() {
 		return id;
@@ -51,7 +60,7 @@ public class Account {
 		return authority;
 	}
 
-	public void setAuthority(int authority) {
+	public void setAuthority(byte authority) {
 		this.authority = authority;
 	}
 }

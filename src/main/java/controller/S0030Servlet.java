@@ -44,7 +44,7 @@ public class S0030Servlet extends HttpServlet {
 		String mail = request.getParameter("mail");
 		String password = request.getParameter("password");
 		String[] roles = request.getParameterValues("role");
-		int authority = 0;
+		byte authority = 0;
 
 		if (roles != null) {
 		    for (String role : roles) {

@@ -40,7 +40,7 @@ public class S0031Servlet extends HttpServlet {
             String confirmPassword = request.getParameter("confirmPassword");
             String[] roles = request.getParameterValues("role");
 
-            int authority = 0;
+            byte authority = 0;
             if (roles != null) {
                 for (String role : roles) {
                     if ("0".equals(role)) {
@@ -82,7 +82,7 @@ public class S0031Servlet extends HttpServlet {
             String confirmPassword = request.getParameter("confirmPassword");
             String[] roles = request.getParameterValues("role");
 
-            int authority = 0;
+            byte authority = 0;
             if (roles != null) {
                 for (String role : roles) {
                     if ("0".equals(role)) {
