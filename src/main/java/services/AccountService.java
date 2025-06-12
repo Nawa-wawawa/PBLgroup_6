@@ -76,17 +76,17 @@ public class AccountService {
 	    }
 	}
 
-	public void delete(accounts a) {
-		String sql = "DELETE FROM accounts WHERE account_id = ?";
-        try (Connection conn = Db.open();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            
-            pstmt.setInt(1, a.getId());
-            pstmt.executeUpdate();
-        } catch (SQLException | NamingException e) {
-            e.printStackTrace();
-        }
-    }
+	public void delete(int id) throws SQLException, NamingException {
+	    String sql = "DELETE FROM accounts WHERE account_id = ?";
+
+	    try (Connection conn = Db.open();
+	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+	        
+	        pstmt.setInt(1, id);
+	        pstmt.executeUpdate();
+	    }
+	}
+
 	public accounts findById(int id) {
 		String sql = "SELECT * FROM accounts WHERE account_id = ?";
         try (Connection conn = Db.open();
