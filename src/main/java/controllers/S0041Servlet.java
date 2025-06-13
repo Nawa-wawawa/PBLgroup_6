@@ -46,17 +46,16 @@ public class S0041Servlet extends HttpServlet {
 		String idStr=request.getParameter("id");//イント型に変えないといけない？
 		String authStr=request.getParameter("role");//0～３を取得→バリューと結び付けたい
 		byte authority = Byte.parseByte(authStr);
-		int id=Integer.parseInt(idStr);
+		int account_id=Integer.parseInt(idStr);
 		
 		AccountService as = new AccountService();
-		ArrayList<Account> accounts =as.findById(id);
+		ArrayList<Account> accounts =as.findById(account_id);
 		
 		if(accounts != null) {
 			request.setAttribute("accounts",accounts);
 			request.getRequestDispatcher("/WEB-INF/jsp/S0042");
 		}
 		
-		request.getRequestDispatcher("/jsp/???.jsp").forward(request, response);
 	}
 
 }

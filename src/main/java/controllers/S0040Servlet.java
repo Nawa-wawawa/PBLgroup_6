@@ -47,11 +47,12 @@ public class S0040Servlet extends HttpServlet {
 		String name = request.getParameter("name");
 		String mail = request.getParameter("mail");
 		String role = request.getParameter("role");
-
+		
 		byte authority = 0;
 		
 		authority = Byte.parseByte(role);//バイトに変えるのどの段階？？
 		System.out.println(authority);
+		
 		
 		AccountService service = new AccountService();
 		ArrayList<accounts> account = new ArrayList<>();

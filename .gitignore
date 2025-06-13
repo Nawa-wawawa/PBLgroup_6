@@ -1,3 +1,14 @@
 /build/
 bin/
 .project
+src/main/java/beans/accounts.java
+src/main/java/beans/Sales.java
+src/main/java/controllers/C0010Servlet.java
+src/main/java/controllers/S0030Servlet.java
+src/main/java/controllers/S0031Servlet.java
+src/main/java/controllers/Servlet.java
+src/main/java/services/LoginService.java
+src/main/java/utils/Db.java
+src/main/webapp/META-INF/context 2.xml
+src/main/webapp/WEB-INF/jsp/C0010.jsp
+src/main/webapp/WEB-INF/jsp/C0020.jsp
