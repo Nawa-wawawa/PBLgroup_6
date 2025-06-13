@@ -10,6 +10,15 @@ accounts account = (accounts) request.getAttribute("account");
   <meta charset="UTF-8">
   <title>アカウント詳細編集</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .error-message {
+      color: red;
+      font-size: 0.9em;
+    }
+    .form-error-space {
+      min-height: 1.5em;
+    }
+  </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -34,6 +43,7 @@ accounts account = (accounts) request.getAttribute("account");
     </div>
   </div>
 </nav>
+
 <div class="container mt-5">
     <h1 class="mb-4">アカウント詳細編集</h1>
     <form action="S0043Servlet" method="POST">
@@ -44,6 +54,11 @@ accounts account = (accounts) request.getAttribute("account");
         <label for="name" class="col-sm-2 col-form-label text-end">氏名</label>
         <div class="col-sm-10">
           <input type="text" class="form-control" id="name" name="name" value="${account.name}" placeholder="氏名を入力">
+          <div class="form-error-space">
+            <c:if test="${isSubmitted and not empty fieldErrors['name']}">
+              <span class="error-message">${fieldErrors['name']}</span>
+            </c:if>
+          </div>
         </div>
       </div>
 
@@ -52,6 +67,11 @@ accounts account = (accounts) request.getAttribute("account");
         <label for="mail" class="col-sm-2 col-form-label text-end">メールアドレス</label>
         <div class="col-sm-10">
           <input type="email" class="form-control" id="mail" name="mail" value="${account.mail}" placeholder="メールアドレス">
+          <div class="form-error-space">
+            <c:if test="${isSubmitted and not empty fieldErrors['mail']}">
+              <span class="error-message">${fieldErrors['mail']}</span>
+            </c:if>
+          </div>
         </div>
       </div>
 
@@ -60,13 +80,23 @@ accounts account = (accounts) request.getAttribute("account");
         <label for="password" class="col-sm-2 col-form-label text-end">パスワード</label>
         <div class="col-sm-10">
           <input type="password" class="form-control" id="password" name="password" value="${account.password}" placeholder="パスワードを入力">
+          <div class="form-error-space">
+            <c:if test="${isSubmitted and not empty fieldErrors['password']}">
+              <span class="error-message">${fieldErrors['password']}</span>
+            </c:if>
+          </div>
         </div>
       </div>
       
       <div class="mb-3 row">
       <label class="col-sm-2 col-form-label text-end">パスワード（確認）</label>
       <div class="col-sm-10">
-        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" value="${account.password}" >
+        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" value="${account.password}" placeholder="パスワード（確認）" >
+        <div class="form-error-space">
+            <c:if test="${isSubmitted and not empty fieldErrors['confirmPassword']}">
+              <span class="error-message">${fieldErrors['confirmPassword']}</span>
+            </c:if>
+          </div>
       </div>
     </div>
 
