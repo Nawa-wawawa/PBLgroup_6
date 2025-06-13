@@ -91,7 +91,7 @@ accounts account = (accounts) request.getAttribute("account");
       <div class="row">
         <div class="offset-sm-2 col-sm-10">
           <button type="submit" class="btn btn-primary">✓ 更新</button>
-          <button type="button" class="btn btn-secondary ms-2" onclick="history.back()">キャンセル</button>
+          <button type="submit" class="btn btn-secondary ms-2" onclick="history.back()">キャンセル</button>
         </div>
       </div>
     </form>

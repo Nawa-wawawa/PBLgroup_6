@@ -51,7 +51,7 @@
                                     <td>
                                         <div class="d-flex">
                                             <button type="submit" class="btn btn-primary btn-sm me-2">✓編集</button>
-                                           <button type="button" class="btn btn-danger btn-sm" onclick="event.stopPropagation(); history.back();">×削除</button>
+                                           <button type="submit" class="btn btn-danger btn-sm">×削除</button>
                                         </div>
                                     </td>
                                     <td>1</td>
