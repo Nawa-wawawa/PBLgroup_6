@@ -108,7 +108,7 @@
 				</div>
 				<div class="col-2">
 					<input type="number" name="unit_price" class="form-control"
-						placeholder="単価" min="1" step="1" required>
+						placeholder="単価" min="1" max="2147483647"step="1" required>
 				</div>
 			</div>
 
@@ -120,7 +120,7 @@
 				</div>
 				<div class="col-2">
 					<input type="number" name="quantity" class="form-control"
-						placeholder="個数" min="1" step="1" required>
+						placeholder="個数" min="1" max="2147483647"step="1" required>
 				</div>
 			</div>
 

@@ -13,6 +13,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import beans.accounts;
 import beans.categories;
@@ -68,24 +69,61 @@ public class S0020Servlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
-		Date start_date = Date.valueOf(request.getParameter("start_date"));
-		Date end_date = Date.valueOf(request.getParameter("end_date"));
-		int staff = Integer.parseInt(request.getParameter("staff"));
-		int category = Integer.parseInt(request.getParameter("category"));
+
+		Date start_date;
+		Date end_date;
+		int staff = 0;
+		int category = 0;
+
+		try {
+			String startStr = request.getParameter("start_date");
+			if (startStr == null || startStr.isEmpty()) {
+				start_date = null;
+			} else {
+				start_date = Date.valueOf(startStr);
+			}
+
+			String endStr = request.getParameter("end_date");
+			if (endStr == null || endStr.isEmpty()) {
+				end_date = null;
+			} else {
+				end_date = Date.valueOf(endStr);
+			}
+
+		} catch (IllegalArgumentException e) {
+			throw new ServletException("日付の形式が正しくありません。", e);
+		}
+
+		String staffStr = request.getParameter("staff");
+		if (staffStr != null && !staffStr.isEmpty()) {
+			try {
+				staff = Integer.parseInt(staffStr);
+			} catch (NumberFormatException e) {
+				staff = 0;
+			}
+		}
+
+		String categoryStr = request.getParameter("category");
+		if (categoryStr != null && !categoryStr.isEmpty()) {
+			try {
+				category = Integer.parseInt(categoryStr);
+			} catch (NumberFormatException e) {
+				category = 0;
+			}
+		}
 		String product_name = request.getParameter("product_name");
 		String remarks = request.getParameter("remarks");
-		
-		
-		Sales select = new Sales();
-		
-		ArrayList<sales> saleslist = select.select(start_date, end_date, staff, category, product_name, remarks);
-		
-		
-		for(sales sale :saleslist) {
-			System.out.println(sale.getTrade_name());
-		}
-		
-	}
 
+		Sales select = new Sales();
+
+		ArrayList<sales> saleslist = select.select(start_date, end_date, staff, category, product_name, remarks);
+
+		if (saleslist.isEmpty()) {
+			//error処理
+		}
+
+		HttpSession session = request.getSession();
+		session.setAttribute("saleslist", saleslist);
+		response.sendRedirect(request.getContextPath() + "/S0021.html");
+	}
 }

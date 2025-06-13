@@ -69,7 +69,7 @@
 				</div>
 				<div class="col-4">
 					<select name="staff" class="form-control">
-						<option value="">担当者を選択してください</option>
+						<option  value="">担当者を選択してください</option>
 						<c:forEach var="account" items="${accountslist}">
 							<option value="${account.account_id}">${account.name}</option>
 						</c:forEach>
