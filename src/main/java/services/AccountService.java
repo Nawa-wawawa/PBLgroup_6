@@ -7,11 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import beans.Account;
+import beans.accounts;
 import utils.Db;
 
 public class AccountService {
-	public List<Account> select(int n) {
-		List<Account> list = new ArrayList<>();
+	public List<accounts> select(int n) {
+		List<accounts> list = new ArrayList<>();
 		String sql = "SELECT * FROM accounts";
 		//				String sql = "SELECT * FROM accounts";
 		//				String sql = "SELECT * FROM accounts";
@@ -22,7 +23,7 @@ public class AccountService {
 			ResultSet rs = pstmt.executeQuery();
 			//
 			while (rs.next()) {
-				Account a = new Account(
+				accounts a = new accounts(
 						rs.getInt("account_id"),
 						rs.getString("name"),
 						rs.getString("mail"),
@@ -36,7 +37,7 @@ public class AccountService {
 		return list;
 	}
 
-	public void insert(Account a) {
+	public void insert(accounts a) {
 		String sql = "INSERT INTO accounts (name, mail, password, authority) VALUES (?, ?, ?, ?)";
 		try (Connection conn = Db.open();
 				PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -67,266 +68,104 @@ public class AccountService {
 		}
 	}
 
-	public void delete(Account a) {
+	public void delete(accounts a) {
 		String sql = "DELETE FROM account WHERE id = ?";
 		try (Connection conn = Db.open();
 				PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-			pstmt.setInt(1, a.getId());
+			pstmt.setInt(1, a.getAccount_id());
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public ArrayList<Account> findById(int id) {
+	public ArrayList<accounts> findById(int account_id) {
 
 		String sql = "SELECT * FROM accounts WHERE id = ?";
 
-		ArrayList<Account> accounts = new ArrayList<>();
+		ArrayList<accounts> accounts = new ArrayList<>();
 
 		try (Connection conn = Db.open();
 				PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-			pstmt.setInt(1, id);
+			pstmt.setInt(1, account_id);
 			ResultSet rs = pstmt.executeQuery();
 
-			if (rs.next()) {
-				Account account = new Account(
+			while (rs.next()) {
+				accounts account = new accounts(
 						rs.getInt("account_id"),
 						rs.getString("name"),
 						rs.getString("mail"),
 						rs.getString("password"),
 						rs.getByte("authority"));
-				return accounts;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	public ArrayList<Account> findByName(String name) {
-		
-		String sql = "SELECT * FROM accounts WHERE name LIKE ?";
-		
-		ArrayList<Account> accounts = new ArrayList<>();
-		
-		try (Connection conn = Db.open();
-				PreparedStatement pstmt = conn.prepareStatement(sql)) {
-			
-			pstmt.setString(1, "%" + name +"%");
-			ResultSet rs = pstmt.executeQuery();
-			
-			if (rs.next()) {
-				Account account = new Account(
-						rs.getInt("account_id"),
-						rs.getString("name"),
-						rs.getString("mail"),
-						rs.getString("password"),
-						rs.getByte("authority"));
-				return accounts;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	public ArrayList<Account> findByMail(String mail) {
-		
-		String sql = "SELECT * FROM accounts WHERE mail = ?";
-		
-		ArrayList<Account> accounts = new ArrayList<>();
-		
-		try (Connection conn = Db.open();
-				PreparedStatement pstmt = conn.prepareStatement(sql)) {
-			
-			pstmt.setString(1, mail);
-			ResultSet rs = pstmt.executeQuery();
-			
-			if (rs.next()) {
-				Account account = new Account(
-						rs.getInt("account_id"),
-						rs.getString("name"),
-						rs.getString("mail"),
-						rs.getString("password"),
-						rs.getByte("authority"));
-				return accounts;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-public ArrayList<Account> findByAuthority(byte authority) {
-		
-		String sql = "SELECT * FROM accounts WHERE authority = ?";
-		
-		ArrayList<Account> accounts = new ArrayList<>();
-		
-		try (Connection conn = Db.open();
-				PreparedStatement pstmt = conn.prepareStatement(sql)) {
-			
-			pstmt.setByte(1, authority);
-			ResultSet rs = pstmt.executeQuery();
-			
-			if (rs.next()) {
-				Account account = new Account(
-						rs.getInt("account_id"),
-						rs.getString("name"),
-						rs.getString("mail"),
-						rs.getString("password"),
-						rs.getByte("authority"));
-				return accounts;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	public ArrayList<Account> findByAccount(String name, String mail) {
-
-		String sql = "SELECT * FROM accounts WHERE name LIKE '%?' AND mail = ?;";
-
-		ArrayList<Account> accounts = new ArrayList<>();
-
-		try (Connection conn = Db.open();
-				PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-			pstmt.setString(1, "%" + name +"%");
-			pstmt.setString(2, mail);
-
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next()) {
-				accounts.add(
-						new Account(
-								rs.getInt("account_id"),
-								rs.getString("name"),
-								rs.getString("mail"),
-								rs.getString("password"),
-								rs.getByte("authority")));
-				return accounts;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	public ArrayList<Account> findByNameAuth(String name, byte authority) {
-
-		String sql = "SELECT * FROM accounts WHERE name LIKE '%?' AND mail = ?;";
-
-		ArrayList<Account> accounts = new ArrayList<>();
-
-		try (Connection conn = Db.open();
-				PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-			pstmt.setString(1,"%" + name +"%");
-			pstmt.setByte(2, authority);
-
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next()) {
-				accounts.add(
-						new Account(
-								rs.getInt("account_id"),
-								rs.getString("name"),
-								rs.getString("mail"),
-								rs.getString("password"),
-								rs.getByte("authority")));
-				return accounts;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	public ArrayList<Account> findByMailAuth(String mail, byte authority) {
-
-		String sql = "SELECT * FROM accounts WHERE mail = ? authority = ?;";
-
-		ArrayList<Account> accounts = new ArrayList<>();
-
-		try (Connection conn = Db.open();
-				PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-			pstmt.setString(1, mail);
-			pstmt.setByte(2, authority);
-
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next()) {
-				accounts.add(
-						new Account(
-								rs.getInt("account_id"),
-								rs.getString("name"),
-								rs.getString("mail"),
-								rs.getString("password"),
-								rs.getByte("authority")));
-				return accounts;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	public ArrayList<Account> findByAccount(String name, String mail, byte role) {
-		
-		String sql = "SELECT * FROM accounts WHERE name LIKE '%?' AND mail = ? AND role = ?;";
-		
-		ArrayList<Account> accounts = new ArrayList<>();
-		
-		try (Connection conn = Db.open();
-				PreparedStatement pstmt = conn.prepareStatement(sql)) {
-			
-			pstmt.setString(1, "%" + name +"%");
-			pstmt.setString(2, mail);
-			pstmt.setByte(3,role);
-			
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next()) {
-				accounts.add(
-						new Account(
-								rs.getInt("account_id"),
-								rs.getString("name"),
-								rs.getString("mail"),
-								rs.getString("password"),
-								rs.getByte("authority")));
-				return accounts;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	public ArrayList<Account> findByAccount() {
-
-		String sql = "SELECT * FROM accounts ;";
-
-		ArrayList<Account> accounts = new ArrayList<>();
-
-		try (Connection conn = Db.open();
-				PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-			ResultSet rs = pstmt.executeQuery();
-			//
-			while (rs.next()) {
-				Account a = new Account(
-						rs.getInt("account_id"),
-						rs.getString("name"),
-						rs.getString("mail"),
-						rs.getString("password"),
-						rs.getByte("authority"));
-				accounts.add(a);
+				accounts.add(account);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return accounts;
-
 	}
 	
+	public ArrayList<accounts> findByAccount(String name, String mail, byte authority) {
 
-}
+		StringBuilder sql =new StringBuilder ("SELECT * FROM accounts WHERE 1=1 ");
+		ArrayList<Object> params = new ArrayList<>();
+		ArrayList<accounts> accounts = new ArrayList<>();
+
+			if (name != "") {
+				
+				sql.append(" AND name LIKE ?");
+				
+				params.add("%" + name +"%");
+
+			}
+			if (mail != "") {
+
+				sql.append (" AND mail = ?");
+				
+				params.add(mail);
+				
+			}
+			if (authority != 0) {
+
+				sql.append(" AND authority = ?");
+				
+				byte hikizan = 1;
+				authority -= hikizan;
+				
+				params.add(authority);
+				
+			
+			}try (Connection conn = Db.open();
+					PreparedStatement pstmt = conn.prepareStatement(sql.toString())) {
+				
+				for(int i = 0 ; i < params.size(); i++) {
+				
+					Object param = params.get(i);
+					
+					if(param instanceof String) {
+						pstmt.setString(i+1, (String)param);
+					}else if(param instanceof Byte) {
+						pstmt.setByte(i+1, (Byte)param);
+					}
+				}
+				ResultSet rs = pstmt.executeQuery();
+				
+				while (rs.next()) {
+					accounts account = new accounts(
+							rs.getInt("account_id"),
+							rs.getString("name"),
+							rs.getString("mail"),
+							rs.getString("password"),
+							rs.getByte("authority"));
+					accounts.add(account);					
+				}		
+			}catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println(sql);
+		return accounts;
+	}
+
+	}

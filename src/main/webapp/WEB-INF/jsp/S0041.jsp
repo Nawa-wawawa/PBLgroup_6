@@ -48,14 +48,14 @@
                         </thead>
                         <tbody>
                             <c:forEach var="item" items="${account}">
-                                <tr style="cursor:pointer;" onclick="location.href='DetailtaskServlet?id=${item.id}'">
+                                <tr style="cursor:pointer;" onclick="location.href='DetailtaskServlet?id=${item.account_id}'">
                                     <td>
                                         <div class="d-flex">
                                             <button type="submit" class="btn btn-primary btn-sm me-2">✓編集</button>
-                                           <button type="button" class="btn btn-danger btn-sm" onclick="event.stopPropagation(); history.back();">×削除</button>
+                                           <button type="button" class="btn btn-danger btn-sm" >×削除</button>
                                         </div>
                                     </td>
-                                    <td>${item.id}</td>
+                                    <td>${item.account_id}</td>
                                     <td>${item.name}</td>
                                     <td>${item.mail}</td>
                                     <td>
