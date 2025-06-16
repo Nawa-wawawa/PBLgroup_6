@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -47,8 +47,12 @@
           氏名 <span class="badge rounded-pill text-bg-secondary">部分一致</span>
         </label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" id="name" name="name" placeholder="氏名">
-        </div>
+          <input type="text" class="form-control 
+          <c:if test='${not empty errors.error1}'>is-invalid</c:if> m-1"
+           id="name" name="name" placeholder="氏名">
+           <c:if test="${not empty errors.error1}">
+           <div class="invalid-feedback">${errors.error1}</div>
+           </c:if>
       </div>
 
       <!-- メールアドレス -->
@@ -57,7 +61,12 @@
         メールアドレス
         </label>
         <div class="col-sm-10">
-          <input type="email" class="form-control" id="email" name="mail" placeholder="メールアドレス">
+          <input type="email" class="form-control
+          <c:if test='${not empty errors.error2}'>is-invalid</c:if> m-1"
+           id="email" name="mail" placeholder="メールアドレス">
+           <c:if test="${not empty errors.error2}">
+           <div class="invalid-feedback">${errors.error2}</div>
+           </c:if>
         </div>
       </div>
 
