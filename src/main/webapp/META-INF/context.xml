@@ -11,6 +11,6 @@
               maxTotal="4"
               maxIdle="10"
               maxWaitMillis="5000"
-              validationQuery="SELECT count(*) FROM sales"
+              validationQuery="SELECT count(*) FROM accounts"
               testOnBorrow="true"/>
 </Context>

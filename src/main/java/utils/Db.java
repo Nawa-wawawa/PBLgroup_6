@@ -1,9 +1,5 @@
 package utils;
 
-<<<<<<< HEAD
-
-=======
->>>>>>> account
 import java.sql.Connection;
 import java.sql.SQLException;
 
