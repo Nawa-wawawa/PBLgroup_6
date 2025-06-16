@@ -17,13 +17,6 @@ public class accounts {
 		this.authority = authority;
 	}
 
-	public accounts(String name, String mail, String password, byte authority) {
-		super();
-		this.name = name;
-		this.mail = mail;
-		this.password = password;
-		this.authority = authority;
-	}
 
 	public accounts(String mail, String password) {
 		super();
@@ -64,6 +57,7 @@ public class accounts {
 	}
 
 	public byte getAuthority() {
+
 		return authority;
 	}
 

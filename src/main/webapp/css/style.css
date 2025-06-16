@@ -1,0 +1,8 @@
+@charset "UTF-8";
+.error-message {
+      color: red;
+      font-size: 0.9em;
+    }
+    .form-error-space {
+      min-height: 1.5em;
+    }
