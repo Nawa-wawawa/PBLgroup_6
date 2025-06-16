@@ -25,14 +25,7 @@ public class Accounts {
 						rs.getString("mail"),
 						rs.getString("password"),
 						rs.getByte("authority"));
-				list.add(ac);
-				
-//				System.out.println(rs.getInt("account_id"));
-//				System.out.println(rs.getString("name"));
-//				System.out.println(rs.getString("mail"));
-//				System.out.println(rs.getString("password"));
-//				System.out.println(rs.getByte("authority"));
-//				
+				list.add(ac);			
 			}
 		} catch (SQLException | NamingException e) {
 			e.printStackTrace();

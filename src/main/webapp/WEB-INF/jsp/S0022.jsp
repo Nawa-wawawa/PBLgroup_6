@@ -5,7 +5,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link href="../css/bootstrap.min.css" rel="stylesheet" />
+<link href="${pageContext.request.contextPath}/css/bootstrap.min.css"
+	rel="stylesheet" />
 <title>売上詳細表示</title>
 </head>
 <body>
@@ -45,50 +46,66 @@
 	<div class="container">
 		<div class="row mb-3 align-items-center">
 			<div class="col-2 text-end fw-bold">販売日</div>
-			<div class="col-2">2025-06-10</div>
+			<div class="col-2">
+				<c:out value="${picksale.sale_id}" />
+			</div>
 		</div>
 
 		<div class="row mb-3 align-items-center">
 			<div class="col-2 text-end fw-bold">担当</div>
-			<div class="col-4">鈴木</div>
+			<div class="col-4">
+				<c:out value="${picksale.account_id}" />
+			</div>
 		</div>
 
 		<div class="row mb-3 align-items-center">
 			<div class="col-2 text-end fw-bold">商品カテゴリー</div>
-			<div class="col-4">食品</div>
+			<div class="col-4">
+				<c:out value="${picksale.category_id}" />
+			</div>
 		</div>
 
 		<div class="row mb-3 align-items-center">
 			<div class="col-2 text-end fw-bold">商品名</div>
-			<div class="col-4">りんごジュース</div>
+			<div class="col-4">
+				<c:out value="${picksale.trade_name}" />
+			</div>
 		</div>
 
 		<div class="row mb-3 align-items-center">
 			<div class="col-2 text-end fw-bold">単価</div>
-			<div class="col-2">120</div>
+			<div class="col-2">
+				<c:out value="${picksale.unit_price}" />
+			</div>
 		</div>
 
 		<div class="row mb-3 align-items-center">
 			<div class="col-2 text-end fw-bold">個数</div>
-			<div class="col-2">5</div>
+			<div class="col-2">
+				<c:out value="${picksale.sale_number}" />
+			</div>
 		</div>
 
 		<div class="row mb-3 align-items-start">
 			<div class="col-2 text-end fw-bold">備考</div>
-			<div class="col-4">特にありません</div>
+			<div class="col-4">
+				<c:out value="${picksale.note}" />
+			</div>
 		</div>
 
-		<form>
+		<form method="post" action="S0022.html">
 			<div class="row">
 				<div class="offset-4 col-5">
 					<div class="d-flex gap-2">
-						<button type="button" class="btn btn-primary">編集</button>
-						<button type="button" class="btn btn-danger">削除</button>
-						<button type="button" class="btn btn-light">キャンセル</button>
+						<button type="submit" name="action" value="2"
+							class="btn btn-primary">編集</button>
+						<button type="submit" name="action" value="1"
+							class="btn btn-danger">削除</button>
+						<button type="submit" name="action" value="0"
+							class="btn btn-light">キャンセル</button>
 					</div>
 				</div>
 			</div>
-
 		</form>
 	</div>
 

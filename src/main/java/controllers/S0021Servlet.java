@@ -13,13 +13,13 @@ import jakarta.servlet.http.HttpSession;
  * Servlet implementation class S0021Servlrt
  */
 @WebServlet("/S0021.html")
-public class S0021Servlrt extends HttpServlet {
+public class S0021Servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public S0021Servlrt() {
+	public S0021Servlet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -29,7 +29,7 @@ public class S0021Servlrt extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		HttpSession session = request.getSession();
+
 		request.getRequestDispatcher("/WEB-INF/jsp/S0021.jsp").forward(request, response);
 	}
 
@@ -38,8 +38,14 @@ public class S0021Servlrt extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		
+		int saleId =Integer.parseInt(request.getParameter("id"));
+		
+		HttpSession session = request.getSession();
+		session.setAttribute("saleId", saleId);
+		
+		
+		response.sendRedirect(request.getContextPath() + "/S0022.html");
 	}
 
 }

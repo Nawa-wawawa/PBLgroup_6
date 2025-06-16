@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="jakarta.tags.core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>アカウント検索結果</title>
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+<link href="${pageContext.request.contextPath}/css/bootstrap.min.css"
 	rel="stylesheet">
 </head>
 <body>
@@ -40,72 +40,97 @@
 	</div>
 	<div class="container text-left">
 
-		<div class="d-none d-md-block">
-			<div class="row">
-				<div class="col">操作</div>
-				<div class="col">No</div>
-				<div class="col">販売日</div>
-				<div class="col">担当</div>
-				<div class="col-2">商品カテゴリー</div>
-				<div class="col-4">商品名</div>
-				<div class="col">単価</div>
-				<div class="col">個数</div>
-				<div class="col">小計</div>
-			</div>
+		<!-- 見出し -->
+		<div class="row fw-bold border-bottom py-2">
+			<div class="col">操作</div>
+			<div class="col">No</div>
+			<div class="col-2">販売日</div>
+			<div class="col">担当</div>
+			<div class="col-2">商品カテゴリー</div>
+			<div class="col-3">商品名</div>
+			<div class="col">単価</div>
+			<div class="col">個数</div>
+			<div class="col">小計</div>
+		</div>
 
-			<div>
-				<c:forEach var="sales" items="${sessionScope.saleslist}">
-					<div class="col">☑詳細</div>
-					<div class="col">${sales.sale_id}</div>
-					<div class="col">${sales.sale_date}</div>
-					<div class="col">${sales.account_id}</div>
-					<div class="col-2">${sales.category_id}</div>
-					<div class="col-4">${sales.trade_name}</div>
+		<!-- データ行 -->
+		<c:forEach var="sales" items="${sessionScope.saleslist}">
+			<form method="post" action="S0021.html">
+				<div class="row border-bottom py-2 align-items-center">
+					<div class="col">
+						<button type="submit" class="btn btn-primary">&check; 詳細</button>
+					</div>
+					<div class="col">
+						<input type="hidden" name="id" value="${sales.sale_id}">${sales.sale_id}
+					</div>
+					<div class="col-2">${sales.sale_date}</div>
+
+					<div class="col">
+						<c:forEach var="ac" items="${sessionScope.accountslist}">
+							<c:if test="${ac.account_id == sales.account_id}">
+						${ac.name}
+					</c:if>
+						</c:forEach>
+					</div>
+					<div class="col-2">
+						<c:forEach var="ct" items="${sessionScope.categorylist}">
+							<c:if test="${ct.category_id == sales.category_id}">
+						${ct.category_name}
+					</c:if>
+						</c:forEach>
+					</div>
+					<div class="col-3">${sales.trade_name}</div>
 					<div class="col">${sales.unit_price}</div>
 					<div class="col">${sales.sale_number}</div>
 					<div class="col">${sales.unit_price * sales.sale_number}</div>
-				</c:forEach>
-			</div>
-		</div>
-
-
-
-<!--		 スマホ用2段表示 -->
-<!--		<div class="d-block d-md-none border-bottom py-2">-->
-<!--			 1段目：前半項目 -->
-<!--			<div class="row">-->
-<!--				<div class="col">操作</div>-->
-<!--				<div class="col">No</div>-->
-<!--				<div class="col">販売日</div>-->
-<!--				<div class="col">担当</div>-->
-<!--				<div class="col-5">商品カテゴリー</div>-->
-<!--			</div>-->
-<!--			<c:forEach var="sales" items="${sessionScope.saleslist}">-->
-<!--				<div class="row">-->
-<!--					<div class="col">☑詳細</div>-->
-<!--					<div class="col">${sales.sale_id}</div>-->
-<!--					<div class="col">${sales.sale_date}</div>-->
-<!--					<div class="col">${sales.account_id}</div>-->
-<!--					<div class="col-2">${sales.category_id}</div>-->
-
-<!--				</div>-->
-<!--				 2段目：商品名・単価・個数・小計 -->
-<!--				<div class="row mt-1">-->
-<!--					<div class="col-6">商品名</div>-->
-<!--					<div class="col">単価</div>-->
-<!--					<div class="col">個数</div>-->
-<!--					<div class="col">小計</div>-->
-<!--				</div>-->
-<!--				<div class="row">-->
-
-<!--					<div class="col-4">${sales.trade_name}</div>-->
-<!--					<div class="col">${sales.unit_price}</div>-->
-<!--					<div class="col">${sales.sale_number}</div>-->
-<!--					<div class="col">${sales.unit_price * sales.sale_number}</div>-->
-<!--				</div>-->
-<!--			</c:forEach>-->
-<!--		</div>-->
-
+				</div>
+			</form>
+		</c:forEach>
 	</div>
+	<!--		<div class="d-block d-md-none">-->
+	<!--			<c:forEach var="sales" items="${sessionScope.saleslist}">-->
+	<!--				<form method="post" action="S0021.html">-->
+	<!--					 個別レコードブロック -->
+	<!--					<div class="border rounded mb-3 p-2 bg-light">-->
+	<!--						 1段目 -->
+	<!--						<div class="row">-->
+	<!--							<div class="col-3 fw-bold">-->
+	<!--								<button type="submit"-->
+	<!--									class="btn btn-primary d-flex align-items-center">-->
+	<!--									<span class="text-white" style="font-weight: bold;">&check;</span>-->
+	<!--									詳細-->
+	<!--								</button>-->
+	<!--							</div>-->
+	<!--							<div class="col-3">-->
+	<!--								<input type="hidden" name="id" value="${sales.sale_id}">No:-->
+	<!--								${sales.sale_id}-->
+	<!--							</div>-->
+	<!--							<div class="col-6">販売日: ${sales.sale_date}</div>-->
+	<!--						</div>-->
+	<!--						<div class="row mt-1">-->
+	<!--							<div class="col-6">担当: ${sales.account_id}</div>-->
+	<!--							<div class="col-6">カテゴリ: ${sales.category_id}</div>-->
+	<!--						</div>-->
+
+	<!--						 2段目 -->
+	<!--						<div class="row mt-2 border-top pt-2">-->
+	<!--							<div class="col-12 fw-bold">商品情報</div>-->
+	<!--						</div>-->
+	<!--						<div class="row">-->
+	<!--							<div class="col-12">商品名: ${sales.trade_name}</div>-->
+	<!--						</div>-->
+	<!--						<div class="row">-->
+	<!--							<div class="col-4">単価: ${sales.unit_price}</div>-->
+	<!--							<div class="col-4">個数: ${sales.sale_number}</div>-->
+	<!--							<div class="col-4">小計: ${sales.unit_price * sales.sale_number}</div>-->
+	<!--						</div>-->
+	<!--					</div>-->
+	<!--				</form>-->
+	<!--			</c:forEach>-->
+	<!--		</div>-->
+
+	<script
+		src="${pageContext.request.contextPath}/js/bootstrap.bundle.min.js"
+		defer></script>
 </body>
 </html>

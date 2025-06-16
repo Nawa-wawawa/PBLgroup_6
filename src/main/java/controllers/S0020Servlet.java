@@ -122,8 +122,26 @@ public class S0020Servlet extends HttpServlet {
 			//error処理
 		}
 
+
+		ArrayList<accounts> accountslist = null;
+		ArrayList<categories> categorylist = null;
+
+		try (Connection con = Db.open()) {
+			Categories ct = new Categories();
+			categorylist = ct.select();
+			Accounts ac = new Accounts();
+			accountslist = ac.select();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NamingException e1) {
+			// TODO 自動生成された catch ブロック
+			e1.printStackTrace();
+		}
+		
 		HttpSession session = request.getSession();
 		session.setAttribute("saleslist", saleslist);
+		session.setAttribute("categorylist", categorylist);
+		session.setAttribute("accountslist", accountslist);
 		response.sendRedirect(request.getContextPath() + "/S0021.html");
 	}
 }
