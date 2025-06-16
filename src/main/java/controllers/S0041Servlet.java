@@ -7,11 +7,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
+import beans.accounts;
 
 /**
  * Servlet implementation class S0041Servlet
  */
-@WebServlet("/S0041Servlet")
+@WebServlet("/S0041.html")
 public class S0041Servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -37,8 +40,33 @@ public class S0041Servlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		request.getRequestDispatcher("/jsp/???.jsp").forward(request, response);
+		String name=request.getParameter("a");
+		System.out.println(name);
+		
+		HttpSession session = request.getSession(false);
+		
+		if(session != null) {
+			
+			if("edit".equals(name)) {
+				
+				accounts accounts = (beans.accounts) session.getAttribute("account");
+				request.setAttribute("account", accounts);
+				request.getRequestDispatcher("/WEB-INF/jsp/S0042.html").forward(request, response);;
+				
+			}else if("delete".equals(name)) {
+				
+				accounts accounts = (beans.accounts) session.getAttribute("account");
+				request.setAttribute("account", accounts);
+				request.getRequestDispatcher("/WEB-INF/jsp/S0043.jsp").forward(request, response);
+				
+			}else {
+				return;
+			}
+			
+			
+			
+		}
+		
 	}
 
 }

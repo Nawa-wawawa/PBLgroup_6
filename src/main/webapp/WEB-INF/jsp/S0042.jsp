@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="beans.accounts" %>
@@ -64,6 +65,7 @@ accounts account = (accounts) request.getAttribute("account");
 
       <!-- メールアドレス -->
       <div class="mb-3 row">
+
         <label for="mail" class="col-sm-2 col-form-label text-end">メールアドレス</label>
         <div class="col-sm-10">
           <input type="email" class="form-control" id="mail" name="mail" value="${account.mail}" placeholder="メールアドレス">
@@ -72,6 +74,7 @@ accounts account = (accounts) request.getAttribute("account");
               <span class="error-message">${fieldErrors['mail']}</span>
             </c:if>
           </div>
+
         </div>
       </div>
 
@@ -116,7 +119,7 @@ accounts account = (accounts) request.getAttribute("account");
           </div>
         </div>
       </div>
-
+      
       <!-- ボタン -->
       <div class="row">
         <div class="offset-sm-2 col-sm-10">
@@ -128,3 +131,4 @@ accounts account = (accounts) request.getAttribute("account");
 </div>
 </body>
 </html>
+
