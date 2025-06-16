@@ -80,11 +80,11 @@ public class AccountService {
 		}
 	}
 
-	public ArrayList<accounts> findById(int account_id) {
+	public accounts findById(int account_id) {
 
 		String sql = "SELECT * FROM accounts WHERE id = ?";
 
-		ArrayList<accounts> accounts = new ArrayList<>();
+		accounts accounts = null;
 
 		try (Connection conn = Db.open();
 				PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -93,13 +93,13 @@ public class AccountService {
 			ResultSet rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				accounts account = new accounts(
+				accounts = new accounts(
 						rs.getInt("account_id"),
 						rs.getString("name"),
 						rs.getString("mail"),
 						rs.getString("password"),
 						rs.getByte("authority"));
-				accounts.add(account);
+				
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

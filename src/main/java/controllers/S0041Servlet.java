@@ -9,8 +9,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import beans.accounts;
-
 /**
  * Servlet implementation class S0041Servlet
  */
@@ -40,24 +38,25 @@ public class S0041Servlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String name=request.getParameter("a");
-		System.out.println(name);
+		String action=request.getParameter("action");
+		System.out.println(action);
+		
 		
 		HttpSession session = request.getSession(false);
 		
 		if(session != null) {
 			
-			if("edit".equals(name)) {
+			if("edit".equals(action)) {
 				
-				accounts accounts = (beans.accounts) session.getAttribute("account");
-				request.setAttribute("account", accounts);
-				request.getRequestDispatcher("/WEB-INF/jsp/S0042.html").forward(request, response);;
+//				accounts accounts = (beans.accounts) session.getAttribute("account");
+//				request.getSession().setAttribute("account", accounts);
+				response.sendRedirect("/S0042.html");
 				
-			}else if("delete".equals(name)) {
+			}else if("delete".equals(action)) {
 				
-				accounts accounts = (beans.accounts) session.getAttribute("account");
-				request.setAttribute("account", accounts);
-				request.getRequestDispatcher("/WEB-INF/jsp/S0043.jsp").forward(request, response);
+//				accounts accounts = (beans.accounts) session.getAttribute("account");
+//				request.setAttribute("account", accounts);
+				request.getRequestDispatcher("/jsp/S0043.jsp").forward(request, response);
 				
 			}else {
 				return;

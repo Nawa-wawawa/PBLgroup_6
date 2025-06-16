@@ -40,7 +40,7 @@ public class S0040Servlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.getRequestDispatcher("/WEB-INF/jsp/S0040.jsp").forward(request, response);
+		request.getRequestDispatcher("/jsp/S0040.jsp").forward(request, response);
 
 	}
 
@@ -73,7 +73,7 @@ public class S0040Servlet extends HttpServlet {
 		if(!errors.isEmpty()) {
 			
 			request.setAttribute("errors", errors);
-			request.getRequestDispatcher("/WEB-INF/jsp/S0040.jsp").forward(request, response);
+			request.getRequestDispatcher("/jsp/S0040.jsp").forward(request, response);
 			return;
 			
 		}
@@ -93,13 +93,13 @@ public class S0040Servlet extends HttpServlet {
 			
 		HttpSession session= request.getSession();
 		session.setAttribute("account", account);
-		request.getRequestDispatcher("/WEB-INF/jsp/S0041.jsp").forward(request, response);
+		request.getRequestDispatcher("/jsp/S0041.jsp").forward(request, response);
 		
-		}else {
+		}else {			
 			
 //		 ❌ ログイン失敗：エラーメッセージ付きでログイン画面に戻る
 		request.setAttribute("error3", "該当するアカウントがありません");
-		request.getRequestDispatcher("/WEB-INF/jsp/S0041.jsp").forward(request, response);
+		request.getRequestDispatcher("/jsp/S0041.jsp").forward(request, response);
 		System.out.println("該当するアカウントがありません");
 		
 		}
