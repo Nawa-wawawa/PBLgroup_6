@@ -1,14 +1,14 @@
 package beans;
 
 public class accounts {
-	private int id;
+	private int account_id;
 	private String name;
 	private String mail;
 	private String password;
 	private byte authority;
 	
 	public accounts(int id, String name, String mail, String password, byte authority) {
-		this.id = id;
+		this.account_id = id;
 		this.name = name;
 		this.mail = mail;
 		this.password = password;
@@ -25,11 +25,11 @@ public class accounts {
 
 
 	public int getId() {
-		return id;
+		return account_id;
 	}
 
 	public void setId(int id) {
-		this.id = id;
+		this.account_id = id;
 	}
 
 	public String getName() {

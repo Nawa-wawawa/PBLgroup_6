@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context displayName="Account Java" path="/pbl6" docBase="pbl6"
-         reloadable="true" crossContext="true">
-    <Resource name="jdbc/mariadb"
-              auth="Container"
-              type="javax.sql.DataSource"
-              username="root"
-              password="root"
-              driverClassName="org.mariadb.jdbc.Driver"
-              url="jdbc:mariadb://localhost:3306/pbl6?useUnicode=true&amp;characterEncoding=UTF-8"
-              maxTotal="4"
-              maxIdle="10"
-              maxWaitMillis="5000"
-              validationQuery="SELECT count(*) FROM accounts"
-              testOnBorrow="true"/>
+<Context displayName=" Sample Java" path="/sample"
+	docBase="sample" reloadable="true" crossContext="true">
+	<Resource name="jdbc/mariadb" auth="Container"
+		type="javax.sql.DataSource" username="root" password="root"
+		driverClassName="org.mariadb.jdbc.Driver"
+		url="jdbc:mariadb://localhost:3306/pbl6?useUnicode=true&amp;characterEncoding=UTF-8"
+		maxTotal="4" maxIdle="10" maxWaitMillis="5000"
+		validationQuery="SELECT count(*) FROM accounts" testOnBorrow="true" />
 </Context>
