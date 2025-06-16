@@ -7,15 +7,7 @@
   <meta charset="UTF-8" />
   <title>アカウント登録</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    .error-message {
-      color: red;
-      font-size: 0.9em;
-    }
-    .form-error-space {
-      min-height: 1.5em;
-    }
-  </style>
+  <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
