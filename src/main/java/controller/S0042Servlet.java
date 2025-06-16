@@ -31,7 +31,7 @@ public class S0042Servlet extends HttpServlet {
             request.setAttribute("hasSalesRole", (account.getAuthority() & 1) != 0);
             request.setAttribute("hasAccountRole", (account.getAuthority() & 2) != 0);
         }
-        request.getRequestDispatcher("/jsp/S0042.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/jsp/S0042.jsp").forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

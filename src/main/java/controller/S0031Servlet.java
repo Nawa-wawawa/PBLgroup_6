@@ -100,7 +100,7 @@ public class S0031Servlet extends HttpServlet {
             request.setAttribute("fieldErrors", fieldErrors);
             request.setAttribute("account", account);
             request.setAttribute("isSubmitted", true);
-            request.getRequestDispatcher("/jsp/S0030.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/jsp/S0030.jsp").forward(request, response);
             return;
         }
 
@@ -114,12 +114,12 @@ public class S0031Servlet extends HttpServlet {
             } catch (Exception e) {
                 request.setAttribute("error", "登録に失敗しました: " + e.getMessage());
                 request.setAttribute("account", account);
-                request.getRequestDispatcher("/jsp/S0031.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/jsp/S0031.jsp").forward(request, response);
             }
         } else {
             // 確認画面へ遷移
             request.setAttribute("account", account);
-            request.getRequestDispatcher("/jsp/S0031.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/jsp/S0031.jsp").forward(request, response);
         }
     }
 }

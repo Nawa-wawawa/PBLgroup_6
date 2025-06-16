@@ -45,7 +45,7 @@ public class S0043Servlet extends HttpServlet {
             } catch (NumberFormatException e) {
                 // ID不正時は入力画面に戻すなどの処理
                 request.setAttribute("error", "不正なIDです。");
-                request.getRequestDispatcher("/jsp/S0042.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/jsp/S0042.jsp").forward(request, response);
                 return;
             }
 
@@ -123,7 +123,7 @@ public class S0043Servlet extends HttpServlet {
                 request.setAttribute("fieldErrors", fieldErrors);
                 request.setAttribute("account", account);
                 request.setAttribute("isSubmitted", true);
-                request.getRequestDispatcher("/jsp/S0043.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/jsp/S0043.jsp").forward(request, response);
                 return;
             }
 
@@ -134,7 +134,7 @@ public class S0043Servlet extends HttpServlet {
             } catch (Exception e) {
                 request.setAttribute("error", "更新に失敗しました: " + e.getMessage());
                 request.setAttribute("account", account);
-                request.getRequestDispatcher("/jsp/S0042.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/jsp/S0042.jsp").forward(request, response);
             }
         } else {
             // 確認画面に遷移する処理（新規登録や編集の確認）
@@ -204,7 +204,7 @@ public class S0043Servlet extends HttpServlet {
                 request.setAttribute("fieldErrors", fieldErrors);
                 request.setAttribute("account", account);
                 request.setAttribute("isSubmitted", true);
-                request.getRequestDispatcher("/jsp/S0042.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/jsp/S0042.jsp").forward(request, response);
                 return;
             }
 
@@ -217,7 +217,7 @@ public class S0043Servlet extends HttpServlet {
 
             // 確認画面へ
             request.setAttribute("account", account);
-            request.getRequestDispatcher("/jsp/S0043.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/jsp/S0043.jsp").forward(request, response);
         }
     }
 }

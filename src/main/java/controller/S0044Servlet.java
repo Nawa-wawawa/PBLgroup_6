@@ -31,7 +31,7 @@ public class S0044Servlet extends HttpServlet {
             request.setAttribute("hasSalesRole", (account.getAuthority() & 1) != 0);
             request.setAttribute("hasAccountRole", (account.getAuthority() & 2) != 0);
         }
-        request.getRequestDispatcher("/jsp/S0044.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/jsp/S0044.jsp").forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -48,7 +48,7 @@ public class S0044Servlet extends HttpServlet {
                 id = Integer.parseInt(idStr);
             } catch (NumberFormatException e) {
                 request.setAttribute("error", "不正なIDです。");
-                request.getRequestDispatcher("/jsp/S0044.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/jsp/S0044.jsp").forward(request, response);
                 return;
             }
 
@@ -58,7 +58,7 @@ public class S0044Servlet extends HttpServlet {
                 response.sendRedirect("S0030Servlet");  // 成功：一覧画面にリダイレクト
             } catch (Exception e) {
                 request.setAttribute("error", "削除に失敗しました: " + e.getMessage());
-                request.getRequestDispatcher("/jsp/S0044.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/jsp/S0044.jsp").forward(request, response);
             }
 
         } else {
