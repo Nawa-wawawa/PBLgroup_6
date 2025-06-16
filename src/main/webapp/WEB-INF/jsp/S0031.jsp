@@ -17,7 +17,6 @@ accounts account = (accounts) request.getAttribute("account");
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<<<<<<< HEAD
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
     <span class="navbar-brand">物品売上管理システム</span>
