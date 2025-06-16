@@ -33,7 +33,6 @@
 
 <div class="container-sm mt-5">
     <h1 class="mb-4">アカウント検索結果表示</h1>
-    <form>
             <c:choose>
                 <c:when test="${not empty account}">
                     <table class="table only-horizontal-lines">
@@ -48,15 +47,16 @@
                         </thead>
                         <tbody>
                             <c:forEach var="item" items="${account}">
+    <form action ="S0041.html" method="POST">
                                 <tr style="cursor:pointer;" onclick="location.href='DetailtaskServlet?id=${item.account_id}'">
                                     <td>
                                         <div class="d-flex">
-                                            <button type="submit" class="btn btn-primary btn-sm me-2">✓編集</button>
-                                           <button type="button" class="btn btn-danger btn-sm" >×削除</button>
+                                            <button type="submit" class="btn btn-primary btn-sm me-2" value="0" name=edit>✓編集</button>
+                                           <button type="submit" class="btn btn-danger btn-sm" value="1" name=delete>×削除</button>
                                         </div>
                                     </td>
-                                    <td>${item.account_id}</td>
-                                    <td>${item.name}</td>
+                                    <td> ${item.account_id}</td>
+                                    <td><input type="hidden" name="a" value="${item.name}"> ${item.name}</td>
                                     <td>${item.mail}</td>
                                     <td>
                                     <c:choose>
@@ -67,15 +67,15 @@
                                     </c:choose>
                                     </td>
                                 </tr>
-                            </c:forEach>
+							</form>
+						</c:forEach>
                         </tbody>
                     </table>
                 </c:when>
-                <c:when test="${error != null}">
-  						<center><p class="lead">${error}</p></center>
+                <c:when test="${error3 != null}">
+  						<center><p class="lead">${error3}</p></center>
                 </c:when>
             </c:choose>
-    </form>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

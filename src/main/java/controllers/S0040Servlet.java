@@ -10,6 +10,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import beans.accounts;
 import services.AccountSearchCheck;
@@ -85,7 +86,8 @@ public class S0040Servlet extends HttpServlet {
 
 		if(!account.isEmpty()) {
 			
-		request.setAttribute("account", account);
+		HttpSession session= request.getSession();
+		session.setAttribute("account", account);
 		request.getRequestDispatcher("/WEB-INF/jsp/S0041.jsp").forward(request, response);
 		
 		}else {

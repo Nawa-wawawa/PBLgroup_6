@@ -1,16 +1,15 @@
 package controllers;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
-import beans.Account;
-import services.AccountService;
+import beans.accounts;
 
 /**
  * Servlet implementation class S0041Servlet
@@ -41,19 +40,31 @@ public class S0041Servlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String name=request.getParameter("name");
-		String mail=request.getParameter("mail");
-		String idStr=request.getParameter("id");//イント型に変えないといけない？
-		String authStr=request.getParameter("role");//0～３を取得→バリューと結び付けたい
-		byte authority = Byte.parseByte(authStr);
-		int account_id=Integer.parseInt(idStr);
+		String name=request.getParameter("a");
+		System.out.println(name);
 		
-		AccountService as = new AccountService();
-		ArrayList<Account> accounts =as.findById(account_id);
+		HttpSession session = request.getSession(false);
 		
-		if(accounts != null) {
-			request.setAttribute("accounts",accounts);
-			request.getRequestDispatcher("/WEB-INF/jsp/S0042");
+		if(session != null) {
+			
+			if("edit".equals(name)) {
+				
+				accounts accounts = (beans.accounts) session.getAttribute("account");
+				request.setAttribute("account", accounts);
+				request.getRequestDispatcher("/WEB-INF/jsp/S0042.html").forward(request, response);;
+				
+			}else if("delete".equals(name)) {
+				
+				accounts accounts = (beans.accounts) session.getAttribute("account");
+				request.setAttribute("account", accounts);
+				request.getRequestDispatcher("/WEB-INF/jsp/S0043.jsp").forward(request, response);
+				
+			}else {
+				return;
+			}
+			
+			
+			
 		}
 		
 	}
