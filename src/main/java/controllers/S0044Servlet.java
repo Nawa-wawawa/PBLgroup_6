@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import beans.accounts;
 import services.AccountService;
 
-@WebServlet("/S0044Servlet")
+@WebServlet("/S0044.html")
 public class S0044Servlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -55,7 +55,7 @@ public class S0044Servlet extends HttpServlet {
             AccountService service = new AccountService();
             try {
                 service.delete(id);  // deleteメソッドを呼び出す（DBから削除）
-                response.sendRedirect("S0030Servlet");  // 成功：一覧画面にリダイレクト
+                response.sendRedirect("S0030.html");  // 成功：一覧画面にリダイレクト
             } catch (Exception e) {
                 request.setAttribute("error", "削除に失敗しました: " + e.getMessage());
                 request.getRequestDispatcher("/WEB-INF/jsp/S0044.jsp").forward(request, response);
@@ -63,7 +63,7 @@ public class S0044Servlet extends HttpServlet {
 
         } else {
             // 想定外のアクション
-            response.sendRedirect("S0030Servlet");
+            response.sendRedirect("S0030.html");
         }
     }
 }

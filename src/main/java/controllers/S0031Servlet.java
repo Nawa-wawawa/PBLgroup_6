@@ -14,7 +14,7 @@ import beans.accounts;
 import services.AccountService;
 import services.Accountcheck;
 
-@WebServlet("/S0031Servlet")
+@WebServlet("/S0031.html")
 public class S0031Servlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -25,7 +25,7 @@ public class S0031Servlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // GETは使わない想定 → 入力画面に戻す
-        response.sendRedirect("S0030Servlet");
+        response.sendRedirect("S0030.html");
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -91,9 +91,9 @@ public class S0031Servlet extends HttpServlet {
         }
 
         // ■権限（必須チェック）
-        if (roles == null || roles.length == 0) {
-            fieldErrors.put("role", "権限を1つ以上選択してください。");
-        }
+//        if (roles == null || roles.length == 0) {
+//            fieldErrors.put("role", "権限を1つ以上選択してください。");
+//        }
 
         if (!fieldErrors.isEmpty()) {
             // エラーがある → 入力画面に戻す
@@ -110,7 +110,7 @@ public class S0031Servlet extends HttpServlet {
             try {
                 service.insert(account);
                 // 登録成功 → 入力画面へリダイレクト（必要に応じて変更）
-                response.sendRedirect("S0030Servlet");
+                response.sendRedirect("S0030.html");
             } catch (Exception e) {
                 request.setAttribute("error", "登録に失敗しました: " + e.getMessage());
                 request.setAttribute("account", account);

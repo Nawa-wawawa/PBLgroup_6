@@ -3,7 +3,7 @@
 <%
 accounts account = (accounts) request.getAttribute("account");
     if (account == null) {
-        response.sendRedirect("S0042Servlet");
+        response.sendRedirect("S0042.html");
         return;
     }
 %>
@@ -41,7 +41,7 @@ accounts account = (accounts) request.getAttribute("account");
 <div class="container mt-5">
   <h1 class="mb-4">アカウント詳細編集確認</h1>
 
-  <form action="S0043Servlet" method="POST">
+  <form action="S0043.html" method="POST">
   	<input type="hidden" name="action" value="update">
   	<input type="hidden" name="id" value="<%= account.getId() %>">
     <input type="hidden" name="name" value="<%= account.getName() %>">

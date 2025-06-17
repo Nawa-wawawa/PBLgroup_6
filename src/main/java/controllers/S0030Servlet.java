@@ -14,7 +14,7 @@ import services.AccountService;
 /**
  * Servlet implementation class NewAccountServlet
  */
-@WebServlet("/S0030Servlet")
+@WebServlet("/S0030.html")
 public class S0030Servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -107,7 +107,7 @@ public class S0030Servlet extends HttpServlet {
 
 		accounts a = new accounts(0, name, mail, password, authority);
 		new AccountService().insert(a);
-		response.sendRedirect("S0031Servlet");
+		response.sendRedirect("S0031.html");
 	}
 
 }

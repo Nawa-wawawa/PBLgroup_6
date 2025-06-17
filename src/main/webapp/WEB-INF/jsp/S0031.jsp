@@ -4,7 +4,7 @@
 <%
 accounts account = (accounts) request.getAttribute("account");
     if (account == null) {
-        response.sendRedirect("S0030Servlet");
+        response.sendRedirect("S0030.html");
 
         return;
     }
@@ -43,7 +43,7 @@ accounts account = (accounts) request.getAttribute("account");
 <div class="container mt-5">
   <h1 class="mb-4">アカウントを登録してもよろしいですか？</h1>
 
-  <form action="S0031Servlet" method="POST">
+  <form action="S0031.html" method="POST">
     <!-- 隠し入力（登録用） -->
     <input type="hidden" name="action" value="register">
     <input type="hidden" name="name" value="<%= account.getName() %>">

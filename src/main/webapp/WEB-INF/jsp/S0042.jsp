@@ -47,7 +47,7 @@ accounts account = (accounts) request.getAttribute("account");
 
 <div class="container mt-5">
     <h1 class="mb-4">アカウント詳細編集</h1>
-    <form action="S0043Servlet" method="POST">
+    <form action="S0043.html" method="POST">
       <input type="hidden" name="id" value="${account.id}" />
 
       <!-- 氏名 -->

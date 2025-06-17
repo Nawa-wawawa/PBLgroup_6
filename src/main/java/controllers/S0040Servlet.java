@@ -1,7 +1,6 @@
 package controllers;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,59 +48,53 @@ public class S0040Servlet extends HttpServlet {
 	 */
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		
-		request.setCharacterEncoding("UTF-8");
+	        throws ServletException, IOException {
 
-		String name = request.getParameter("name");
-		String mail = request.getParameter("mail");
-		String role = request.getParameter("role");
-		
-		AccountSearchCheck ascheck = new AccountSearchCheck();
-		Map<String,String> errors = new HashMap<>();
-		
-		if(name != null && ascheck.nameCheck(name)) {
-			
-			errors.put("error1", "氏名の指定が長すぎます。");
-			
-		}
-		if(mail != null && ascheck.mailCheck(mail)) {
-			
-			errors.put("error2", "メールアドレスの指定が長すぎます。");
-			
-		}
-		if(!errors.isEmpty()) {
-			
-			request.setAttribute("errors", errors);
-			request.getRequestDispatcher("/WEB-INF/jsp/S0040.jsp").forward(request, response);
-			return;
-			
-		}
-		
-		byte authority = 0;
-		
-		authority = Byte.parseByte(role);//バイトに変えるのどの段階？？
-		System.out.println(authority);
-		
-		
-		AccountService service = new AccountService();
-		ArrayList<accounts> account = new ArrayList<>();
-		
-		account = service.findByAccount(name, mail, authority);
+	    request.setCharacterEncoding("UTF-8");
 
-		if(!account.isEmpty()) {
-			
-		HttpSession session= request.getSession();
-		session.setAttribute("account", account);
-		request.getRequestDispatcher("/WEB-INF/jsp/S0041.jsp").forward(request, response);
-		
-		}else {
-			
-//		 ❌ ログイン失敗：エラーメッセージ付きでログイン画面に戻る
-		request.setAttribute("error3", "該当するアカウントがありません");
-		request.getRequestDispatcher("/WEB-INF/jsp/S0041.jsp").forward(request, response);
-		System.out.println("該当するアカウントがありません");
-		
-		}
+	    String name = request.getParameter("name");
+	    String mail = request.getParameter("mail");
+	    String role = request.getParameter("role");
+
+	    AccountSearchCheck ascheck = new AccountSearchCheck();
+	    Map<String,String> errors = new HashMap<>();
+
+	    if(name != null && ascheck.nameCheck(name)) {
+	        errors.put("error1", "氏名の指定が長すぎます。");
+	    }
+	    if(mail != null && ascheck.mailCheck(mail)) {
+	        errors.put("error2", "メールアドレスの指定が長すぎます。");
+	    }
+	    if(role == null || role.isEmpty()) {
+	        errors.put("error3", "役割を選択してください。");
+	    }
+	    if(!errors.isEmpty()) {
+	        request.setAttribute("errors", errors);
+	        request.getRequestDispatcher("/WEB-INF/jsp/S0040.jsp").forward(request, response);
+	        return;
+	    }
+
+	    byte authority = 0;
+	    try {
+	        authority = Byte.parseByte(role);
+	    } catch(NumberFormatException e) {
+	        errors.put("error4", "役割の指定が不正です。");
+	        request.setAttribute("errors", errors);
+	        request.getRequestDispatcher("/WEB-INF/jsp/S0040.jsp").forward(request, response);
+	        return;
+	    }
+
+	    AccountService service = new AccountService();
+	    // findByAccountは単一のaccountsを返すので変更
+	    accounts account = service.findByAccount(name, mail, authority);
+
+	    if(account != null) {
+	        HttpSession session = request.getSession();
+	        session.setAttribute("account", account);
+	        request.getRequestDispatcher("/WEB-INF/jsp/S0041.jsp").forward(request, response);
+	    } else {
+	        request.setAttribute("error3", "該当するアカウントがありません");
+	        request.getRequestDispatcher("/WEB-INF/jsp/S0040.jsp").forward(request, response);
+	    }
 	}
 }
