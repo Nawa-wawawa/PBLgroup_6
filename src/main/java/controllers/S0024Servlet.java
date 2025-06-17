@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.IntPredicate;
@@ -19,6 +20,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import beans.sales;
+import beans.session;
 import services.Accounts;
 import services.Categories;
 import services.Sales;
@@ -26,16 +28,16 @@ import services.Salescheck;
 import utils.Db;
 
 /**
- * Servlet implementation class S0011Servlet
+ * Servlet implementation class S0024Servlet
  */
-@WebServlet("/S0011.html")
-public class S0011Servlet extends HttpServlet {
+@WebServlet("/S0024.html")
+public class S0024Servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public S0011Servlet() {
+	public S0024Servlet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -76,8 +78,7 @@ public class S0011Servlet extends HttpServlet {
 
 		request.setAttribute("categoryname", categoryname);
 		request.setAttribute("accountname", accountname);
-
-		request.getRequestDispatcher("/WEB-INF/jsp/S0011.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/jsp/S0024.jsp").forward(request, response);
 	}
 
 	/**
@@ -93,6 +94,9 @@ public class S0011Servlet extends HttpServlet {
 		int unit_price = 0;
 		int quantity = 0;
 		String remarks = "";
+		session serch_condition = null;
+		
+		int saleId =0;
 
 		HttpSession session = request.getSession(false); // セッションがなければ null を返す
 		if (session != null) {
@@ -104,6 +108,8 @@ public class S0011Servlet extends HttpServlet {
 			unit_price = (Integer) session.getAttribute("unit_price");
 			quantity = (Integer) session.getAttribute("quantity");
 			remarks = (String) session.getAttribute("remarks");
+			saleId = (int) session.getAttribute("saleId");
+			serch_condition = (session) session.getAttribute("serch_condition");
 		} else {
 			System.out.println("セッションが存在しません。");
 		}
@@ -148,7 +154,7 @@ public class S0011Servlet extends HttpServlet {
 		}
 
 		if (hasError) {
-			request.getRequestDispatcher("/WEB-INF/jsp/S0011.jsp").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/jsp/S0024.jsp").forward(request, response);
 		} else {
 
 			try (Connection con = Db.open()) {
@@ -157,7 +163,12 @@ public class S0011Servlet extends HttpServlet {
 
 				sales Newsale = new sales(sale_date, staff, category, product_name, unit_price, quantity, remarks);
 
-				sl.insert(Newsale);
+				sl.update(Newsale, saleId);
+				
+				ArrayList<sales> saleslist = sl.select(serch_condition.getStart_date(),
+						serch_condition.getEnd_date(), serch_condition.getAccount_id(),
+						serch_condition.getCategory_id(), serch_condition.getTrade_name(), serch_condition.getNote());
+				session.setAttribute("saleslist", saleslist);
 
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -165,9 +176,8 @@ public class S0011Servlet extends HttpServlet {
 				// TODO 自動生成された catch ブロック
 				e1.printStackTrace();
 			}
-			response.sendRedirect(request.getContextPath() + "/S0010.html");
+			response.sendRedirect(request.getContextPath() + "/S0021.html");
 		}
 
 	}
-
 }

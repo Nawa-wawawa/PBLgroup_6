@@ -12,7 +12,7 @@ import utils.Db;
 
 public class Salescheck {
 
-	//商品名入力時、101バイト以上入力時はエラー。						
+	//商品名入力時、 形式が異なればerror、の次に101バイト以上入力時はエラー。						
 
 	public boolean productCheck(String name) {
 
