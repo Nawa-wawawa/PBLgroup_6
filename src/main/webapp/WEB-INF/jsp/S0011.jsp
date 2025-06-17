@@ -22,11 +22,11 @@
 			<div class="collapse navbar-collapse" id="navbarNav">
 
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-					<li class="nav-item"><a class="nav-link" href="#">ダッシュボード</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">売上登録</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">売上実績</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">アカウント登録</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">アカウント検索</a></li>
+					<li class="nav-item"><a class="nav-link" href="C0020.html">ダッシュボード</a></li>
+					<li class="nav-item"><a class="nav-link" href="S0010.html">売上登録</a></li>
+					<li class="nav-item"><a class="nav-link" href="S0020.html">売上実績</a></li>
+					<li class="nav-item"><a class="nav-link" href="S0030.html">アカウント登録</a></li>
+					<li class="nav-item"><a class="nav-link" href="S0040.html">アカウント検索</a></li>
 				</ul>
 
 

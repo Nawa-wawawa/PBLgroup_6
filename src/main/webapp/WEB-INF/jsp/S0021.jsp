@@ -58,7 +58,12 @@
 			<form method="post" action="S0021.html">
 				<div class="row border-bottom py-2 align-items-center">
 					<div class="col-auto">
-						<button type="submit" class="btn btn-primary">&check; 詳細</button>
+						<c:if test="${user.authority == 1 || user.authority == 3}">
+							<button type="submit" class="btn btn-primary">&check; 詳細</button>
+						</c:if>
+						<c:if test="${!(user.authority == 1 || user.authority == 3)}">
+							<span class="text-muted">閲覧専用</span>
+						</c:if>
 					</div>
 					<div class="col-1">
 						<input type="hidden" name="id" value="${sales.sale_id}">${sales.sale_id}

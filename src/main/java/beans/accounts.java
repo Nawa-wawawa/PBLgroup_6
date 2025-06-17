@@ -18,11 +18,17 @@ public class accounts {
 	}
 
 
-	public accounts(String mail, String password) {
+
+
+	public accounts(int account_id, String name, byte authority) {
 		super();
-		this.mail = mail;
-		this.password = password;
+		this.account_id = account_id;
+		this.name = name;
+		this.authority = authority;
 	}
+
+
+
 
 	public int getAccount_id() {
 		return account_id;

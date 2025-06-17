@@ -14,7 +14,7 @@ import services.AccountService;
 /**
  * Servlet implementation class SerchAccountServlet
  */
-@WebServlet("/S0040Servlet")
+@WebServlet("/S0040.html")
 public class S0040Servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
