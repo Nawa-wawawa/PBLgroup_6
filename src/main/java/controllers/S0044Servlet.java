@@ -63,7 +63,7 @@ public class S0044Servlet extends HttpServlet {
 
         } else {
             // 想定外のアクション
-            response.sendRedirect("S0030Servlet");
+            response.sendRedirect("S0044Servlet");
         }
     }
 }

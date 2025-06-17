@@ -42,9 +42,9 @@ accounts account = (accounts) request.getAttribute("account");
 		<h1 class="mb-4">アカウント詳細削除確認</h1>
 
 		<form action="S0044Servlet" method="POST">
-			<input type="hidden" name="action" value="delete"> <input
-				type="hidden" name="id" value="<%=account.getId()%>"> <input
-				type="hidden" name="name" value="<%=account.getName()%>">
+			<input type="hidden" name="action" value="delete"> 
+			<input type="hidden" name="id" value="<%=account.getId()%>"> 
+			<input type="hidden" name="name" value="<%=account.getName()%>">
 			<input type="hidden" name="mail" value="<%=account.getMail()%>">
 			<input type="hidden" name="password"
 				value="<%=account.getPassword()%>"> <input type="hidden"

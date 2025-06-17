@@ -69,7 +69,7 @@ public class AccountService {
 	}
 
 	public void delete(accounts a) {
-		String sql = "DELETE FROM account WHERE id = ?";
+		String sql = "DELETE FROM accounts WHERE id = ?";
 		try (Connection conn = Db.open();
 				PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
@@ -79,10 +79,22 @@ public class AccountService {
 			e.printStackTrace();
 		}
 	}
+	
+	public void delete(int id) {
+		String sql = "DELETE FROM accounts WHERE account_id = ?";
+		try (Connection conn = Db.open();
+				PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+			pstmt.setInt(1, id);
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	public accounts findById(int account_id) {
 
-		String sql = "SELECT * FROM accounts WHERE id = ?";
+		String sql = "SELECT * FROM accounts WHERE account_id = ?";
 
 		accounts accounts = null;
 

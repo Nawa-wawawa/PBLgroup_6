@@ -20,7 +20,9 @@ public class S0042Servlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String accountIdStr = request.getParameter("accountId");
+        String accountIdStr = request.getParameter("id");//
+        System.out.println("accountIdStr = "+accountIdStr);
+        
         if (accountIdStr != null) {
             int accountId = Integer.parseInt(accountIdStr);
             AccountService service = new AccountService();

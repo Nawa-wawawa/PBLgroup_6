@@ -52,33 +52,34 @@
 					</thead>
 					<tbody>
 						<c:forEach var="item" items="${account}">
-								<tr>
+							<tr>
+								<form action="S0041.html" method="POST">
 									<td>
 										<div class="d-flex">
 
-											<form action="S0041.html" method="POST">						
 											<input type="hidden" name="id" value="${item.id}">
-											<button type="submit" class="btn btn-primary btn-sm me-2" name="action" value="edit">✓編集</button>
-											</form>
-											
-											<form action="S0041.html" method="POST">
-											<input type="hidden" name="id" value="${item.id}">
-											<button type="submit" class="btn btn-danger btn-sm" name="action" value="delete">×削除</button>						
-											</form>
+											<button type="submit" class="btn btn-primary btn-sm me-2"
+												name="action" value="edit">✓編集</button>
+
+											<input type="hidden" name="accountId" value="${item.id}">
+											<button type="submit" class="btn btn-danger btn-sm"
+												name="action" value="delete">×削除</button>
 
 										</div>
 									</td>
-									<td><input type="hidden" name="id" value="${item.id}">${item.id}</td>
-									<td><input type="hidden" name="name" value="${item.name}">
-										${item.name}</td>
-									<td><input type="hidden" name="mail" value="${item.mail}">${item.mail}</td>
-									<td><c:choose>
-											<c:when test="${item.authority == 0}">権限なし</c:when>
-											<c:when test="${item.authority == 1}">売上登録</c:when>
-											<c:when test="${item.authority == 2}">アカウント登録</c:when>
-											<c:when test="${item.authority == 3}">売上／アカウント登録</c:when>
-										</c:choose></td>
-								</tr>
+								<td><input type="hidden" name="id" value="${item.id}">${item.id}</td>
+								<td><input type="hidden" name="name" value="${item.name}">
+									${item.name}</td>
+								<td><input type="hidden" name="mail" value="${item.mail}">${item.mail}</td>
+								<td><input type="hidden" name="authority" value="${item.authority}">
+								<c:choose>
+										<c:when test="${item.authority == 0}" >権限なし</c:when>
+										<c:when test="${item.authority == 1}">売上登録</c:when>
+										<c:when test="${item.authority == 2}">アカウント登録</c:when>
+										<c:when test="${item.authority == 3}">売上／アカウント登録</c:when>
+									</c:choose></td>
+								</form>
+							</tr>
 						</c:forEach>
 					</tbody>
 				</table>

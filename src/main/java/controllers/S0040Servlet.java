@@ -40,7 +40,7 @@ public class S0040Servlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.getRequestDispatcher("/jsp/S0040.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/jsp/S0040.jsp").forward(request, response);
 
 	}
 
@@ -73,16 +73,15 @@ public class S0040Servlet extends HttpServlet {
 		if(!errors.isEmpty()) {
 			
 			request.setAttribute("errors", errors);
-			request.getRequestDispatcher("/jsp/S0040.jsp").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/jsp/S0040.jsp").forward(request, response);
 			return;
 			
 		}
 		
 		byte authority = 0;
 		
-		authority = Byte.parseByte(role);//バイトに変えるのどの段階？？
-		System.out.println(authority);
-		
+		authority = Byte.parseByte(role);
+		System.out.println(authority);		
 		
 		AccountService service = new AccountService();
 		ArrayList<accounts> account = new ArrayList<>();
@@ -92,15 +91,15 @@ public class S0040Servlet extends HttpServlet {
 		if(!account.isEmpty()) {
 			
 		HttpSession session= request.getSession();
-		session.setAttribute("account", account);
-		request.getRequestDispatcher("/jsp/S0041.jsp").forward(request, response);
+		session.setAttribute("accountList", account);
+		
+		response.sendRedirect("S0041.html");
 		
 		}else {			
 			
 //		 ❌ ログイン失敗：エラーメッセージ付きでログイン画面に戻る
 		request.setAttribute("error3", "該当するアカウントがありません");
-		request.getRequestDispatcher("/jsp/S0041.jsp").forward(request, response);
-		System.out.println("該当するアカウントがありません");
+		request.getRequestDispatcher("/WEB-INF/jsp/S0041.jsp").forward(request, response);
 		
 		}
 	}
