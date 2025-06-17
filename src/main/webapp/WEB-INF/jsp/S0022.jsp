@@ -43,28 +43,28 @@
 	<div class="col-3 text-end mt-5">
 		<h2>売上詳細表示</h2>
 	</div>
-	<div class="container">
+	<div class="container mt-4">
+		<!-- 販売日 -->
 		<div class="row mb-3 align-items-center">
 			<div class="col-2 text-end fw-bold">販売日</div>
-			<div class="col-2">
-				<c:out value="${picksale.sale_id}" />
+			<div class="col-4">
+				<c:out value="${picksale.sale_date}" />
 			</div>
 		</div>
 
+		<!-- 担当 -->
 		<div class="row mb-3 align-items-center">
 			<div class="col-2 text-end fw-bold">担当</div>
-			<div class="col-4">
-				<c:out value="${picksale.account_id}" />
-			</div>
+			<div class="col-4">${aName}</div>
 		</div>
 
+		<!-- 商品カテゴリー -->
 		<div class="row mb-3 align-items-center">
 			<div class="col-2 text-end fw-bold">商品カテゴリー</div>
-			<div class="col-4">
-				<c:out value="${picksale.category_id}" />
-			</div>
+			<div class="col-4">${cName}</div>
 		</div>
 
+		<!-- 商品名 -->
 		<div class="row mb-3 align-items-center">
 			<div class="col-2 text-end fw-bold">商品名</div>
 			<div class="col-4">
@@ -72,6 +72,7 @@
 			</div>
 		</div>
 
+		<!-- 単価 -->
 		<div class="row mb-3 align-items-center">
 			<div class="col-2 text-end fw-bold">単価</div>
 			<div class="col-2">
@@ -79,6 +80,7 @@
 			</div>
 		</div>
 
+		<!-- 個数 -->
 		<div class="row mb-3 align-items-center">
 			<div class="col-2 text-end fw-bold">個数</div>
 			<div class="col-2">
@@ -86,17 +88,19 @@
 			</div>
 		</div>
 
-		<div class="row mb-3 align-items-start">
+		<!-- 備考 -->
+		<div class="row mb-4 align-items-start">
 			<div class="col-2 text-end fw-bold">備考</div>
-			<div class="col-4">
+			<div class="col-6">
 				<c:out value="${picksale.note}" />
 			</div>
 		</div>
 
+		<!-- ボタン -->
 		<form method="post" action="S0022.html">
-			<div class="row">
-				<div class="offset-4 col-5">
-					<div class="d-flex gap-2">
+			<div class="row justify-content-center">
+				<div class="col-auto">
+					<div class="d-flex gap-3">
 						<button type="submit" name="action" value="2"
 							class="btn btn-primary">編集</button>
 						<button type="submit" name="action" value="1"
@@ -108,6 +112,8 @@
 			</div>
 		</form>
 	</div>
+
+
 
 	<script src="js/bootstrap.bundle.min.js" defer></script>
 </body>

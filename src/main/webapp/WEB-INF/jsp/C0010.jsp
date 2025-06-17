@@ -21,32 +21,9 @@
 					<input type="password" class="form-control mb-4" name="password" placeholder="8文字以上の半角英数字" required>
 					<div class="d-grid col-12 mx-auto">
 						<input type="submit" class="btn btn-primary m-1" value="ログイン">
-					</div>
-					<c:if test="${error != null}">
-						<div class="modal fade" id="Modal" tabindex="-1" style="display:block;" aria-labelledby="exampleModalLabel" aria-hidden="true">
-							<div class="modal-dialog">
-								<div class="modal-content">
-									<div class="modal-header">
-										<h1 class="modal-title fs-5" id="exampleModalLabel">ログインエラー</h1>
-										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-									</div>
-									<div class="modal-body">${error}</div>
-									
-								</div>
-							</div>
-						</div>
-						<script>
-  						document.addEventListener('DOMContentLoaded', function() {
-    					var myModal = new bootstrap.Modal(document.getElementById('Modal'));
-   						 myModal.show();
- 							 });
-					</script>
-					</c:if>					
+					</div>				
 				</div>
 			</div>
 		</form>
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-				integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
-				crossorigin="anonymous"></script>
 </body>
 </html>

@@ -18,6 +18,7 @@ import jakarta.servlet.http.HttpSession;
 import beans.accounts;
 import beans.categories;
 import beans.sales;
+import beans.session;
 import services.Accounts;
 import services.Categories;
 import services.Sales;
@@ -113,15 +114,16 @@ public class S0020Servlet extends HttpServlet {
 		}
 		String product_name = request.getParameter("product_name");
 		String remarks = request.getParameter("remarks");
+		
+		session serch_condition = new session(start_date, end_date, staff, category, product_name ,remarks);
 
 		Sales select = new Sales();
 
 		ArrayList<sales> saleslist = select.select(start_date, end_date, staff, category, product_name, remarks);
 
 		if (saleslist.isEmpty()) {
-			//error処理
+			//検索結果がからの場合の処理。
 		}
-
 
 		ArrayList<accounts> accountslist = null;
 		ArrayList<categories> categorylist = null;
@@ -139,6 +141,7 @@ public class S0020Servlet extends HttpServlet {
 		}
 		
 		HttpSession session = request.getSession();
+		session.setAttribute("serch_condition", serch_condition);
 		session.setAttribute("saleslist", saleslist);
 		session.setAttribute("categorylist", categorylist);
 		session.setAttribute("accountslist", accountslist);

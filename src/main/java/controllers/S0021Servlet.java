@@ -38,13 +38,16 @@ public class S0021Servlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
-		int saleId =Integer.parseInt(request.getParameter("id"));
-		
+
+		int saleId = Integer.parseInt(request.getParameter("id"));
+		String aName = request.getParameter("accountName");
+		String cName = request.getParameter("categoryName");
+
 		HttpSession session = request.getSession();
 		session.setAttribute("saleId", saleId);
-		
-		
+		session.setAttribute("aName", aName);
+		session.setAttribute("cName", cName);
+
 		response.sendRedirect(request.getContextPath() + "/S0022.html");
 	}
 

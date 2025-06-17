@@ -37,7 +37,7 @@ public class S0022Servlet extends HttpServlet {
 		ArrayList<sales> saleslist = new ArrayList<>();
 		int saleId = 0;
 
-		HttpSession session = request.getSession(false); // セッションがなければ null を返す
+		HttpSession session = request.getSession(false);// セッションがなければ null を返す
 		if (session != null) {
 			// 例：int型IDとして使いたい場合（Integer型にキャスト）
 			saleslist = (ArrayList<sales>) session.getAttribute("saleslist");
@@ -52,9 +52,8 @@ public class S0022Servlet extends HttpServlet {
 				picksale = sl;
 			}
 		}
-		
 
-		request.setAttribute("picksale", picksale);
+		session.setAttribute("picksale", picksale);
 
 		request.getRequestDispatcher("/WEB-INF/jsp/S0022.jsp").forward(request, response);
 	}
@@ -68,8 +67,7 @@ public class S0022Servlet extends HttpServlet {
 		int action = Integer.parseInt(request.getParameter("action"));
 
 		if (action == 0)
-			//System.out.println("aaa");	
-		response.sendRedirect(request.getContextPath() + "/S0021.html");
+			response.sendRedirect(request.getContextPath() + "/S0021.html");
 		else if (action == 1)
 			response.sendRedirect(request.getContextPath() + "/S0025.html");
 		else if (action == 2)
