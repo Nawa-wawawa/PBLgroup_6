@@ -51,7 +51,6 @@ public class S0025Servlet extends HttpServlet {
 		int action = Integer.parseInt(request.getParameter("action"));
 
 		if (action == 1) {
-
 			HttpSession session = request.getSession(false);
 			int saleId = (int) session.getAttribute("saleId");
 			session serch_condition = (session) session.getAttribute("serch_condition");

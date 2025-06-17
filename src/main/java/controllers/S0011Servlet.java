@@ -102,7 +102,7 @@ public class S0011Servlet extends HttpServlet {
 			category = (Integer) session.getAttribute("category_id");
 			product_name = (String) session.getAttribute("product_name");
 			unit_price = (Integer) session.getAttribute("unit_price");
-			quantity = (Integer) session.getAttribute("staff_id");
+			quantity = (Integer) session.getAttribute("quantity");
 			remarks = (String) session.getAttribute("remarks");
 		} else {
 			System.out.println("セッションが存在しません。");
