@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import beans.accounts;
 import services.AccountService;
 
-@WebServlet("/S0044Servlet")
+@WebServlet("/S0044.html")
 public class S0044Servlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 

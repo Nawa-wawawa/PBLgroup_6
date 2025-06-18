@@ -42,7 +42,7 @@ accounts account = (accounts) request.getAttribute("account");
 <div class="container mt-5">
   <h1 class="mb-4">アカウント詳細編集確認</h1>
 
-  <form action="S0043Servlet" method="POST">
+  <form action="S0043.html" method="POST">
   	<input type="hidden" name="action" value="update">
   	<input type="hidden" name="id" value="${account.id}"/>
     <input type="hidden" name="name" value="${account.name}"/>
@@ -105,7 +105,7 @@ accounts account = (accounts) request.getAttribute("account");
     <div class="row">
       <div class="offset-sm-2 col-sm-10">
         <button type="submit" class="btn btn-primary">✓OK</button>
-        <a href="S0042Servlet" class="btn btn-light ms-2" >キャンセル</a>
+        <a href="S0042.html" class="btn btn-light ms-2" >キャンセル</a>
       </div>
     </div>
   </form>

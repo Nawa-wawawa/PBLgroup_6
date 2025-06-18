@@ -96,13 +96,13 @@ public class S0041Servlet extends HttpServlet {
 				
 				HttpSession newSession = request.getSession(true);
 				newSession.setAttribute("account",account);
-				response.sendRedirect("S0042Servlet?accountId=" + id);
+				response.sendRedirect("S0042.html?accountId=" + id);
 				
 			}else if("delete".equals(action)) {
 				
 				HttpSession newSession = request.getSession(true);
 				newSession.setAttribute("account",account);
-				response.sendRedirect("S0044Servlet?accountId=" + id);
+				response.sendRedirect("S0044.html?accountId=" + id);
 				
 			}else {
 				

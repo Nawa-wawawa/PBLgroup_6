@@ -14,7 +14,7 @@ import beans.accounts;
 import services.AccountService;
 import services.Accountcheck;
 
-@WebServlet("/S0042Servlet")
+@WebServlet("/S0042.html")
 public class S0042Servlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -48,7 +48,6 @@ public class S0042Servlet extends HttpServlet {
 
         int id = Integer.parseInt(idStr);
         
-        System.out.println("S0042Servlet doPost id = " + id);
         
         String name = request.getParameter("name");
         String mail = request.getParameter("mail");
@@ -129,7 +128,7 @@ public class S0042Servlet extends HttpServlet {
         System.out.println("confirmAccount id = " + a.getId());
 
         request.getSession().setAttribute("confirmAccount", a);
-        response.sendRedirect("S0043Servlet");
+        response.sendRedirect("S0043.html");
         
     }
 }

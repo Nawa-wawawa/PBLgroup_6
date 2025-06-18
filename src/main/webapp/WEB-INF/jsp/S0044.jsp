@@ -41,7 +41,7 @@ accounts account = (accounts) request.getAttribute("account");
 	<div class="container mt-5">
 		<h1 class="mb-4">アカウント詳細削除確認</h1>
 
-		<form action="S0044Servlet" method="POST">
+		<form action="S0044.html" method="POST">
 			<input type="hidden" name="action" value="delete"> 
 			<input type="hidden" name="id" value="<%=account.getId()%>"> 
 			<input type="hidden" name="name" value="<%=account.getName()%>">
@@ -117,8 +117,7 @@ accounts account = (accounts) request.getAttribute("account");
 
 				<div class="offset-sm-2 col-sm-10">
 					<button type="submit" class="btn btn-danger">×OK</button>
-					<button type="button" class="btn btn-light ms-2"
-						onclick="history.back()">キャンセル</button>
+					<a href="S0041.html" class="btn btn-light ms-2" >キャンセル</a>
 				</div>
 			</div>
 		</form>
