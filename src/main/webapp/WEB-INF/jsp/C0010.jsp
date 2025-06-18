@@ -24,7 +24,7 @@
 
 		<h1>物品売上管理システム</h1>
 
-		<form action="C0010Servlet" method="POST">
+		<form action="C0010.html" method="POST">
 			<div class="row mb-3 justify-content-center">
 				<div class="col-md-5 mb-2 text-start">
 					<label for="mail">メールアドレス <span

@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpSession;
 import beans.accounts;
 import services.LoginService;
 
-@WebServlet("/C0010Servlet")
+@WebServlet("/C0010.html")
 public class C0010Servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

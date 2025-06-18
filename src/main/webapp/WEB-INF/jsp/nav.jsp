@@ -31,7 +31,7 @@
 				</li>
 				<li class="nav-item">
 					<h4>
-						<a class="nav-link" href="LogoutServlet">ログアウト</a>
+						<a class="nav-link" href="Logout.html">ログアウト</a>
 					</h4>
 				</li>
 			</ul>

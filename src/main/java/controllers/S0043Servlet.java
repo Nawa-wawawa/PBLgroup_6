@@ -14,7 +14,7 @@ import beans.accounts;
 import services.AccountService;
 import services.Accountcheck;
 
-@WebServlet("/S0043Servlet")
+@WebServlet("/S0043.html")
 public class S0043Servlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -25,7 +25,7 @@ public class S0043Servlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // GETは使わない想定 → 入力画面に戻す
-        response.sendRedirect("S0042Servlet");
+        response.sendRedirect("S0042.html");
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -130,7 +130,7 @@ public class S0043Servlet extends HttpServlet {
             try {
                 service.update(account);  // updateメソッドでDBの更新を実施
                 // 更新成功：一覧画面や完了画面にリダイレクト
-                response.sendRedirect("S0030Servlet"); 
+                response.sendRedirect("S0030.html"); 
             } catch (Exception e) {
                 request.setAttribute("error", "更新に失敗しました: " + e.getMessage());
                 request.setAttribute("account", account);

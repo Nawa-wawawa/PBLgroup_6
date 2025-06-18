@@ -110,30 +110,30 @@ public class AccountService {
         return null;
     }
 	
-//	public accounts findByAccount(String name, String mail, byte authority) {
-//	    String sql = "SELECT * FROM accounts WHERE name = ? AND mail = ? AND authority = ?";
-//	    try (Connection conn = Db.open();
-//	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
-//
-//	        pstmt.setString(1, name);
-//	        pstmt.setString(2, mail);
-//	        pstmt.setByte(3, authority);
-//
-//	        ResultSet rs = pstmt.executeQuery();
-//	        if (rs.next()) {
-//	            return new accounts(
-//	                rs.getInt("id"),
-//	                rs.getString("name"),
-//	                rs.getString("mail"),
-//	                rs.getString("password"),
-//	                rs.getByte("authority")
-//	            );
-//	        }
-//	    } catch (SQLException | NamingException e) {
-//	        e.printStackTrace();
-//	    }
-//	    return null;
-//	}
+	public accounts findByAccount(String name, String mail, byte authority) {
+	    String sql = "SELECT * FROM accounts WHERE name = ? AND mail = ? AND authority = ?";
+	    try (Connection conn = Db.open();
+	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+	        pstmt.setString(1, name);
+	        pstmt.setString(2, mail);
+	        pstmt.setByte(3, authority);
+
+	        ResultSet rs = pstmt.executeQuery();
+	        if (rs.next()) {
+	            return new accounts(
+	                rs.getInt("id"),
+	                rs.getString("name"),
+	                rs.getString("mail"),
+	                rs.getString("password"),
+	                rs.getByte("authority")
+	            );
+	        }
+	    } catch (SQLException | NamingException e) {
+	        e.printStackTrace();
+	    }
+	    return null;
+	}
 	
 	public accounts findByAccount(int id) {
         String sql = "SELECT id, name, mail, password, authority FROM accounts WHERE id = ?";

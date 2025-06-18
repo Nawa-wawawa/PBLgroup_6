@@ -31,7 +31,7 @@ public class S0040Servlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.getRequestDispatcher("/S0040.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/jsp//S0040.jsp").forward(request, response);
 	}
 
 	/**
@@ -49,10 +49,10 @@ public class S0040Servlet extends HttpServlet {
 
         if (account != null) {
             request.setAttribute("account", account);
-            request.getRequestDispatcher("/S0041.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/jsp/S0041.jsp").forward(request, response);
         } else {
             request.setAttribute("error", "該当するアカウントが見つかりません。");
-            request.getRequestDispatcher("/S0040.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/jsp/S0040.jsp").forward(request, response);
         }
 	    // ❌ ログイン失敗：エラーメッセージ付きでログイン画面に戻る
 //	    request.setAttribute("error", "メールアドレスまたはパスワードが違います。");
