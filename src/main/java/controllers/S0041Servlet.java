@@ -1,12 +1,18 @@
 package controllers;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
+import beans.AccountSearchCondition;
+import beans.accounts;
+import services.AccountService;
 
 /**
  * Servlet implementation class S0041Servlet
@@ -27,18 +33,86 @@ public class S0041Servlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-//		AccountService as = new AccountService();
-//		request.getAttribute("accounts" ,as.select(???));
-		request.getRequestDispatcher("/WEB-INF/jsp/S0041.jsp").forward(request, response);
-	}
+
+		    HttpSession  session = request.getSession(false);
+		    
+		    if(session == null) {
+		    	
+		    	response.sendRedirect("S0040.html");
+		    	return;
+		    	
+		    }
+		    
+		    AccountSearchCondition asc = (AccountSearchCondition)session.getAttribute("search_condition");
+		    
+		    
+		    
+		    if(asc == null) {
+		    	
+		    	response.sendRedirect("S0040.html");
+		    	return;
+		    	
+		    }
+		    
+		    AccountService service = new AccountService();
+		    ArrayList<accounts> accountList = service.findByAccount(asc.getName(),asc.getMail(),asc.getAuthority());
+		    
+		    System.out.println("取得件数: " + accountList.size());
+		    System.out.println("検索条件: " + asc.getName() + ", " + asc.getMail() + ", " + asc.getAuthority());
+		    
+		    request.setAttribute("accountList", accountList);		    		
+			request.getRequestDispatcher("/WEB-INF/jsp/S0041.jsp").forward(request, response);
+		    	
+		}
+
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		request.getRequestDispatcher("/jsp/???.jsp").forward(request, response);
+		String action=request.getParameter("action");
+		String IdStr=request.getParameter("id");
+		System.out.println(action);
+		System.out.println(IdStr);		
+		
+		if(IdStr == null) {
+			response.sendRedirect("S0041.html");
+			return;
+		}		
+		
+		int id=Integer.parseInt(IdStr);
+		
+		System.out.println("id =" + id);
+		
+		AccountService service = new AccountService();
+		accounts account = service.findById(id);
+				
+		HttpSession session = request.getSession(false);
+		
+		if(session != null) {
+			
+			session.removeAttribute("account");
+			
+			if("edit".equals(action)) {
+				
+				HttpSession newSession = request.getSession(true);
+				newSession.setAttribute("account",account);
+				response.sendRedirect("S0042.html?accountId=" + id);
+				
+			}else if("delete".equals(action)) {
+				
+				HttpSession newSession = request.getSession(true);
+				newSession.setAttribute("account",account);
+				response.sendRedirect("S0044.html?accountId=" + id);
+				
+			}else {
+				
+				response.sendRedirect("S0041.html");
+				
+			}
+			
+		}
+		
 	}
 
 }

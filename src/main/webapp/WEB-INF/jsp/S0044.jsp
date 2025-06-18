@@ -20,13 +20,13 @@ accounts account = (accounts) request.getAttribute("account");
 		<h1 class="mb-4">アカウント詳細削除確認</h1>
 
 		<form action="S0044.html" method="POST">
-			<input type="hidden" name="action" value="delete"> <input
-				type="hidden" name="id" value="<%=account.getId()%>"> <input
-				type="hidden" name="name" value="<%=account.getName()%>">
+			<input type="hidden" name="action" value="delete"> 
+			<input type="hidden" name="id" value="<%=account.getId()%>"> 
+			<input type="hidden" name="name" value="<%=account.getName()%>">
+
 			<input type="hidden" name="mail" value="<%=account.getMail()%>">
-			<input type="hidden" name="password"
-				value="<%=account.getPassword()%>"> <input type="hidden"
-				name="confirmPassword" value="<%=account.getPassword()%>">
+			<input type="hidden" name="password" value="<%=account.getPassword()%>"> 
+			<input type="hidden" name="confirmPassword" value="<%=account.getPassword()%>">
 			<%
 			if ((account.getAuthority() & 1) != 0) {
 			%>
@@ -46,32 +46,28 @@ accounts account = (accounts) request.getAttribute("account");
 			<div class="mb-3 row">
 				<label class="col-sm-2 col-form-label text-end">氏名</label>
 				<div class="col-sm-10">
-					<input type="text" class="form-control"
-						value="<%=account.getName()%>" disabled>
+					<input type="text" class="form-control" value="<%=account.getName()%>" disabled>
 				</div>
 			</div>
 
 			<div class="mb-3 row">
 				<label class="col-sm-2 col-form-label text-end">メールアドレス</label>
 				<div class="col-sm-10">
-					<input type="text" class="form-control"
-						value="<%=account.getMail()%>" disabled>
+					<input type="text" class="form-control" value="<%=account.getMail()%>" disabled>
 				</div>
 			</div>
 
 			<div class="mb-3 row">
 				<label class="col-sm-2 col-form-label text-end">パスワード</label>
 				<div class="col-sm-10">
-					<input type="password" class="form-control"
-						value="<%=account.getPassword()%>" disabled>
+					<input type="password" class="form-control" value="<%=account.getPassword()%>" disabled>
 				</div>
 			</div>
 
 			<div class="mb-3 row">
 				<label class="col-sm-2 col-form-label text-end">パスワード（確認）</label>
 				<div class="col-sm-10">
-					<input type="password" class="form-control"
-						value="<%=account.getPassword()%>" disabled>
+					<input type="password" class="form-control" value="<%=account.getPassword()%>" disabled>
 				</div>
 			</div>
 
@@ -93,10 +89,11 @@ accounts account = (accounts) request.getAttribute("account");
 
 			<!-- ボタン -->
 			<div class="row">
+
 				<div class="offset-sm-2 col-sm-10">
 					<button type="submit" class="btn btn-danger">×OK</button>
-					<button type="button" class="btn btn-light ms-2"
-						onclick="history.back()">キャンセル</button>
+					<a href="S0041.html" class="btn btn-light ms-2" >キャンセル</a>
+					
 				</div>
 			</div>
 		</form>
