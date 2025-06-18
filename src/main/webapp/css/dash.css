@@ -1,0 +1,39 @@
+@charset "UTF-8";
+
+/* 文字色 */
+.text-primary,
+.text-success,
+.positive,
+.negative {
+	color: #222 !important;
+	/* 濃いグレー */
+}
+
+.text-muted {
+	color: #666 !important;
+	/* 薄めグレー */
+}
+
+/* カードのボーダーを薄いグレーに */
+.border-primary,
+.border-success {
+	border-color: #bbb !important;
+}
+
+/* アイコンの色 */
+.bi-arrow-up-right,
+.bi-arrow-down-right {
+	color: #222;
+}
+
+/* カードの影をやわらかく */
+.card.shadow,
+.card.shadow-sm {
+	box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.08) !important;
+}
+
+/* カード背景を白か薄グレーに（任意） */
+.card {
+	background-color: #f8f9fa !important;
+	/* 薄いグレー系背景 */
+}
