@@ -8,8 +8,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.function.IntPredicate;
-import java.util.function.Predicate;
 
 import javax.naming.NamingException;
 
@@ -47,7 +45,6 @@ public class S0010Servlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 
 		String today = LocalDate.now().toString();
 		ArrayList<accounts> accountslist = null;
@@ -58,11 +55,8 @@ public class S0010Servlet extends HttpServlet {
 			categorylist = ct.select();
 			Accounts ac = new Accounts();
 			accountslist = ac.select();
-		} catch (SQLException e) {
+		} catch (SQLException | NamingException e) {
 			e.printStackTrace();
-		} catch (NamingException e1) {
-			// TODO 自動生成された catch ブロック
-			e1.printStackTrace();
 		}
 
 		request.setAttribute("today", today);
@@ -72,83 +66,181 @@ public class S0010Servlet extends HttpServlet {
 		request.getRequestDispatcher("/WEB-INF/jsp/S0010.jsp").forward(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		Date sale_date = Date.valueOf(request.getParameter("sale_date"));
-		int staff = Integer.parseInt(request.getParameter("staff"));
-		int category = Integer.parseInt(request.getParameter("category"));
+		String saleDateStr = request.getParameter("sale_date");
+		String staffStr = request.getParameter("staff");
+		String categoryStr = request.getParameter("category");
 		String product_name = request.getParameter("product_name");
-		int unit_price = Integer.parseInt(request.getParameter("unit_price"));
-		int quantity = Integer.parseInt(request.getParameter("quantity"));
+		String unitPriceStr = request.getParameter("unit_price");
+		String quantityStr = request.getParameter("quantity");
 		String remarks = request.getParameter("remarks");
-		
-		
-
-		Salescheck check = new Salescheck();
-		boolean hasError = false;
 
 		Map<String, String> errors = new LinkedHashMap<>();
-		// Map<キー, {関数, 値, エラーメッセージ}>
-		Map<String, Object[]> validations = new LinkedHashMap<>();
-		//1-6
-		validations.put("error_name",
-				new Object[] { (Predicate<String>) check::productCheck, product_name, "エラーメッセージ：商品名が長すぎます。" });
-		//1-8
-		validations.put("error_price",
-				new Object[] { (IntPredicate) check::priceCheck, unit_price, "エラーメッセージ：単価が長すぎます。" });
-		//1-11
-		validations.put("error_quantity",
-				new Object[] { (IntPredicate) check::quantityCheck, quantity, "エラーメッセージ：個数が長すぎます。" });
-		//1-13
-		validations.put("error_remarks",
-				new Object[] { (Predicate<String>) check::remarksCheck, remarks, "エラーメッセージ：備考が長すぎます。" });
+		Salescheck check = new Salescheck();
 
-		// 共通ループでチェック
-		for (Map.Entry<String, Object[]> entry : validations.entrySet()) {
-			String key = entry.getKey();
-			Object[] valueArray = entry.getValue();
+		// --- 1. 必須チェック & 型変換 ---
+		Date sale_date = null;
+		int staff = 0;
+		int category = 0;
+		int unit_price = 0;
+		int quantity = 0;
 
-			Object function = valueArray[0];
-			Object value = valueArray[1];
-			String message = (String) valueArray[2];
-
-			boolean isError = false;
-			if (function instanceof Predicate) {
-				isError = ((Predicate<String>) function).test((String) value);
-			} else if (function instanceof IntPredicate) {
-				isError = ((IntPredicate) function).test((int) value);
-			}
-
-			if (isError) {
-				errors.put(key, message);
-				hasError = true;
-				System.out.println(message);
+		// 販売日チェック（簡易）
+		if (saleDateStr == null || saleDateStr.isEmpty()) {
+			errors.put("error_sale_date_required", "販売日を入力してください。");
+		} else {
+			try {
+				sale_date = Date.valueOf(saleDateStr);
+			} catch (IllegalArgumentException e) {
+				errors.put("error_sale_date_format", "販売日を正しく入力してください。");
 			}
 		}
+
+		// 担当者必須チェック
+		if (staffStr == null || staffStr.isEmpty()) {
+			errors.put("error_staff_required", "担当者が未選択です。");
+		} else {
+			try {
+				staff = Integer.parseInt(staffStr);
+			} catch (NumberFormatException e) {
+				errors.put("error_staff_required", "担当者の値が不正です。");
+			}
+		}
+
+		// カテゴリ必須チェック
+		if (categoryStr == null || categoryStr.isEmpty()) {
+			errors.put("error_category_required", "商品カテゴリが未選択です。");
+		} else {
+			try {
+				category = Integer.parseInt(categoryStr);
+			} catch (NumberFormatException e) {
+				errors.put("error_category_required", "カテゴリの値が不正です。");
+			}
+		}
+		
+		//商品名必須入力チェック
+		if (product_name == null || product_name.isEmpty()) {
+			errors.put("error_product_name_required", "商品名を入力してください。");
+		} else if (check.productCheck(product_name)) {
+			errors.put("error_name", "商品名が長すぎます。");
+		}
+
+		// 単価チェック
+		// 1. 未入力エラーのチェック
+		if (unitPriceStr == null || unitPriceStr.trim().isEmpty()) {
+		    errors.put("error_unit_price_format", "単価を入力して下さい。");
+		} 
+		// 2. 形式エラーのチェック
+		else if (!unitPriceStr.matches("^[0-9]+$")) {
+		    errors.put("error_unit_price_format", "単価を正しく入力して下さい。");
+		} 
+		// 3. 価格長さチェック
+		else {
+		    try {
+		        unit_price = Integer.parseInt(unitPriceStr);
+		    } catch (NumberFormatException e) {
+		        errors.put("error_unit_price_format", "単価を入力して下さい。");
+		    }
+
+		    if (!errors.containsKey("error_unit_price_format")) {
+		        if (check.priceCheck(unit_price)) {
+		            errors.put("error_price", "単価が長すぎます。");
+		        }
+		    }
+		}
+
+
+
+		// 個数チェック
+		// 1. 未入力エラーのチェック
+		if (quantityStr == null || quantityStr.trim().isEmpty()) {
+		    errors.put("error_quantity_format", "個数を入力してください。");
+		} 
+		// 2. 形式エラーのチェック
+		else if (!quantityStr.matches("^[0-9]+$")) {
+		    errors.put("error_quantity_format", "個数を正しく入力してください。");
+		} 
+		// 3. 個数長さチェック
+		else {
+		    try {
+		        quantity = Integer.parseInt(quantityStr);
+		    } catch (NumberFormatException e) {
+		        errors.put("error_quantity_format", "個数を入力してください。");
+		    }
+
+		    if (!errors.containsKey("error_quantity_format")) {
+		        if (check.quantityCheck(quantity)) {
+		            errors.put("error_quantity", "個数が長すぎます。");
+		        }
+		    }
+		}
+
+		
+		//備考長さチェック
+		if (remarks != null && check.remarksCheck(remarks)) {
+			errors.put("error_remarks", "備考が長すぎます。");
+		}
+
+		// --- 2. 存在チェック ---
+
+		// 担当者存在チェック
+		try {
+			Accounts ac = new Accounts();
+			if (!ac.exists(staff)) {
+				errors.put("error_staff_not_found", "アカウントテーブルに存在しません。");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			errors.put("error_staff_not_found", "担当者の確認時にエラーが発生しました。");
+		}
+
+		// カテゴリ存在チェック
+		try {
+			Categories ct = new Categories();
+			if (!ct.exists(category)) {
+				errors.put("error_category_not_found", "商品カテゴリテーブルに存在しません。");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			errors.put("error_category_not_found", "カテゴリの確認時にエラーが発生しました。");
+		}
+
+		// --- 4. エラー時処理 ---
 
 		if (!errors.isEmpty()) {
-			request.setAttribute("errors", errors); // JSPへ渡す
-		}
+			request.setAttribute("errors", errors);
 
-		if (hasError) {
+			// 入力値を保持
+			request.setAttribute("today", saleDateStr);
+			// アカウントとカテゴリリストもセット（doGet同様）
+			try {
+				request.setAttribute("accountslist", new Accounts().select());
+				request.setAttribute("categorylist", new Categories().select());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			// 入力値をparamに渡すために
+			request.setAttribute("param", request.getParameterMap());
+
 			request.getRequestDispatcher("/WEB-INF/jsp/S0010.jsp").forward(request, response);
-		} else {
-			HttpSession session = request.getSession();
-			session.setAttribute("sale_date", sale_date);
-			session.setAttribute("staff_id", staff);
-			session.setAttribute("category_id", category);
-			session.setAttribute("product_name", product_name);
-			session.setAttribute("unit_price", unit_price);
-			session.setAttribute("quantity", quantity);
-			session.setAttribute("remarks", remarks);
-
-			response.sendRedirect(request.getContextPath() + "/S0011.html");
+			return;
 		}
 
+		// --- 5. エラーなし時の処理（セッションにセット） ---
+
+		HttpSession session = request.getSession();
+		session.setAttribute("sale_date", sale_date);
+		session.setAttribute("staff_id", staff);
+		session.setAttribute("category_id", category);
+		session.setAttribute("product_name", product_name);
+		session.setAttribute("unit_price", unit_price);
+		session.setAttribute("quantity", quantity);
+		session.setAttribute("remarks", remarks);
+
+		response.sendRedirect(request.getContextPath() + "/S0011.html");
 	}
 
 }

@@ -35,7 +35,5 @@ public class categories {
 	public void setActive_flg(int active_flg) {
 		this.active_flg = active_flg;
 	}
-
-	
 	
 }

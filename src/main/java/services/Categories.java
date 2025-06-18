@@ -64,5 +64,22 @@ public class Categories {
 
 		return categoryName;
 	}
+	
+	public boolean exists(int categoryId) {
+        String sql = "SELECT COUNT(*) FROM categories WHERE category_id = ?";
+        try (Connection con = Db.open();
+             PreparedStatement stmt = con.prepareStatement(sql)) {
+            stmt.setInt(1, categoryId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (NamingException e) {
+			e.printStackTrace();
+		}
+        return false;
+    }
 
 }
