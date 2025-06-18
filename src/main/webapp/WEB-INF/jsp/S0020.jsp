@@ -54,13 +54,22 @@
 				</div>
 				<div class="col-4">
 					<div class="d-flex align-items-center">
-						<input type="date" name="start_date" class="form-control me-2">
-						<span class="me-2">～</span> <input type="date" name="end_date"
-							class="form-control">
+						<input type="date" name="start_date" class="form-control me-2"
+							value="${serch_condition.start_date}"> <span class="me-2">～</span>
+						<input type="date" name="end_date" class="form-control"
+							value="${serch_condition.end_date}">
+					</div>
+					<!-- ▼ エラー表示スペース（あらかじめ確保） -->
+					<div class="text-danger small mt-1" style="min-height: 1.5em;">
+						<c:out value="${startDateError}" />
+					</div>
+					<div class="text-danger small" style="min-height: 1.5em;">
+						<c:out value="${endDateError}" />
 					</div>
 				</div>
-
 			</div>
+
+
 
 			<div class="row mb-3">
 				<div class="col-2 text-end">
@@ -69,7 +78,7 @@
 				</div>
 				<div class="col-4">
 					<select name="staff" class="form-control">
-						<option  value="">担当者を選択してください</option>
+						<option value="">担当者を選択してください</option>
 						<c:forEach var="account" items="${accountslist}">
 							<option value="${account.account_id}">${account.name}</option>
 						</c:forEach>
@@ -112,6 +121,11 @@
 				<div class="col-4">
 					<textarea name="remarks" class="form-control" rows="3"
 						placeholder="特記事項などがあれば入力"></textarea>
+
+					<!-- ▼ 検索結果が0件のときのエラーメッセージ -->
+					<div class="text-danger small mt-1" style="min-height: 1.5em;">
+						<c:out value="${noResultsError}" />
+					</div>
 				</div>
 			</div>
 			<div class="row">
