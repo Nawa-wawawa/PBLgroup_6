@@ -8,6 +8,12 @@
 	rel="stylesheet" />
 <meta charset="UTF-8">
 <title>売上詳細編集</title>
+<style>
+.text-danger {
+	min-height: 1.8em;
+	font-size: 0.9em;
+}
+</style>
 </head>
 <body>
 	<jsp:include page="nav.jsp" />
@@ -18,98 +24,135 @@
 
 	<div class="container">
 		<form method="post" action="S0023.html">
-			<div class="row mb-3">
-				<div class="col-2 text-end">
-					<span class="d-inline-flex align-items-center gap-1"> <span>販売日</span>
 
-					</span>
-				</div>
+			<!-- 販売日 -->
+			<div class="row mb-3">
+				<div class="col-2 text-end">販売日</div>
 				<div class="col-2">
 					<input type="date" name="sale_date" class="form-control"
-						value="${picksale.sale_date}" required>
+						value="${sale_date != null ? sale_date : picksale.sale_date}">
+					<div class="text-danger">
+						<c:if test="${errors != null}">
+							<c:out value="${errors['error_sale_date_required']}" />
+							<c:out value="${errors['error_sale_date_format']}" />
+						</c:if>
+					</div>
 				</div>
 			</div>
+
+			<!-- 担当 -->
 			<div class="row mb-3">
-				<div class="col-2 text-end">
-					<span class="d-inline-flex align-items-center gap-1"> <span>担当</span>
-						<!--セレクトは変更必須-->
-					</span>
-				</div>
+				<div class="col-2 text-end">担当</div>
 				<div class="col-4">
-					<select name="staff" class="form-control" required>
+					<select name="staff" class="form-control">
 						<c:forEach var="account" items="${accountslist}">
 							<option value="${account.account_id}"
-								${account.account_id == picksale.account_id ? "selected" : ""}>
+								<c:if test="${account.account_id == (staff != null ? staff : picksale.account_id)}">selected</c:if>>
 								${account.name}</option>
 						</c:forEach>
 					</select>
-
-
+					<div class="text-danger">
+						<c:if test="${errors != null}">
+							<c:out value="${errors['error_staff_required']}" />
+							<c:out value="${errors['error_staff_not_found']}" />
+						</c:if>
+					</div>
 				</div>
 			</div>
 
+			<!-- 商品カテゴリ -->
 			<div class="row mb-3">
-				<div class="col-2 text-end">
-					<span class="d-inline-flex align-items-center gap-1"> <span>商品カテゴリー</span>
-					</span>
-				</div>
+				<div class="col-2 text-end">商品カテゴリー</div>
 				<div class="col-4">
-					<select name="category" class="form-control" required>
-						<c:forEach var="category" items="${categorylist}">
-							<option value="${category.category_id}"
-							${category.category_id == picksale.category_id ? "selected" : ""}>
-							${category.category_name}</option>
+					<select name="category" class="form-control">
+						<c:forEach var="cat" items="${categorylist}">
+							<option value="${cat.category_id}"
+								<c:choose>
+                                    <c:when test="${not empty category}">
+                                        <c:if test="${cat.category_id == category}">selected</c:if>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:if test="${cat.category_id == picksale.category_id}">selected</c:if>
+                                    </c:otherwise>
+                                </c:choose>>
+								${cat.category_name}</option>
 						</c:forEach>
 					</select>
+					<div class="text-danger">
+						<c:if test="${errors != null}">
+							<c:out value="${errors['error_category_required']}" />
+							<c:out value="${errors['error_category_not_found']}" />
+						</c:if>
+					</div>
 				</div>
 			</div>
 
+			<!-- 商品名 -->
 			<div class="row mb-3">
-				<div class="col-2 text-end">
-					<span class="d-inline-flex align-items-center gap-1"> <span>商品名</span>
-					</span>
-				</div>
+				<div class="col-2 text-end">商品名</div>
 				<div class="col-4">
 					<input type="text" name="product_name" class="form-control"
-						value="${picksale.trade_name}" required>
+						value="${product_name != null ? product_name : picksale.trade_name}"
+						autocomplete="off">
+					<div class="text-danger">
+						<c:if test="${errors != null}">
+							<c:out value="${errors['error_product_name_required']}" />
+							<c:out value="${errors['error_name']}" />
+						</c:if>
+					</div>
 				</div>
 			</div>
 
+			<!-- 単価 -->
 			<div class="row mb-3">
-				<div class="col-2 text-end">
-					<span class="d-inline-flex align-items-center gap-1"> <span>単価</span>
-				</div>
+				<div class="col-2 text-end">単価</div>
 				<div class="col-2">
 					<input type="number" name="unit_price" class="form-control"
-						value="${picksale.unit_price}" min="1" max="2147483647" step="1"
-						required>
+						value="${unit_price != null ? unit_price : picksale.unit_price}"
+						min="1" max="2147483647" step="1">
+					<div class="text-danger">
+						<c:if test="${errors != null}">
+							<c:out value="${errors['error_unit_price_format']}" />
+							<c:out value="${errors['error_price']}" />
+						</c:if>
+					</div>
 				</div>
 			</div>
 
+			<!-- 個数 -->
 			<div class="row mb-3">
-				<div class="col-2 text-end">
-					<span class="d-inline-flex align-items-center gap-1"> <span>個数</span>
-
-					</span>
-				</div>
+				<div class="col-2 text-end">個数</div>
 				<div class="col-2">
 					<input type="number" name="quantity" class="form-control"
-						value="${picksale.sale_number}" min="1" max="2147483647" step="1"
-						required>
+						value="${quantity != null ? quantity : picksale.sale_number}"
+						min="1" max="2147483647" step="1">
+					<div class="text-danger">
+						<c:if test="${errors != null}">
+							<c:out value="${errors['error_quantity_format']}" />
+							<c:out value="${errors['error_quantity']}" />
+						</c:if>
+					</div>
 				</div>
 			</div>
 
+			<!-- 備考 -->
 			<div class="row mb-3">
 				<div class="col-2 text-end">備考</div>
 				<div class="col-4">
-					<textarea name="remarks" class="form-control" rows="3"
-						value="${picksale.note}">${picksale.note}</textarea>
+					<textarea name="remarks" class="form-control" rows="3">${remarks != null ? remarks : picksale.note}</textarea>
+					<div class="text-danger">
+						<c:if test="${errors != null}">
+							<c:out value="${errors['error_remarks']}" />
+						</c:if>
+					</div>
 				</div>
 			</div>
+
+			<!-- ボタン -->
 			<div class="row">
 				<div class="offset-2 col-2 text-end">
 					<button type="submit" class="btn btn-primary" name="action"
-						value="1">&check;"更新</button>
+						value="1">&check; 更新</button>
 					<button type="submit" class="btn btn-light" name="action" value="0">キャンセル</button>
 				</div>
 			</div>

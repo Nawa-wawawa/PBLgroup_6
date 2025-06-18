@@ -70,4 +70,5 @@ public class accounts {
 	public void setAuthority(byte authority) {
 		this.authority = authority;
 	}
+
 }
