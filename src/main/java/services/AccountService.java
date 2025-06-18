@@ -54,15 +54,27 @@ public class AccountService {
 	}
 
 	public void update(accounts a) {
-		String sql = "UPDATE accounts SET name = ?, mail = ?, password  = ? ";
+		String sql = "UPDATE accounts SET name = ?, mail = ?, password = ? , authority = ? WHERE account_id =?";
 		try (Connection conn = Db.open();
 				PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
 			pstmt.setString(1, a.getName());
 			pstmt.setString(2, a.getMail());
 			pstmt.setString(3, a.getPassword());
+			pstmt.setByte(4, a.getAuthority());
+			pstmt.setInt(5, a.getId());
+			System.out.println("id: " + a.getId()); // 更新直前に
+
+			
+			 System.out.println("更新SQL実行: " + pstmt.toString());
 
 			pstmt.executeUpdate();
+			
+			//確認用操作
+			int rows = pstmt.executeUpdate();
+			System.out.println("更新件数: " + rows);
+
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

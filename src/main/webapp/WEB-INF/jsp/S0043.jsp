@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="beans.accounts" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 accounts account = (accounts) request.getAttribute("account");
     if (account == null) {
@@ -43,11 +44,13 @@ accounts account = (accounts) request.getAttribute("account");
 
   <form action="S0043Servlet" method="POST">
   	<input type="hidden" name="action" value="update">
-  	<input type="hidden" name="id" value="<%= account.getId() %>">
-    <input type="hidden" name="name" value="<%= account.getName() %>">
-    <input type="hidden" name="mail" value="<%= account.getMail() %>">
-    <input type="hidden" name="password" value="<%= account.getPassword() %>">
-    <input type="hidden" name="confirmPassword" value="<%= account.getPassword() %>">
+  	<input type="hidden" name="id" value="${account.id}"/>
+    <input type="hidden" name="name" value="${account.name}"/>
+    <input type="hidden" name="mail" value="${account.mail}"/>
+    <input type="hidden" name="password" value="${account.password}"/>
+    <input type="hidden" name="confirmPassword" value="${account.password}"/>
+    
+    <!-- ここcタグで書き換える？ -->
     <% if ((account.getAuthority() & 1) != 0) { %>
       <input type="hidden" name="role" value="0">
     <% } %>
@@ -59,28 +62,28 @@ accounts account = (accounts) request.getAttribute("account");
     <div class="mb-3 row">
       <label class="col-sm-2 col-form-label text-end">氏名</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" value="<%= account.getName() %>" disabled>
+        <input type="text" class="form-control" value="${account.name}" disabled>
       </div>
     </div>
 
     <div class="mb-3 row">
       <label class="col-sm-2 col-form-label text-end">メールアドレス</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" value="<%= account.getMail() %>" disabled>
+        <input type="text" class="form-control" value="${account.mail}" disabled>
       </div>
     </div>
 
     <div class="mb-3 row">
       <label class="col-sm-2 col-form-label text-end">パスワード</label>
       <div class="col-sm-10">
-        <input type="password" class="form-control" value="<%= account.getPassword() %>" disabled>
+        <input type="password" class="form-control" value="${account.password}" disabled>
       </div>
     </div>
 
     <div class="mb-3 row">
       <label class="col-sm-2 col-form-label text-end">パスワード（確認）</label>
       <div class="col-sm-10">
-        <input type="password" class="form-control" value="<%= account.getPassword() %>" disabled>
+        <input type="password" class="form-control" value="${account.password}" disabled>
       </div>
     </div>
 
@@ -102,7 +105,7 @@ accounts account = (accounts) request.getAttribute("account");
     <div class="row">
       <div class="offset-sm-2 col-sm-10">
         <button type="submit" class="btn btn-primary">✓OK</button>
-        <button type="button" class="btn btn-light ms-2" onclick="history.back()">キャンセル</button>
+        <a href="S0042Servlet" class="btn btn-light ms-2" >キャンセル</a>
       </div>
     </div>
   </form>

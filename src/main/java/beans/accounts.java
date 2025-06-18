@@ -10,8 +10,8 @@ public class accounts {
 	
 
 	public accounts(int id, String name, String mail, String password, byte authority) {
+		
 		this.account_id = id;
-
 		this.name = name;
 		this.mail = mail;
 		this.password = password;

@@ -24,8 +24,24 @@ public class S0043Servlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // GETは使わない想定 → 入力画面に戻す
+    	
+    	accounts account = (accounts) request.getSession().getAttribute("confirmAccount"); 
+    	
+    	if(account == null) {
+       	
+        //入力画面に戻す
         response.sendRedirect("S0042Servlet");
+        
+        return;
+        
+    	}
+    	
+    	request.setAttribute("account", account);
+    	
+    	request.getSession().removeAttribute("confirmAccount");
+    	
+    	request.getRequestDispatcher("/WEB-INF/jsp/S0043.jsp").forward(request, response);
+    	
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -39,6 +55,7 @@ public class S0043Servlet extends HttpServlet {
 
             // idをパラメータから取得
             String idStr = request.getParameter("id");
+            
             int id = 0;
             try {
                 id = Integer.parseInt(idStr);
@@ -48,6 +65,7 @@ public class S0043Servlet extends HttpServlet {
                 request.getRequestDispatcher("/WEB-INF/jsp/S0042.jsp").forward(request, response);
                 return;
             }
+            
 
             String name = request.getParameter("name");
             String mail = request.getParameter("mail");
@@ -130,7 +148,18 @@ public class S0043Servlet extends HttpServlet {
             try {
                 service.update(account);  // updateメソッドでDBの更新を実施
                 // 更新成功：一覧画面や完了画面にリダイレクト
-                response.sendRedirect("S0030Servlet"); 
+                response.sendRedirect("S0041.html"); 
+                
+                System.out.println("== update処理 ==");
+                System.out.println("id: " + id);
+                System.out.println("name: " + name);
+                System.out.println("mail: " + mail);
+                System.out.println("password: " + password);
+                System.out.println("authority: " + authority);
+                
+                
+
+                
             } catch (Exception e) {
                 request.setAttribute("error", "更新に失敗しました: " + e.getMessage());
                 request.setAttribute("account", account);
@@ -157,6 +186,8 @@ public class S0043Servlet extends HttpServlet {
             }
 
             accounts account = new accounts(0, name, mail, password, authority);
+            
+            //ここからコメント化
             
             // バリデーション
             Accountcheck checker = new Accountcheck();
@@ -207,6 +238,9 @@ public class S0043Servlet extends HttpServlet {
                 request.getRequestDispatcher("/WEB-INF/jsp/S0042.jsp").forward(request, response);
                 return;
             }
+            
+            //=============================================
+            
 
 //            if (!password.equals(confirmPassword)) {
 //                request.setAttribute("error", "パスワードが一致しません");
@@ -215,9 +249,9 @@ public class S0043Servlet extends HttpServlet {
 //                return;
 //            }
 
-            // 確認画面へ
+//             確認画面へ
             request.setAttribute("account", account);
-            request.getRequestDispatcher("/WEB-INF/jsp/S0043.jsp").forward(request, response);
+            request.getRequestDispatcher("/S0041.html").forward(request, response);
         }
     }
 }

@@ -1,7 +1,7 @@
 package controllers;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.ArrayList;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+import beans.AccountSearchCondition;
 import beans.accounts;
 import services.AccountService;
 
@@ -33,12 +34,34 @@ public class S0041Servlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		    HttpSession  session = request.getSession(false);
-		    if(session!= null) {
-		    	List<accounts> accountList = (List<accounts>)session.getAttribute("accountList");
-		    	if(accountList != null) {
-		    		request.setAttribute("account", accountList);		    		
-		    	}
-		    }request.getRequestDispatcher("/WEB-INF/jsp/S0041.jsp").forward(request, response);
+		    
+		    if(session == null) {
+		    	
+		    	response.sendRedirect("S0040.html");
+		    	return;
+		    	
+		    }
+		    
+		    AccountSearchCondition asc = (AccountSearchCondition)session.getAttribute("search_condition");
+		    
+		    
+		    
+		    if(asc == null) {
+		    	
+		    	response.sendRedirect("S0040.html");
+		    	return;
+		    	
+		    }
+		    
+		    AccountService service = new AccountService();
+		    ArrayList<accounts> accountList = service.findByAccount(asc.getName(),asc.getMail(),asc.getAuthority());
+		    
+		    System.out.println("取得件数: " + accountList.size());
+		    System.out.println("検索条件: " + asc.getName() + ", " + asc.getMail() + ", " + asc.getAuthority());
+		    
+		    request.setAttribute("accountList", accountList);		    		
+			request.getRequestDispatcher("/WEB-INF/jsp/S0041.jsp").forward(request, response);
+		    	
 		}
 
 
@@ -48,39 +71,44 @@ public class S0041Servlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action=request.getParameter("action");
 		String IdStr=request.getParameter("id");
-		int id=Integer.parseInt(IdStr);
 		System.out.println(action);
-		System.out.println(IdStr);
-		
+		System.out.println(IdStr);		
 		
 		if(IdStr == null) {
 			response.sendRedirect("S0041.html");
 			return;
-		}
+		}		
+		
+		int id=Integer.parseInt(IdStr);
+		
+		System.out.println("id =" + id);
 		
 		AccountService service = new AccountService();
-		accounts account = service.findById(id);		
-		
+		accounts account = service.findById(id);
+				
 		HttpSession session = request.getSession(false);
-		session.setAttribute("account",account);
 		
 		if(session != null) {
 			
+			session.removeAttribute("account");
+			
 			if("edit".equals(action)) {
 				
+				HttpSession newSession = request.getSession(true);
+				newSession.setAttribute("account",account);
 				response.sendRedirect("S0042Servlet?accountId=" + id);
-				System.out.println(account);
-
 				
 			}else if("delete".equals(action)) {
 				
+				HttpSession newSession = request.getSession(true);
+				newSession.setAttribute("account",account);
 				response.sendRedirect("S0044Servlet?accountId=" + id);
 				
 			}else {
+				
 				response.sendRedirect("S0041.html");
+				
 			}
-			
-			System.out.println(account);
 			
 		}
 		
