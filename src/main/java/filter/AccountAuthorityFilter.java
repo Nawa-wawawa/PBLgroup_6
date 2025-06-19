@@ -13,9 +13,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-@WebFilter(urlPatterns = {"/S0022.html", "/S0023.html", "/S0024.html", "/S0025.html"})
-public class SalesAuthorityFilter implements Filter {
+@WebFilter(urlPatterns = {"/C0030.html", "/C0031.html", "/S0042.html", "/S0043.html" , "/S0044.html"})
+public class AccountAuthorityFilter implements Filter {
 
+    @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
 
@@ -23,14 +24,13 @@ public class SalesAuthorityFilter implements Filter {
         HttpServletResponse res = (HttpServletResponse) response;
 
         HttpSession session = req.getSession(false);
-        
+
         if (session == null || session.getAttribute("user") == null) {
-            // セッションがないか、ユーザー情報がない場合はログアウト
+            // セッションなし or ユーザ情報なしはログアウト
             res.sendRedirect("/Logout.html");
             return;
         }
 
-        // ユーザー情報取得（Userオブジェクトがある前提）
         Object userObj = session.getAttribute("user");
         if (!(userObj instanceof beans.accounts)) {
             res.sendRedirect("/Logout.html");
@@ -40,16 +40,17 @@ public class SalesAuthorityFilter implements Filter {
         beans.accounts user = (beans.accounts) userObj;
         int authority = user.getAuthority();
 
-        // 売上登録権限があるかどうか（bitの1桁目が1かどうか）
-        // 1 または 3 (2進数: 01 or 11) のとき許可
-        if (authority == 1 || authority == 3) {
-            chain.doFilter(request, response); // 通過
+        // アカウント登録権限ビットのチェック（2 または 3 の場合のみ許可）
+        if (authority == 2 || authority == 3) {
+            chain.doFilter(request, response);
         } else {
-            // 権限がない場合はログアウト
             res.sendRedirect("/Logout.html");
         }
     }
 
+    @Override
     public void init(FilterConfig fConfig) throws ServletException {}
+
+    @Override
     public void destroy() {}
 }
