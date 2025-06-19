@@ -3,8 +3,11 @@ package services;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.naming.NamingException;
 
 import beans.accounts;
 import utils.Db;
@@ -54,38 +57,31 @@ public class AccountService {
 	}
 
 	public void update(accounts a) {
-		String sql = "UPDATE accounts SET name = ?, mail = ?, password = ? , authority = ? WHERE account_id =?";
-		try (Connection conn = Db.open();
-				PreparedStatement pstmt = conn.prepareStatement(sql)) {
+	    String sql = "UPDATE accounts SET name = ?, mail = ?, password = ?, authority = ? WHERE mail = ?";
 
-			pstmt.setString(1, a.getName());
-			pstmt.setString(2, a.getMail());
-			pstmt.setString(3, a.getPassword());
-			pstmt.setByte(4, a.getAuthority());
-			pstmt.setInt(5, a.getId());
-			System.out.println("id: " + a.getId()); // 更新直前に
+	    try (Connection conn = Db.open();
+	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-			
-			 System.out.println("更新SQL実行: " + pstmt.toString());
+	        pstmt.setString(1, a.getName());
+	        pstmt.setString(2, a.getMail());
+	        pstmt.setString(3, a.getPassword());
+	        pstmt.setInt(4, a.getAuthority());
+	        pstmt.setString(5, a.getMail());  // WHERE句の条件（更新対象）
 
-			pstmt.executeUpdate();
-			
-			//確認用操作
-			int rows = pstmt.executeUpdate();
-			System.out.println("更新件数: " + rows);
+	        pstmt.executeUpdate();
 
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	    } catch (SQLException | NamingException e) {
+	        e.printStackTrace();
+	    }
 	}
+
 
 	public void delete(accounts a) {
 		String sql = "DELETE FROM accounts WHERE id = ?";
 		try (Connection conn = Db.open();
 				PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-			pstmt.setInt(1, a.getId());
+			pstmt.setInt(1, a.getAccount_id());
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();

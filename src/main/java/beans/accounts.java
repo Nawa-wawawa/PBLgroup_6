@@ -39,14 +39,14 @@ public class accounts {
 
 
 
-	public int getId() {
+	
+
+	public int getAccount_id() {
 		return account_id;
 	}
 
-
-	public void setId(int id) {
-		this.account_id = id;
-
+	public void setAccount_id(int account_id) {
+		this.account_id = account_id;
 	}
 
 	public String getName() {
