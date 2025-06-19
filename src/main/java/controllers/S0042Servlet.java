@@ -7,6 +7,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import beans.accounts;
 import services.AccountService;
@@ -20,9 +21,20 @@ public class S0042Servlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String accountIdStr = request.getParameter("accountId");
-        if (accountIdStr != null) {
-            int accountId = Integer.parseInt(accountIdStr);
+       
+    	HttpSession session = request.getSession(false);
+    	
+    	if(session == null) {
+    		
+    		response.sendRedirect("S0041.html");
+    		return;
+    		
+    	}
+    	
+    	Integer idItg = (Integer) session.getAttribute("id");    	
+    	
+        if (idItg != null) {
+            int accountId = idItg;
             AccountService service = new AccountService();
             accounts account = service.findById(accountId);
             
