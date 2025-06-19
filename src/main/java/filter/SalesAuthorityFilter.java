@@ -52,4 +52,5 @@ public class SalesAuthorityFilter implements Filter {
 
     public void init(FilterConfig fConfig) throws ServletException {}
     public void destroy() {}
+
 }
