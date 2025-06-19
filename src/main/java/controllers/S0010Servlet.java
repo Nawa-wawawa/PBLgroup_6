@@ -1,15 +1,10 @@
 package controllers;
 
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.Date;
-import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
-import javax.naming.NamingException;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -18,12 +13,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import beans.accounts;
-import beans.categories;
+import beans.sales;
 import services.Accounts;
 import services.Categories;
+import services.Sales;
 import services.Salescheck;
-import utils.Db;
 
 /**
  * Servlet implementation class S0010Servlet
@@ -47,21 +41,8 @@ public class S0010Servlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		String today = LocalDate.now().toString();
-		ArrayList<accounts> accountslist = null;
-		ArrayList<categories> categorylist = null;
-
-		try (Connection con = Db.open()) {
-			Categories ct = new Categories();
-			categorylist = ct.select();
-			Accounts ac = new Accounts();
-			accountslist = ac.select();
-		} catch (SQLException | NamingException e) {
-			e.printStackTrace();
-		}
-
+		Sales.loadAccountAndCategory(request);
 		request.setAttribute("today", today);
-		request.setAttribute("categorylist", categorylist);
-		request.setAttribute("accountslist", accountslist);
 
 		request.getRequestDispatcher("/WEB-INF/jsp/S0010.jsp").forward(request, response);
 	}
@@ -119,7 +100,7 @@ public class S0010Servlet extends HttpServlet {
 				errors.put("error_category_required", "カテゴリの値が不正です。");
 			}
 		}
-		
+
 		//商品名必須入力チェック
 		if (product_name == null || product_name.isEmpty()) {
 			errors.put("error_product_name_required", "商品名を入力してください。");
@@ -130,54 +111,51 @@ public class S0010Servlet extends HttpServlet {
 		// 単価チェック
 		// 1. 未入力エラーのチェック
 		if (unitPriceStr == null || unitPriceStr.trim().isEmpty()) {
-		    errors.put("error_unit_price_format", "単価を入力して下さい。");
-		} 
+			errors.put("error_unit_price_format", "単価を入力して下さい。");
+		}
 		// 2. 形式エラーのチェック
 		else if (!unitPriceStr.matches("^[0-9]+$")) {
-		    errors.put("error_unit_price_format", "単価を正しく入力して下さい。");
-		} 
+			errors.put("error_unit_price_format", "単価を正しく入力して下さい。");
+		}
 		// 3. 価格長さチェック
 		else {
-		    try {
-		        unit_price = Integer.parseInt(unitPriceStr);
-		    } catch (NumberFormatException e) {
-		        errors.put("error_unit_price_format", "単価を入力して下さい。");
-		    }
+			try {
+				unit_price = Integer.parseInt(unitPriceStr);
+			} catch (NumberFormatException e) {
+				errors.put("error_unit_price_format", "単価を入力して下さい。");
+			}
 
-		    if (!errors.containsKey("error_unit_price_format")) {
-		        if (check.priceCheck(unit_price)) {
-		            errors.put("error_price", "単価が長すぎます。");
-		        }
-		    }
+			if (!errors.containsKey("error_unit_price_format")) {
+				if (check.priceCheck(unit_price)) {
+					errors.put("error_price", "単価が長すぎます。");
+				}
+			}
 		}
-
-
 
 		// 個数チェック
 		// 1. 未入力エラーのチェック
 		if (quantityStr == null || quantityStr.trim().isEmpty()) {
-		    errors.put("error_quantity_format", "個数を入力してください。");
-		} 
+			errors.put("error_quantity_format", "個数を入力してください。");
+		}
 		// 2. 形式エラーのチェック
 		else if (!quantityStr.matches("^[0-9]+$")) {
-		    errors.put("error_quantity_format", "個数を正しく入力してください。");
-		} 
+			errors.put("error_quantity_format", "個数を正しく入力してください。");
+		}
 		// 3. 個数長さチェック
 		else {
-		    try {
-		        quantity = Integer.parseInt(quantityStr);
-		    } catch (NumberFormatException e) {
-		        errors.put("error_quantity_format", "個数を入力してください。");
-		    }
+			try {
+				quantity = Integer.parseInt(quantityStr);
+			} catch (NumberFormatException e) {
+				errors.put("error_quantity_format", "個数を入力してください。");
+			}
 
-		    if (!errors.containsKey("error_quantity_format")) {
-		        if (check.quantityCheck(quantity)) {
-		            errors.put("error_quantity", "個数が長すぎます。");
-		        }
-		    }
+			if (!errors.containsKey("error_quantity_format")) {
+				if (check.quantityCheck(quantity)) {
+					errors.put("error_quantity", "個数が長すぎます。");
+				}
+			}
 		}
 
-		
 		//備考長さチェック
 		if (remarks != null && check.remarksCheck(remarks)) {
 			errors.put("error_remarks", "備考が長すぎます。");
@@ -231,14 +209,10 @@ public class S0010Servlet extends HttpServlet {
 
 		// --- 5. エラーなし時の処理（セッションにセット） ---
 
+		sales salesData = new sales(sale_date, staff, category, product_name, unit_price, quantity, remarks);
+
 		HttpSession session = request.getSession();
-		session.setAttribute("sale_date", sale_date);
-		session.setAttribute("staff_id", staff);
-		session.setAttribute("category_id", category);
-		session.setAttribute("product_name", product_name);
-		session.setAttribute("unit_price", unit_price);
-		session.setAttribute("quantity", quantity);
-		session.setAttribute("remarks", remarks);
+		session.setAttribute("salesData", salesData);
 
 		response.sendRedirect(request.getContextPath() + "/S0011.html");
 	}

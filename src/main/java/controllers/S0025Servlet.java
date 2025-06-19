@@ -3,7 +3,6 @@ package controllers;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import javax.naming.NamingException;
 
@@ -14,8 +13,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import beans.sales;
-import beans.session;
 import services.Sales;
 import utils.Db;
 
@@ -53,19 +50,13 @@ public class S0025Servlet extends HttpServlet {
 		if (action == 1) {
 			HttpSession session = request.getSession(false);
 			int saleId = (int) session.getAttribute("saleId");
-			session serch_condition = (session) session.getAttribute("serch_condition");
-			//削除を行って、セッションの更新？をしないと削除されたものが更新されない？
-			//検索の条件がないと再度検索できない？
+
 			try (Connection con = Db.open()) {
 
 				Sales delete = new Sales();
 				//削除の前に削除権限があるのかをログイン中のアカウント権限と参照
 				delete.delete(saleId);
 
-				ArrayList<sales> saleslist = delete.select(serch_condition.getStart_date(),
-						serch_condition.getEnd_date(), serch_condition.getAccount_id(),
-						serch_condition.getCategory_id(), serch_condition.getTrade_name(), serch_condition.getNote());
-				session.setAttribute("saleslist", saleslist);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} catch (NamingException e1) {

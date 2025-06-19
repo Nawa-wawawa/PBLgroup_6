@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.IntPredicate;
@@ -20,9 +19,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import beans.sales;
-import beans.session;
-import services.Accounts;
-import services.Categories;
 import services.Sales;
 import services.Salescheck;
 import utils.Db;
@@ -51,9 +47,8 @@ public class S0024Servlet extends HttpServlet {
 		int staffId = 0;
 		int categoryId = 0;
 
-		String categoryname = "";
-		String accountname = "";
-
+		String categoryName = "";
+		String accountName = "";
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession(false); // セッションがなければ null を返す
 		if (session != null) {
@@ -64,20 +59,12 @@ public class S0024Servlet extends HttpServlet {
 			System.out.println("セッションが存在しません。");
 		}
 
-		try (Connection con = Db.open()) {
-			Categories ct = new Categories();
-			categoryname = ct.getCategoryname(categoryId);
-			Accounts ac = new Accounts();
-			accountname = ac.getAccountname(staffId);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (NamingException e1) {
-			// TODO 自動生成された catch ブロック
-			e1.printStackTrace();
-		}
+		categoryName = Sales.getCategoryNameById(categoryId);
+		accountName = Sales.getAccountNameById(staffId);
 
-		request.setAttribute("categoryname", categoryname);
-		request.setAttribute("accountname", accountname);
+		request.setAttribute("categoryname", categoryName);
+		request.setAttribute("accountname", accountName);
+
 		request.getRequestDispatcher("/WEB-INF/jsp/S0024.jsp").forward(request, response);
 	}
 
@@ -94,22 +81,20 @@ public class S0024Servlet extends HttpServlet {
 		int unit_price = 0;
 		int quantity = 0;
 		String remarks = "";
-		session serch_condition = null;
-		
-		int saleId =0;
+
+		int saleId = 0;
 
 		HttpSession session = request.getSession(false); // セッションがなければ null を返す
 		if (session != null) {
 			// 例：int型IDとして使いたい場合（Integer型にキャスト）
-			sale_date = (Date) session.getAttribute("sale_date");
-			staff = (Integer) session.getAttribute("staff_id");
-			category = (Integer) session.getAttribute("category_id");
-			product_name = (String) session.getAttribute("product_name");
-			unit_price = (Integer) session.getAttribute("unit_price");
-			quantity = (Integer) session.getAttribute("quantity");
-			remarks = (String) session.getAttribute("remarks");
-			saleId = (int) session.getAttribute("saleId");
-			serch_condition = (session) session.getAttribute("serch_condition");
+			sales salesData = (sales) session.getAttribute("salesData");
+			sale_date = salesData.getSale_date();
+			staff = salesData.getAccount_id();
+			category = salesData.getCategory_id();
+			product_name = salesData.getTrade_name();
+			unit_price = salesData.getUnit_price();
+			quantity = salesData.getSale_number();
+			remarks = salesData.getNote();
 		} else {
 			System.out.println("セッションが存在しません。");
 		}
@@ -164,11 +149,6 @@ public class S0024Servlet extends HttpServlet {
 				sales Newsale = new sales(sale_date, staff, category, product_name, unit_price, quantity, remarks);
 
 				sl.update(Newsale, saleId);
-				
-				ArrayList<sales> saleslist = sl.select(serch_condition.getStart_date(),
-						serch_condition.getEnd_date(), serch_condition.getAccount_id(),
-						serch_condition.getCategory_id(), serch_condition.getTrade_name(), serch_condition.getNote());
-				session.setAttribute("saleslist", saleslist);
 
 			} catch (SQLException e) {
 				e.printStackTrace();
