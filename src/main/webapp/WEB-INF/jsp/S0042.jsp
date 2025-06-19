@@ -108,7 +108,7 @@
             <div class="row">
                 <div class="offset-sm-2 col-sm-10">
                     <button type="submit" class="btn btn-primary">✓ 更新</button>
-                    <button type="submit" class="btn btn-secondary ms-2" onclick="history.back()">キャンセル</button>
+                    <a href="${pageContext.request.contextPath}/S0041.html" class="btn btn-secondary ms-2">キャンセル</a>
                 </div>
             </div>
         </form>

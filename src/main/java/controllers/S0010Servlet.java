@@ -50,6 +50,7 @@ public class S0010Servlet extends HttpServlet {
 		ArrayList<accounts> accountslist = null;
 		ArrayList<categories> categorylist = null;
 
+		//別のサービスとして作って呼び出しにしたい。
 		try (Connection con = Db.open()) {
 			Categories ct = new Categories();
 			categorylist = ct.select();
@@ -77,6 +78,8 @@ public class S0010Servlet extends HttpServlet {
 		String quantityStr = request.getParameter("quantity");
 		String remarks = request.getParameter("remarks");
 
+		
+		//サービスにして再度使うとこは呼び出しできるように。
 		Map<String, String> errors = new LinkedHashMap<>();
 		Salescheck check = new Salescheck();
 
@@ -231,6 +234,8 @@ public class S0010Servlet extends HttpServlet {
 
 		// --- 5. エラーなし時の処理（セッションにセット） ---
 
+		
+		//まとめる！！！
 		HttpSession session = request.getSession();
 		session.setAttribute("sale_date", sale_date);
 		session.setAttribute("staff_id", staff);

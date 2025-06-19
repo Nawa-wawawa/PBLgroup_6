@@ -1,3 +1,4 @@
+
 package controllers;
 
 import java.io.IOException;
@@ -79,7 +80,7 @@ public class S0041Servlet extends HttpServlet {
 			response.sendRedirect("S0041.html");
 			return;
 		}		
-		
+		//ここにチェックを入れる
 		int id=Integer.parseInt(IdStr);
 		
 		System.out.println("id =" + id);
@@ -92,7 +93,7 @@ public class S0041Servlet extends HttpServlet {
 		if(session != null) {
 			
 			session.removeAttribute("account");
-			
+			//idを送るからウラルに出る
 			if("edit".equals(action)) {
 				
 				HttpSession newSession = request.getSession(true);

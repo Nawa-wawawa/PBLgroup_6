@@ -49,7 +49,7 @@
 					<div class="col-1">
 						<c:set var="accountName" value="" />
 						<c:forEach var="ac" items="${sessionScope.accountslist}">
-							<c:if test="${ac.id == sales.account_id}">
+							<c:if test="${ac.account_id == sales.account_id}">
 								<c:set var="accountName" value="${ac.name}" />
 								${ac.name}
 								</c:if>

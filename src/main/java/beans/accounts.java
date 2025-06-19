@@ -2,7 +2,6 @@ package beans;
 
 public class accounts {
 
-
 	int account_id;
 	String name;
 	String mail;
@@ -17,17 +16,14 @@ public class accounts {
 		this.password = password;
 		this.authority = authority;
 	}
-	
-	public accounts( String name, String mail, String password, byte authority) {
-			
+
+	public accounts(String name, String mail, String password, byte authority) {
+
 		this.name = name;
 		this.mail = mail;
 		this.password = password;
 		this.authority = authority;
 	}
-
-
-
 
 	public accounts(int account_id, String name, byte authority) {
 		super();
@@ -35,11 +31,6 @@ public class accounts {
 		this.name = name;
 		this.authority = authority;
 	}
-
-
-
-
-	
 
 	public int getAccount_id() {
 		return account_id;
@@ -81,6 +72,5 @@ public class accounts {
 	public void setAuthority(byte authority) {
 		this.authority = authority;
 	}
-
 
 }

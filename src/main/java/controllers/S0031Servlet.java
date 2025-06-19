@@ -54,7 +54,7 @@ public class S0031Servlet extends HttpServlet {
 
 		accounts account = new accounts(0, name, mail, password, authority);
 
-		// バリデーション
+		// バリデーション これは30の内容なので30のサーブレットで書かないとウラルが31でエラー表示される。
 		Accountcheck checker = new Accountcheck();
 		Map<String, String> fieldErrors = new HashMap<>();
 

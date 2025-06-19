@@ -136,6 +136,8 @@ public class S0020Servlet extends HttpServlet {
 	    // 条件保存
 	    session serch_condition = new session(start_date, end_date, staff, category, product_name ,remarks);
 
+	    
+	    //２１deyaru 
 	    Sales select = new Sales();
 	    ArrayList<sales> saleslist = select.select(start_date, end_date, staff, category, product_name, remarks);
 
@@ -155,7 +157,7 @@ public class S0020Servlet extends HttpServlet {
 	    } catch (SQLException | NamingException e) {
 	        e.printStackTrace();
 	    }
-
+	    //Mappで渡してキーで取り出しも出来る
 	    if (hasError) {
 	        // エラーがある場合は、JSPにフォワード
 	        request.setAttribute("startDateError", startDateError);

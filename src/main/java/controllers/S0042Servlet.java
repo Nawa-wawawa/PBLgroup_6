@@ -49,7 +49,8 @@ public class S0042Servlet extends HttpServlet {
         String mail = request.getParameter("mail");
         String password = request.getParameter("password");
         String[] roles = request.getParameterValues("role");
-
+        
+        //ここの０とupdateはさすがに変える。
         byte authority = 0;
         if (roles != null) {
             for (String role : roles) {
@@ -62,7 +63,7 @@ public class S0042Servlet extends HttpServlet {
         }
 
         accounts a = new accounts(id, name, mail, password, authority);
-
+        //sessionを省略しない。
         request.getSession().setAttribute("confirmAccount", a);
         response.sendRedirect("S0043.html");
     }

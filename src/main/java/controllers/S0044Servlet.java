@@ -64,7 +64,7 @@ public class S0044Servlet extends HttpServlet {
             AccountService service = new AccountService();
             try {
                 service.delete(id);  // 削除処理
-                response.sendRedirect("S0030.html");  // 一覧画面へ
+                response.sendRedirect("S0041.html");  // 一覧画面へ
             } catch (Exception e) {
                 request.setAttribute("error", "削除に失敗しました: " + e.getMessage());
 

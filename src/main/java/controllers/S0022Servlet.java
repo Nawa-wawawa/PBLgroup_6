@@ -40,6 +40,7 @@ public class S0022Servlet extends HttpServlet {
 		HttpSession session = request.getSession(false);// セッションがなければ null を返す
 		if (session != null) {
 			// 例：int型IDとして使いたい場合（Integer型にキャスト）
+			//ここで再度selectする？
 			saleslist = (ArrayList<sales>) session.getAttribute("saleslist");
 		} else {
 			System.out.println("セッションが存在しません。");

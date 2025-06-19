@@ -170,8 +170,9 @@ public class S0023Servlet extends HttpServlet {
 	        // --- エラー時処理 ---
 	        if (!errors.isEmpty()) {
 	            request.setAttribute("errors", errors);
-
-	            // 入力値を保持
+	            // 入力値を保持ー＞入力された値をそのまま返しているだけ。
+	            //｜
+	            // ->次のページで${param}でよさそう
 	            request.setAttribute("sale_date", saleDateStr);
 	            request.setAttribute("staff", staffStr);
 	            request.setAttribute("category", categoryStr);
@@ -197,6 +198,7 @@ public class S0023Servlet extends HttpServlet {
 	        response.sendRedirect(request.getContextPath() + "/S0024.html");
 
 	    } else {
+	    	//キャンセルボタンの処理
 	        response.sendRedirect(request.getContextPath() + "/S0022.html");
 	    }
 	}

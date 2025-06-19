@@ -113,6 +113,8 @@ public class S0011Servlet extends HttpServlet {
 
 		//1-14
 		//1-15
+		
+		//二回チェックしてもいいが、これも呼び出し。
 		Map<String, String> errors = new LinkedHashMap<>();
 		// Map<キー, {関数, 値, エラーメッセージ}>
 		Map<String, Object[]> validations = new LinkedHashMap<>();
@@ -131,10 +133,16 @@ public class S0011Servlet extends HttpServlet {
 			String message = (String) valueArray[2];
 
 			boolean isError = false;
-			if (function instanceof Predicate) {
-				isError = ((Predicate<String>) function).test((String) value);
+			if (function instanceof Predicate<?>) {
+				if (value instanceof String str) {
+					@SuppressWarnings("unchecked")
+					Predicate<String> stringPredicate = (Predicate<String>) function;
+					isError = stringPredicate.test(str);
+				}
 			} else if (function instanceof IntPredicate) {
-				isError = ((IntPredicate) function).test((int) value);
+				if (value instanceof Integer i) {
+					isError = ((IntPredicate) function).test(i);
+				}
 			}
 
 			if (isError) {
