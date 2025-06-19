@@ -25,14 +25,21 @@ public class S0042Servlet extends HttpServlet {
             int accountId = Integer.parseInt(accountIdStr);
             AccountService service = new AccountService();
             accounts account = service.findById(accountId);
-            request.setAttribute("account", account);
-
-            // JSPでEL使用のため、booleanをセット
-            request.setAttribute("hasSalesRole", (account.getAuthority() & 1) != 0);
-            request.setAttribute("hasAccountRole", (account.getAuthority() & 2) != 0);
+            
+            if (account != null) {
+                request.setAttribute("account", account);
+                request.setAttribute("hasSalesRole", (account.getAuthority() & 1) != 0);
+                request.setAttribute("hasAccountRole", (account.getAuthority() & 2) != 0);
+            } else {
+                // accountがnullの時の処理（例：エラーメッセージをセット）
+                request.setAttribute("error", "指定されたアカウントが存在しません。");
+            }
+        } else {
+            request.setAttribute("error", "アカウントIDが指定されていません。");
         }
         request.getRequestDispatcher("/WEB-INF/jsp/S0042.jsp").forward(request, response);
     }
+
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
