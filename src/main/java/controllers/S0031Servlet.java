@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import beans.accounts;
+import beans.getAccountRequest;
 import services.AccountService;
 import services.Accountcheck;
 
@@ -24,7 +25,7 @@ public class S0031Servlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		request.getRequestDispatcher("/WEB-INF/jsp/S0031.jsp").forward(request, response);
 	}
 
@@ -34,12 +35,12 @@ public class S0031Servlet extends HttpServlet {
 
 		String action = request.getParameter("action");
 
-		// 入力値取得
-		String name = request.getParameter("name");
-		String mail = request.getParameter("mail");
-		String password = request.getParameter("password");
-		String confirmPassword = request.getParameter("confirmPassword");
-		String[] roles = request.getParameterValues("role");
+		getAccountRequest form = new getAccountRequest(request);
+
+		String[] roles = form.roles;
+		String name = form.name;
+		String mail = form.mail;
+		String password = form.password;
 
 		byte authority = 0;
 		if (roles != null) {
@@ -52,44 +53,13 @@ public class S0031Servlet extends HttpServlet {
 			}
 		}
 
-		accounts account = new accounts(0, name, mail, password, authority);
+		accounts account = new accounts(name, mail, password, authority);
 
-		// バリデーション これは30の内容なので30のサーブレットで書かないとウラルが31でエラー表示される。
-		Accountcheck checker = new Accountcheck();
 		Map<String, String> fieldErrors = new HashMap<>();
 
-		// ■氏名
-		if (name == null || name.trim().isEmpty()) {
-			fieldErrors.put("name", "氏名を入力してください。");
-		} else if (!name.matches("^[\\p{L} 　\\-\\ー]+$")) { // 例：日本語・英字・スペース・ハイフンだけ許可
-			fieldErrors.put("name", "氏名の形式が正しくありません。");
-		} else if (checker.nameCheck(name)) {
-			fieldErrors.put("name", "氏名は20文字以内で入力してください。");
-		}
+		Accountcheck acc = new Accountcheck();
 
-		// ■メールアドレス
-		if (mail == null || mail.trim().isEmpty()) {
-			fieldErrors.put("mail", "メールアドレスを入力してください。");
-		} else if (!checker.isValidEmailFormat(mail)) {
-			fieldErrors.put("mail", "メールアドレスの形式が正しくありません。");
-		} else if (checker.mailCheck(mail)) {
-			fieldErrors.put("mail", "メールアドレスは100文字以内で入力してください。");
-		}
-
-		// ■パスワード
-		if (password == null || password.trim().isEmpty()) {
-			fieldErrors.put("password", "パスワードを入力してください。");
-		} else if (checker.passwordCheck(password)) {
-			fieldErrors.put("password", "パスワードは30文字以内で入力してください。");
-		}
-
-		// ■パスワード（確認）
-		if (confirmPassword == null || confirmPassword.trim().isEmpty()) {
-			fieldErrors.put("confirmPassword", "確認用パスワードを入力してください。");
-		} else if (!confirmPassword.equals(password)) {
-			fieldErrors.put("confirmPassword", "パスワードとパスワード（確認）の入力内容が異なっています。");
-		}
-
+		acc.useCheck(form);
 		if (!fieldErrors.isEmpty()) {
 			// エラーがある → 入力画面に戻す
 			request.setAttribute("fieldErrors", fieldErrors);

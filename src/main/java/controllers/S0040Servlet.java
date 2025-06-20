@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import beans.AccountSearchCondition;
-import services.AccountSearchCheck;
+import services.Accountcheck;
 
 /**
  * Servlet implementation class SerchAccountServlet
@@ -57,7 +57,7 @@ public class S0040Servlet extends HttpServlet {
 		byte authority = 0;
 		authority = Byte.parseByte(role);
 
-		AccountSearchCheck ascheck = new AccountSearchCheck();
+		Accountcheck ascheck = new Accountcheck();
 		Map<String, String> errors = new HashMap<>();
 
 		if (name != null && ascheck.nameCheck(name)) {
@@ -65,7 +65,7 @@ public class S0040Servlet extends HttpServlet {
 			errors.put("error1", "氏名の指定が長すぎます。");
 
 		}
-		if (mail != null && ascheck.mailCheck(mail)) {
+		if (mail != null && ascheck.mailSerchCheck(mail)) {
 
 			errors.put("error2", "メールアドレスの指定が長すぎます。");
 

@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import beans.getRequest;
+import beans.getSaleRequest;
 import beans.sales;
 import services.Sales;
 import services.Salescheck;
@@ -50,7 +50,7 @@ public class S0023Servlet extends HttpServlet {
 
 		if (action == 1) {
 
-			getRequest form = new getRequest(request);
+			getSaleRequest form = new getSaleRequest(request);
 
 			Map<String, String> errors = new LinkedHashMap<>();
 			Salescheck check = new Salescheck();
