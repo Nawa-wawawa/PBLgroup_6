@@ -24,8 +24,7 @@ public class S0043Servlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// GETは使わない想定 → 入力画面に戻す
-		response.sendRedirect("S0042.html");
+		request.getRequestDispatcher("/WEB-INF/jsp/S0043.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -64,9 +63,9 @@ public class S0043Servlet extends HttpServlet {
 			byte authority = 0;
 			if (roles != null) {
 				for (String role : roles) {
-					if ("0".equals(role)) {
+					if ("salesregister".equals(role)) {
 						authority |= 1;
-					} else if ("update".equals(role)) {
+					} else if ("accountregister".equals(role)) {
 						authority |= 2;
 					}
 				}
@@ -130,7 +129,7 @@ public class S0043Servlet extends HttpServlet {
 			try {
 				service.update(account); // updateメソッドでDBの更新を実施
 				// 更新成功：一覧画面や完了画面にリダイレクト
-				response.sendRedirect("S0030.html");
+				response.sendRedirect("S0041.html");
 			} catch (Exception e) {
 				request.setAttribute("error", "更新に失敗しました: " + e.getMessage());
 				request.setAttribute("account", account);
@@ -150,9 +149,9 @@ public class S0043Servlet extends HttpServlet {
 			byte authority = 0;
 			if (roles != null) {
 				for (String role : roles) {
-					if ("0".equals(role)) {
+					if ("salesregister".equals(role)) {
 						authority |= 1;
-					} else if ("update".equals(role)) {
+					} else if ("accountregister".equals(role)) {
 						authority |= 2;
 					}
 				}

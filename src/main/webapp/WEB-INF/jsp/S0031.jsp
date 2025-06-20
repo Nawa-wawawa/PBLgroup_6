@@ -29,10 +29,10 @@
             <input type="hidden" name="confirmPassword" value="${account.password}">
 
             <c:if test="${canRegisterSales}">
-                <input type="hidden" name="role" value="0">
+                <input type="hidden" name="role" value="salesregister">
             </c:if>
             <c:if test="${canRegisterAccounts}">
-                <input type="hidden" name="role" value="update">
+                <input type="hidden" name="role" value="accountregister">
             </c:if>
 
             <!-- 表示項目（すべてdisabled） -->

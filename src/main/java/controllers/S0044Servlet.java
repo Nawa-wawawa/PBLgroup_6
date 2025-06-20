@@ -30,7 +30,6 @@ public class S0044Servlet extends HttpServlet {
             if (account != null) {
                 request.setAttribute("account", account);
 
-                // ✅ JSPと同じ変数名で設定すること！
                 request.setAttribute("hasSalesAuthority", (account.getAuthority() & 1) != 0);
                 request.setAttribute("hasAccountAuthority", (account.getAuthority() & 2) != 0);
             } else {

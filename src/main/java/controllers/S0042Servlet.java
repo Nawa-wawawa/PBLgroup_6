@@ -54,9 +54,9 @@ public class S0042Servlet extends HttpServlet {
         byte authority = 0;
         if (roles != null) {
             for (String role : roles) {
-                if ("0".equals(role)) {
+                if ("salesregister".equals(role)) {
                     authority |= 1;
-                } else if ("update".equals(role)) {
+                } else if ("accountregister".equals(role)) {
                     authority |= 2;
                 }
             }

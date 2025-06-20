@@ -27,13 +27,13 @@ public class AccountAuthorityFilter implements Filter {
 
         if (session == null || session.getAttribute("user") == null) {
             // セッションなし or ユーザ情報なしはログアウト
-            res.sendRedirect("/Logout.html");
+            res.sendRedirect("Logout.html");
             return;
         }
 
         Object userObj = session.getAttribute("user");
         if (!(userObj instanceof beans.accounts)) {
-            res.sendRedirect("/Logout.html");
+            res.sendRedirect("Logout.html");
             return;
         }
 
@@ -44,7 +44,7 @@ public class AccountAuthorityFilter implements Filter {
         if (authority == 2 || authority == 3) {
             chain.doFilter(request, response);
         } else {
-            res.sendRedirect("/Logout.html");
+            res.sendRedirect("Logout.html");
         }
     }
 

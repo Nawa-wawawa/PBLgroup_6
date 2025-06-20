@@ -26,14 +26,14 @@ public class SalesAuthorityFilter implements Filter {
         
         if (session == null || session.getAttribute("user") == null) {
             // セッションがないか、ユーザー情報がない場合はログアウト
-            res.sendRedirect("/Logout.html");
+            res.sendRedirect("Logout.html");
             return;
         }
 
         // ユーザー情報取得（Userオブジェクトがある前提）
         Object userObj = session.getAttribute("user");
         if (!(userObj instanceof beans.accounts)) {
-            res.sendRedirect("/Logout.html");
+            res.sendRedirect("Logout.html");
             return;
         }
 
@@ -46,7 +46,7 @@ public class SalesAuthorityFilter implements Filter {
             chain.doFilter(request, response); // 通過
         } else {
             // 権限がない場合はログアウト
-            res.sendRedirect("/Logout.html");
+            res.sendRedirect("Logout.html");
         }
     }
 
