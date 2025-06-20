@@ -61,7 +61,7 @@ public class S0030Servlet extends HttpServlet {
 
 		accounts a = new accounts(0, name, mail, password, authority);
 		new AccountService().insert(a);
-		response.sendRedirect("S0031html");
+		response.sendRedirect("S0031.html");
 	}
 
 }
