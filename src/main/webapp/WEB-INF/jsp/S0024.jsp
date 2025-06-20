@@ -25,7 +25,7 @@
 				</div>
 				<div class="col-2">
 					<input type="date" name="sale_date" class="form-control"
-						value="${sale_date}" disabled>
+						value="${sessionScope.picksale.sale_date}" disabled>
 				</div>
 			</div>
 			<div class="row mb-3">
@@ -36,7 +36,7 @@
 				</div>
 				<div class="col-4">
 					<select name="staff" class="form-control" disabled>
-						<option value="${staff_id}">${accountname}</option>
+						<option>${accountName}</option>
 					</select>
 				</div>
 			</div>
@@ -49,7 +49,7 @@
 				<div class="col-4">
 
 					<select name="category" class="form-control" disabled>
-						<option value="${category_id}">${categoryname}</option>
+						<option>${categoryName}</option>
 					</select>
 				</div>
 			</div>
@@ -61,7 +61,7 @@
 				</div>
 				<div class="col-4">
 					<input type="text" name="product_name" class="form-control"
-						placeholder="${product_name}" disabled>
+						placeholder="${sessionScope.picksale.trade_name}" disabled>
 				</div>
 			</div>
 
@@ -71,7 +71,7 @@
 				</div>
 				<div class="col-2">
 					<input type="number" name="unit_price" class="form-control"
-						placeholder="${unit_price}" disabled>
+						placeholder="${sessionScope.picksale.unit_price}" disabled>
 				</div>
 			</div>
 
@@ -83,7 +83,7 @@
 				</div>
 				<div class="col-2">
 					<input type="number" name="quantity" class="form-control"
-						placeholder="${quantity}" disabled>
+						placeholder="${sessionScope.picksale.sale_number}" disabled>
 				</div>
 			</div>
 
@@ -91,14 +91,14 @@
 				<div class="col-2 text-end">備考</div>
 				<div class="col-4">
 					<textarea name="remarks" class="form-control" rows="3"
-						placeholder="${remarks}" disabled></textarea>
+						placeholder="${sessionScope.picksale.note}" disabled></textarea>
 				</div>
 			</div>
 			<div class="row">
 				<div class="offset-2 col-2 text-end">
 					<button type="submit" class="btn btn-primary" name="action"
 						value="1">OK</button>
-					<button type="submit" class="btn btn-light" name="action" value="0">キャンセル</button>
+					<a href="S0023.html" class="btn btn-light" role="button">キャンセル</a>
 				</div>
 			</div>
 		</form>

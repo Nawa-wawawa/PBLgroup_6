@@ -2,9 +2,7 @@ package controllers;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.IntPredicate;
@@ -20,9 +18,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import beans.sales;
-import beans.session;
-import services.Accounts;
-import services.Categories;
 import services.Sales;
 import services.Salescheck;
 import utils.Db;
@@ -51,33 +46,28 @@ public class S0024Servlet extends HttpServlet {
 		int staffId = 0;
 		int categoryId = 0;
 
-		String categoryname = "";
-		String accountname = "";
+		String categoryName = "";
+		String accountName = "";
+
+		sales salesData = null;
 
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession(false); // セッションがなければ null を返す
 		if (session != null) {
 			// 例：int型IDとして使いたい場合（Integer型にキャスト）
-			staffId = (Integer) session.getAttribute("staff_id");
-			categoryId = (Integer) session.getAttribute("category_id");
+			salesData = (sales) session.getAttribute("picksale");
+			staffId = salesData.getAccount_id();
+			categoryId = salesData.getCategory_id();
 		} else {
 			System.out.println("セッションが存在しません。");
 		}
 
-		try (Connection con = Db.open()) {
-			Categories ct = new Categories();
-			categoryname = ct.getCategoryname(categoryId);
-			Accounts ac = new Accounts();
-			accountname = ac.getAccountname(staffId);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (NamingException e1) {
-			// TODO 自動生成された catch ブロック
-			e1.printStackTrace();
-		}
+		categoryName = Sales.getCategoryNameById(categoryId);
+		accountName = Sales.getAccountNameById(staffId);
 
-		request.setAttribute("categoryname", categoryname);
-		request.setAttribute("accountname", accountname);
+		request.setAttribute("categoryName", categoryName);
+		request.setAttribute("accountName", accountName);
+
 		request.getRequestDispatcher("/WEB-INF/jsp/S0024.jsp").forward(request, response);
 	}
 
@@ -87,29 +77,19 @@ public class S0024Servlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		Date sale_date = null;
 		int staff = 0;
 		int category = 0;
-		String product_name = "";
-		int unit_price = 0;
-		int quantity = 0;
-		String remarks = "";
-		session serch_condition = null;
-		
-		int saleId =0;
+		int saleId = 0;
+		sales salesData = null;
 
 		HttpSession session = request.getSession(false); // セッションがなければ null を返す
 		if (session != null) {
 			// 例：int型IDとして使いたい場合（Integer型にキャスト）
-			sale_date = (Date) session.getAttribute("sale_date");
-			staff = (Integer) session.getAttribute("staff_id");
-			category = (Integer) session.getAttribute("category_id");
-			product_name = (String) session.getAttribute("product_name");
-			unit_price = (Integer) session.getAttribute("unit_price");
-			quantity = (Integer) session.getAttribute("quantity");
-			remarks = (String) session.getAttribute("remarks");
+			salesData = (sales) session.getAttribute("picksale");
 			saleId = (int) session.getAttribute("saleId");
-			serch_condition = (session) session.getAttribute("serch_condition");
+			staff = salesData.getAccount_id();
+			category = salesData.getCategory_id();
+
 		} else {
 			System.out.println("セッションが存在しません。");
 		}
@@ -137,10 +117,16 @@ public class S0024Servlet extends HttpServlet {
 			String message = (String) valueArray[2];
 
 			boolean isError = false;
-			if (function instanceof Predicate) {
-				isError = ((Predicate<String>) function).test((String) value);
+			if (function instanceof Predicate<?>) {
+				if (value instanceof String str) {
+					@SuppressWarnings("unchecked")
+					Predicate<String> predicate = (Predicate<String>) function;
+					isError = predicate.test(str);
+				}
 			} else if (function instanceof IntPredicate) {
-				isError = ((IntPredicate) function).test((int) value);
+				if (value instanceof Integer i) {
+					isError = ((IntPredicate) function).test(i);
+				}
 			}
 
 			if (isError) {
@@ -161,14 +147,9 @@ public class S0024Servlet extends HttpServlet {
 
 				Sales sl = new Sales();
 
-				sales Newsale = new sales(sale_date, staff, category, product_name, unit_price, quantity, remarks);
+				sales Newsale = salesData;
 
 				sl.update(Newsale, saleId);
-				
-				ArrayList<sales> saleslist = sl.select(serch_condition.getStart_date(),
-						serch_condition.getEnd_date(), serch_condition.getAccount_id(),
-						serch_condition.getCategory_id(), serch_condition.getTrade_name(), serch_condition.getNote());
-				session.setAttribute("saleslist", saleslist);
 
 			} catch (SQLException e) {
 				e.printStackTrace();

@@ -53,6 +53,8 @@ public class S0022Servlet extends HttpServlet {
 				picksale = sl;
 			}
 		}
+		
+		
 
 		session.setAttribute("picksale", picksale);
 

@@ -1,6 +1,7 @@
 package controllers;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -8,6 +9,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+
+import beans.sales;
+import beans.salescondition;
+import services.Sales;
 
 /**
  * Servlet implementation class S0021Servlrt
@@ -29,6 +34,14 @@ public class S0021Servlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		salescondition serch_condition = (salescondition) session.getAttribute("serch_condition");
+		Sales select = new Sales();
+		ArrayList<sales> saleslist = select.select(serch_condition);
+		session.setAttribute("saleslist", saleslist);
+
+		Sales.loadAccountAndCategory(request);
+		//ここに検索結果がない場合を記入。
 
 		request.getRequestDispatcher("/WEB-INF/jsp/S0021.jsp").forward(request, response);
 	}

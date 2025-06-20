@@ -17,7 +17,7 @@
 	</div>
 
 	<div class="container">
-		<form method="post" action="S0011.html" >
+		<form method="post" action="S0011.html">
 			<div class="row mb-3">
 				<div class="col-2 text-end">
 					<span class="d-inline-flex align-items-center gap-1"> <span>販売日</span>
@@ -26,10 +26,9 @@
 				</div>
 				<div class="col-2">
 					<input type="date" name="sale_date" class="form-control"
-						value="${sessionScope.sale_date}"disabled>
+						value="${sessionScope.salesData.sale_date}" disabled>
 				</div>
 			</div>
-
 			<div class="row mb-3">
 				<div class="col-2 text-end">
 					<span class="d-inline-flex align-items-center gap-1"> <span>担当</span>
@@ -38,7 +37,7 @@
 				</div>
 				<div class="col-4">
 					<select name="staff" class="form-control" disabled>
-							<option value="${staff}">${accountname}</option>
+						<option>${accountName}</option>
 					</select>
 				</div>
 			</div>
@@ -51,7 +50,7 @@
 				</div>
 				<div class="col-4">
 					<select name="category" class="form-control" disabled>
-							<option value="${category}">${categoryname}</option>	
+						<option>${categoryName}</option>
 					</select>
 				</div>
 			</div>
@@ -64,7 +63,8 @@
 				</div>
 				<div class="col-4">
 					<input type="text" name="product_name" class="form-control"
-						placeholder="商品名を入力" value="${product_name}" disabled>
+						placeholder="商品名を入力" value="${sessionScope.salesData.trade_name}"
+						disabled>
 				</div>
 			</div>
 
@@ -76,7 +76,8 @@
 				</div>
 				<div class="col-2">
 					<input type="number" name="unit_price" class="form-control"
-						placeholder="円単位で入力" value="${unit_price}"disabled>
+						placeholder="円単位で入力" value="${sessionScope.salesData.unit_price}"
+						disabled>
 				</div>
 			</div>
 
@@ -88,7 +89,8 @@
 				</div>
 				<div class="col-2">
 					<input type="number" name="quantity" class="form-control"
-						placeholder="個数を入力" value="${quantity}"disabled>
+						placeholder="個数を入力" value="${sessionScope.salesData.sale_number}"
+						disabled>
 				</div>
 			</div>
 
@@ -96,51 +98,18 @@
 				<div class="col-2 text-end">備考</div>
 				<div class="col-4">
 					<textarea name="remarks" class="form-control" rows="3"
-						placeholder="特記事項などがあれば入力" value="${remarks}"disabled>${remarks}</textarea>
+						placeholder="特記事項などがあれば入力" value="${sessionScope.salesData.note}"
+						disabled>${sessionScope.salesData.note}</textarea>
 				</div>
 			</div>
 			<div class="row">
 				<div class="offset-2 col-2 text-end">
 					<button type="submit" class="btn btn-primary">登録</button>
 					<a href="S0010.html" class="btn btn-light" role="button">キャンセル</a>
-
 				</div>
 			</div>
 		</form>
 	</div>
-	
-	
-		<c:if test="${not empty errors}">
-		<div class="modal fade" id="Modal" tabindex="-1"data-bs-backdrop="static" data-bs-keyboard="false" 
-			aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h1 class="modal-title fs-5" id="exampleModalLabel">入力エラー</h1>
-					</div>
-					<div class="modal-body">
-						<c:forEach var="entry" items="${errors}">
-							<div>${entry.value}</div>
-							<!-- ← ここを修正 -->
-						</c:forEach>
-					</div>
-					<div class="modal-footer">
-						<a class="btn btn-primary" href="S0010.html">分かりました。</a>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<script>
-			document.addEventListener('DOMContentLoaded', function() {
-				var myModal = new bootstrap.Modal(document
-						.getElementById('Modal'));
-				myModal.show();
-			});
-		</script>
-	</c:if>
-	
-	
 	<script
 		src="${pageContext.request.contextPath}/js/bootstrap.bundle.min.js"
 		defer></script>

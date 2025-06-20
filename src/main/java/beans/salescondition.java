@@ -2,7 +2,7 @@ package beans;
 
 import java.sql.Date;
 
-public class session {
+public class salescondition {
 
 	private Date start_date;
 	private Date end_date;
@@ -12,7 +12,7 @@ public class session {
 
 	private String note;
 
-	public session(Date start_date, Date end_date, int account_id, int category_id, String trade_name, String note) {
+	public salescondition(Date start_date, Date end_date, int account_id, int category_id, String trade_name, String note) {
 		super();
 		this.start_date = start_date;
 		this.end_date = end_date;

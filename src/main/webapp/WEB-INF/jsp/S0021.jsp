@@ -48,7 +48,9 @@
 					<div class="col-1">${sales.sale_date}</div>
 					<div class="col-1">
 						<c:set var="accountName" value="" />
-						<c:forEach var="ac" items="${sessionScope.accountslist}">
+
+						<c:forEach var="ac" items="${accountslist}">
+
 							<c:if test="${ac.account_id == sales.account_id}">
 								<c:set var="accountName" value="${ac.name}" />
 								${ac.name}
@@ -58,7 +60,7 @@
 					</div>
 					<div class="col-2">
 						<c:set var="categoryName" value="" />
-						<c:forEach var="ct" items="${sessionScope.categorylist}">
+						<c:forEach var="ct" items="${categorylist}">
 							<c:if test="${ct.category_id == sales.category_id}">
 								<c:set var="categoryName" value="${ct.category_name}" />
 								${ct.category_name}

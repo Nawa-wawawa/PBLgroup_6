@@ -30,7 +30,7 @@
 				<div class="col-2 text-end">販売日</div>
 				<div class="col-2">
 					<input type="date" name="sale_date" class="form-control"
-						value="${sale_date != null ? sale_date : picksale.sale_date}">
+						value="${param['sale_date'] != null ? param['sale_date'] : picksale.sale_date}">
 					<div class="text-danger">
 						<c:if test="${errors != null}">
 							<c:out value="${errors['error_sale_date_required']}" />
@@ -47,7 +47,7 @@
 					<select name="staff" class="form-control">
 						<c:forEach var="account" items="${accountslist}">
 							<option value="${account.account_id}"
-								<c:if test="${account.account_id == (staff != null ? staff : picksale.account_id)}">selected</c:if>>
+								<c:if test="${account.account_id == (param['staff'] != null ? param['staff'] : picksale.account_id)}">selected</c:if>>
 								${account.name}</option>
 						</c:forEach>
 					</select>
@@ -68,8 +68,8 @@
 						<c:forEach var="cat" items="${categorylist}">
 							<option value="${cat.category_id}"
 								<c:choose>
-                                    <c:when test="${not empty category}">
-                                        <c:if test="${cat.category_id == category}">selected</c:if>
+                                    <c:when test="${not empty param['category']}">
+                                        <c:if test="${cat.category_id == param['category']}">selected</c:if>
                                     </c:when>
                                     <c:otherwise>
                                         <c:if test="${cat.category_id == picksale.category_id}">selected</c:if>
@@ -92,7 +92,7 @@
 				<div class="col-2 text-end">商品名</div>
 				<div class="col-4">
 					<input type="text" name="product_name" class="form-control"
-						value="${product_name != null ? product_name : picksale.trade_name}"
+						value="${param['product_name'] != null ? param['product_name'] : picksale.trade_name}"
 						autocomplete="off">
 					<div class="text-danger">
 						<c:if test="${errors != null}">
@@ -108,7 +108,7 @@
 				<div class="col-2 text-end">単価</div>
 				<div class="col-2">
 					<input type="number" name="unit_price" class="form-control"
-						value="${unit_price != null ? unit_price : picksale.unit_price}"
+						value="${param['unit_price'] != null ? param['unit_price'] : picksale.unit_price}"
 						min="1" max="2147483647" step="1">
 					<div class="text-danger">
 						<c:if test="${errors != null}">
@@ -124,7 +124,7 @@
 				<div class="col-2 text-end">個数</div>
 				<div class="col-2">
 					<input type="number" name="quantity" class="form-control"
-						value="${quantity != null ? quantity : picksale.sale_number}"
+						value="${param['quantity'] != null ? param['quantity'] : picksale.sale_number}"
 						min="1" max="2147483647" step="1">
 					<div class="text-danger">
 						<c:if test="${errors != null}">
@@ -139,7 +139,7 @@
 			<div class="row mb-3">
 				<div class="col-2 text-end">備考</div>
 				<div class="col-4">
-					<textarea name="remarks" class="form-control" rows="3">${remarks != null ? remarks : picksale.note}</textarea>
+					<textarea name="remarks" class="form-control" rows="3">${param['remarks'] != null ? param['remarks'] : picksale.note}</textarea>
 					<div class="text-danger">
 						<c:if test="${errors != null}">
 							<c:out value="${errors['error_remarks']}" />

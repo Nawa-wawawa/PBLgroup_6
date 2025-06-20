@@ -10,7 +10,12 @@ import java.util.List;
 
 import javax.naming.NamingException;
 
+import jakarta.servlet.ServletRequest;
+
+import beans.accounts;
+import beans.categories;
 import beans.sales;
+import beans.salescondition;
 import utils.Db;
 
 public class Sales {
@@ -45,34 +50,34 @@ public class Sales {
 		return salelist;
 	}
 
-	public ArrayList<sales> select(Date start, Date end, int account_id, int category_id, String name, String remark) {
+	public ArrayList<sales> select(salescondition serch) {
 		ArrayList<sales> salelist = new ArrayList<>();
 		String sql = "SELECT * FROM sales WHERE 1=1";
 		List<Object> params = new ArrayList<>();
 
-		if (start != null) {
+		if (serch.getStart_date() != null) {
 			sql += " AND sale_date >= ?";
-			params.add(start);
+			params.add(serch.getStart_date());
 		}
-		if (end != null) {
+		if (serch.getEnd_date() != null) {
 			sql += " AND sale_date <= ?";
-			params.add(end);
+			params.add(serch.getEnd_date());
 		}
-		if (account_id != 0) {
+		if (serch.getAccount_id() != 0) {
 			sql += " AND account_id = ?";
-			params.add(account_id);
+			params.add(serch.getAccount_id());
 		}
-		if (category_id != 0) {
+		if (serch.getCategory_id() != 0) {
 			sql += " AND category_id = ?";
-			params.add(category_id);
+			params.add(serch.getCategory_id());
 		}
-		if (name != null && !name.isEmpty()) {
+		if (serch.getTrade_name() != null && !serch.getTrade_name().isEmpty()) {
 			sql += " AND trade_name LIKE ?";
-			params.add("%" + name + "%");
+			params.add("%" + serch.getTrade_name() + "%");
 		}
-		if (remark != null && !remark.isEmpty()) {
+		if (serch.getNote() != null && !serch.getNote().isEmpty()) {
 			sql += " AND note LIKE ?";
-			params.add("%" + remark + "%");
+			params.add("%" + serch.getNote() + "%");
 		}
 
 		try (
@@ -205,4 +210,42 @@ public class Sales {
 
 		return userName;
 	}
+
+	public static void loadAccountAndCategory(ServletRequest request) {
+		ArrayList<accounts> accountslist = null;
+		ArrayList<categories> categorylist = null;
+
+		try (Connection con = Db.open()) {
+			Categories ct = new Categories();
+			categorylist = ct.select();
+			Accounts ac = new Accounts();
+			accountslist = ac.select();
+		} catch (SQLException | NamingException e) {
+			e.printStackTrace();
+		}
+
+		request.setAttribute("accountslist", accountslist);
+		request.setAttribute("categorylist", categorylist);
+	}
+
+	public static String getCategoryNameById(int categoryId) {
+		try (Connection con = Db.open()) {
+			Categories ct = new Categories();
+			return ct.getCategoryname(categoryId);
+		} catch (SQLException | NamingException e) {
+			e.printStackTrace();
+			return "";
+		}
+	}
+
+	public static String getAccountNameById(int staffId) {
+		try (Connection con = Db.open()) {
+			Accounts ac = new Accounts();
+			return ac.getAccountname(staffId);
+		} catch (SQLException | NamingException e) {
+			e.printStackTrace();
+			return "";
+		}
+	}
+
 }
