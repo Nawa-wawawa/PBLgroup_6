@@ -2,7 +2,6 @@ package controllers;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -49,12 +48,16 @@ public class S0024Servlet extends HttpServlet {
 
 		String categoryName = "";
 		String accountName = "";
+
+		sales salesData = null;
+
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession(false); // セッションがなければ null を返す
 		if (session != null) {
 			// 例：int型IDとして使いたい場合（Integer型にキャスト）
-			staffId = (Integer) session.getAttribute("staff_id");
-			categoryId = (Integer) session.getAttribute("category_id");
+			salesData = (sales) session.getAttribute("picksale");
+			staffId = salesData.getAccount_id();
+			categoryId = salesData.getCategory_id();
 		} else {
 			System.out.println("セッションが存在しません。");
 		}
@@ -62,8 +65,8 @@ public class S0024Servlet extends HttpServlet {
 		categoryName = Sales.getCategoryNameById(categoryId);
 		accountName = Sales.getAccountNameById(staffId);
 
-		request.setAttribute("categoryname", categoryName);
-		request.setAttribute("accountname", accountName);
+		request.setAttribute("categoryName", categoryName);
+		request.setAttribute("accountName", accountName);
 
 		request.getRequestDispatcher("/WEB-INF/jsp/S0024.jsp").forward(request, response);
 	}
@@ -74,27 +77,19 @@ public class S0024Servlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		Date sale_date = null;
 		int staff = 0;
 		int category = 0;
-		String product_name = "";
-		int unit_price = 0;
-		int quantity = 0;
-		String remarks = "";
-
 		int saleId = 0;
+		sales salesData = null;
 
 		HttpSession session = request.getSession(false); // セッションがなければ null を返す
 		if (session != null) {
 			// 例：int型IDとして使いたい場合（Integer型にキャスト）
-			sales salesData = (sales) session.getAttribute("salesData");
-			sale_date = salesData.getSale_date();
+			salesData = (sales) session.getAttribute("picksale");
+			saleId = (int) session.getAttribute("saleId");
 			staff = salesData.getAccount_id();
 			category = salesData.getCategory_id();
-			product_name = salesData.getTrade_name();
-			unit_price = salesData.getUnit_price();
-			quantity = salesData.getSale_number();
-			remarks = salesData.getNote();
+
 		} else {
 			System.out.println("セッションが存在しません。");
 		}
@@ -122,10 +117,16 @@ public class S0024Servlet extends HttpServlet {
 			String message = (String) valueArray[2];
 
 			boolean isError = false;
-			if (function instanceof Predicate) {
-				isError = ((Predicate<String>) function).test((String) value);
+			if (function instanceof Predicate<?>) {
+				if (value instanceof String str) {
+					@SuppressWarnings("unchecked")
+					Predicate<String> predicate = (Predicate<String>) function;
+					isError = predicate.test(str);
+				}
 			} else if (function instanceof IntPredicate) {
-				isError = ((IntPredicate) function).test((int) value);
+				if (value instanceof Integer i) {
+					isError = ((IntPredicate) function).test(i);
+				}
 			}
 
 			if (isError) {
@@ -146,7 +147,7 @@ public class S0024Servlet extends HttpServlet {
 
 				Sales sl = new Sales();
 
-				sales Newsale = new sales(sale_date, staff, category, product_name, unit_price, quantity, remarks);
+				sales Newsale = salesData;
 
 				sl.update(Newsale, saleId);
 

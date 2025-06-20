@@ -12,6 +12,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+import beans.sales;
+import services.Sales;
 import services.Salescheck;
 
 /**
@@ -34,7 +36,7 @@ public class S0023Servlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+		Sales.loadAccountAndCategory(request);
 		request.getRequestDispatcher("/WEB-INF/jsp/S0023.jsp").forward(request, response);
 	}
 
@@ -55,6 +57,7 @@ public class S0023Servlet extends HttpServlet {
 	        String quantityStr = request.getParameter("quantity");
 	        String remarks = request.getParameter("remarks");
 
+	        
 	        Map<String, String> errors = new LinkedHashMap<>();
 	        Salescheck check = new Salescheck();
 
@@ -167,32 +170,26 @@ public class S0023Servlet extends HttpServlet {
 	            errors.put("error_category_not_found", "カテゴリの確認時にエラーが発生しました。");
 	        }
 
+	        
+	        
+	        
 	        // --- エラー時処理 ---
 	        if (!errors.isEmpty()) {
 	            request.setAttribute("errors", errors);
-
-	            // 入力値を保持
-	            request.setAttribute("sale_date", saleDateStr);
-	            request.setAttribute("staff", staffStr);
-	            request.setAttribute("category", categoryStr);
-	            request.setAttribute("product_name", product_name);
-	            request.setAttribute("unit_price", unitPriceStr);
-	            request.setAttribute("quantity", quantityStr);
-	            request.setAttribute("remarks", remarks);
 
 	            request.getRequestDispatcher("/WEB-INF/jsp/S0023.jsp").forward(request, response);
 	            return;
 	        }
 
 	        // --- エラーなし時 ---
+	        
+	        sales salesData = new sales(sale_date,staff ,category ,product_name , unit_price, quantity, remarks);
+
+	        
 	        HttpSession session = request.getSession();
-	        session.setAttribute("sale_date", sale_date);
-	        session.setAttribute("staff_id", staff);
-	        session.setAttribute("category_id", category);
-	        session.setAttribute("product_name", product_name);
-	        session.setAttribute("unit_price", unit_price);
-	        session.setAttribute("quantity", quantity);
-	        session.setAttribute("remarks", remarks);
+	        
+	        session.setAttribute("picksale",salesData);
+
 
 	        response.sendRedirect(request.getContextPath() + "/S0024.html");
 

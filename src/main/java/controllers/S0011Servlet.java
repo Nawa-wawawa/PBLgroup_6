@@ -63,9 +63,9 @@ public class S0011Servlet extends HttpServlet {
 
 		categoryName = Sales.getCategoryNameById(categoryId);
 		accountName = Sales.getAccountNameById(staffId);
-		
-		request.setAttribute("categoryname", categoryName);
-		request.setAttribute("accountname", accountName);
+
+		request.setAttribute("categoryName", categoryName);
+		request.setAttribute("accountName", accountName);
 
 		request.getRequestDispatcher("/WEB-INF/jsp/S0011.jsp").forward(request, response);
 	}
@@ -123,8 +123,10 @@ public class S0011Servlet extends HttpServlet {
 			String message = (String) valueArray[2];
 
 			boolean isError = false;
-			if (function instanceof Predicate) {
-				isError = ((Predicate<String>) function).test((String) value);
+			if (function instanceof Predicate<?>) {
+				@SuppressWarnings("unchecked")
+				Predicate<String> stringPredicate = (Predicate<String>) function;
+				isError = stringPredicate.test((String) value);
 			} else if (function instanceof IntPredicate) {
 				isError = ((IntPredicate) function).test((int) value);
 			}
@@ -150,6 +152,7 @@ public class S0011Servlet extends HttpServlet {
 				sales Newsale = new sales(sale_date, staff, category, product_name, unit_price, quantity, remarks);
 
 				sl.insert(Newsale);
+				session.removeAttribute("salesData");
 
 			} catch (SQLException e) {
 				e.printStackTrace();
