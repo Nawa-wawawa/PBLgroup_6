@@ -24,8 +24,8 @@ public class S0031Servlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// GETは使わない想定 → 入力画面に戻す
-		response.sendRedirect("S0030.html");
+		
+		request.getRequestDispatcher("/WEB-INF/jsp/S0031.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -44,9 +44,9 @@ public class S0031Servlet extends HttpServlet {
 		byte authority = 0;
 		if (roles != null) {
 			for (String role : roles) {
-				if ("0".equals(role)) {
+				if ("salesregister".equals(role)) {
 					authority |= 1; // 売上登録
-				} else if ("update".equals(role)) {
+				} else if ("accountregister".equals(role)) {
 					authority |= 2; // アカウント登録
 				}
 			}

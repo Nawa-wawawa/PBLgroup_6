@@ -91,13 +91,13 @@
                 <div class="col-sm-10">
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="checkbox" name="role"
-                               id="roleRead" value="0"
+                               id="roleRead" value="salesregister"
                                <c:if test="${hasSalesRole}">checked</c:if>>
                         <label class="form-check-label" for="roleRead">売上登録</label>
                     </div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="checkbox" name="role"
-                               id="roleUpdate" value="update"
+                               id="roleUpdate" value="accountregister"
                                <c:if test="${hasAccountRole}">checked</c:if>>
                         <label class="form-check-label" for="roleUpdate">アカウント登録</label>
                     </div>

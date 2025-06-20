@@ -93,14 +93,14 @@
 				<div class="col-sm-10">
 					<div class="form-check form-check-inline">
 						<input class="form-check-input" type="checkbox" name="role"
-							value="0" id="roleRead"
-							<c:if test="${roles != null && fn:contains(roles, '0')}">checked</c:if>>
+							value="salesregister" id="roleRead"
+							<c:if test="${roles != null && fn:contains(roles, 'sales')}">checked</c:if>>
 						<label class="form-check-label" for="roleRead">売上登録</label>
 					</div>
 					<div class="form-check form-check-inline">
 						<input class="form-check-input" type="checkbox" name="role"
-							value="update" id="roleUpdate"
-							<c:if test="${roles != null && fn:contains(roles, 'update')}">checked</c:if>>
+							value="accountregister" id="roleUpdate"
+							<c:if test="${roles != null && fn:contains(roles, 'account')}">checked</c:if>>
 						<label class="form-check-label" for="roleUpdate">アカウント登録</label>
 					</div>
 				</div>

@@ -30,10 +30,10 @@
 
             <!-- 権限 hidden -->
             <c:if test="${hasSales}">
-                <input type="hidden" name="role" value="0" />
+                <input type="hidden" name="role" value="salesregister" />
             </c:if>
             <c:if test="${hasAccountReg}">
-                <input type="hidden" name="role" value="update" />
+                <input type="hidden" name="role" value="accountregister" />
             </c:if>
 
             <!-- 表示項目（disabled） -->
