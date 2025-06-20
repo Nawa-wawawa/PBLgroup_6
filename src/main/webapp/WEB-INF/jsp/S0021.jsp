@@ -31,6 +31,9 @@
 		</div>
 
 		<!-- データ行 -->
+		<h2>
+			<c:out value="${errors['error_select_not_found']}" default="" />
+		</h2>
 		<c:forEach var="sales" items="${sessionScope.saleslist}">
 			<form method="post" action="S0021.html">
 				<div class="row border-bottom py-2 align-items-center">

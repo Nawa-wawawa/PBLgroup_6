@@ -2,6 +2,8 @@ package controllers;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -13,6 +15,7 @@ import jakarta.servlet.http.HttpSession;
 import beans.sales;
 import beans.salescondition;
 import services.Sales;
+import services.Salescheck;
 
 /**
  * Servlet implementation class S0021Servlrt
@@ -42,6 +45,16 @@ public class S0021Servlet extends HttpServlet {
 
 		Sales.loadAccountAndCategory(request);
 		//ここに検索結果がない場合を記入。
+
+		Map<String, String> errors = new LinkedHashMap<>();
+
+		Salescheck sl = new Salescheck();
+
+		errors = sl.selectEnptycheck(saleslist);
+
+		if (!errors.isEmpty()) {
+			request.setAttribute("errors", errors);
+		}
 
 		request.getRequestDispatcher("/WEB-INF/jsp/S0021.jsp").forward(request, response);
 	}

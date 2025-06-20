@@ -2,7 +2,7 @@ package beans;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-public class request {
+public class getRequest {
 	public String saleDate;
 	public String staff;
 	public String category;
@@ -11,7 +11,7 @@ public class request {
 	public String quantity;
 	public String remarks;
 
-	public request(HttpServletRequest request) {
+	public getRequest(HttpServletRequest request) {
 
 		this.saleDate = request.getParameter("sale_date");
 		this.staff = request.getParameter("staff");

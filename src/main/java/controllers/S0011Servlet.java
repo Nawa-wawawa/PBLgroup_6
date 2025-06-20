@@ -6,8 +6,6 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.function.IntPredicate;
-import java.util.function.Predicate;
 
 import javax.naming.NamingException;
 
@@ -83,11 +81,12 @@ public class S0011Servlet extends HttpServlet {
 		int unit_price = 0;
 		int quantity = 0;
 		String remarks = "";
+		sales salesData = null;
 
 		HttpSession session = request.getSession(false); // セッションがなければ null を返す
 		if (session != null) {
 			// 例：int型IDとして使いたい場合（Integer型にキャスト）
-			sales salesData = (sales) session.getAttribute("salesData");
+			salesData = (sales) session.getAttribute("salesData");
 			sale_date = salesData.getSale_date();
 			staff = salesData.getAccount_id();
 			category = salesData.getCategory_id();
@@ -101,71 +100,35 @@ public class S0011Servlet extends HttpServlet {
 		}
 
 		Salescheck check = new Salescheck();
-		boolean hasError = false;
 
 		//1-14
 		//1-15
 
 		//二回チェックしてもいいが、これも呼び出し。
 		Map<String, String> errors = new LinkedHashMap<>();
-		// Map<キー, {関数, 値, エラーメッセージ}>
-		Map<String, Object[]> validations = new LinkedHashMap<>();
-		validations.put("error_name",
-				new Object[] { (IntPredicate) check::accountCheck, staff, "エラーメッセージ：アカウントテーブルに存在しません。" });
-		validations.put("error_price",
-				new Object[] { (IntPredicate) check::categoryCheck, category, "エラーメッセージ：商品カテゴリーテーブルに存在しません。" });
 
-		// 共通ループでチェック
-		for (Map.Entry<String, Object[]> entry : validations.entrySet()) {
-			String key = entry.getKey();
-			Object[] valueArray = entry.getValue();
+		errors = check.useCheck(staff, category);
 
-			Object function = valueArray[0];
-			Object value = valueArray[1];
-			String message = (String) valueArray[2];
-
-			boolean isError = false;
-			if (function instanceof Predicate<?>) {
-				@SuppressWarnings("unchecked")
-				Predicate<String> stringPredicate = (Predicate<String>) function;
-				isError = stringPredicate.test((String) value);
-			} else if (function instanceof IntPredicate) {
-				if (value instanceof Integer i) {
-					isError = ((IntPredicate) function).test(i);
-				}
-			}
-
-			if (isError) {
-				errors.put(key, message);
-				hasError = true;
-				System.out.println(message);
-			}
-		}
 		if (!errors.isEmpty()) {
 			request.setAttribute("errors", errors);
+			request.getRequestDispatcher("/WEB-INF/jsp/S0010.jsp").forward(request, response);
+			return;
 		}
 
-		if (hasError) {
-			request.getRequestDispatcher("/WEB-INF/jsp/S0011.jsp").forward(request, response);
-		} else {
+		try (Connection con = Db.open()) {
 
-			try (Connection con = Db.open()) {
+			Sales sl = new Sales();
 
-				Sales sl = new Sales();
+			sl.insert(salesData);
+			session.removeAttribute("salesData");
 
-				sales Newsale = new sales(sale_date, staff, category, product_name, unit_price, quantity, remarks);
-
-				sl.insert(Newsale);
-				session.removeAttribute("salesData");
-
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} catch (NamingException e1) {
-				// TODO 自動生成された catch ブロック
-				e1.printStackTrace();
-			}
-			response.sendRedirect(request.getContextPath() + "/S0010.html");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NamingException e1) {
+			// TODO 自動生成された catch ブロック
+			e1.printStackTrace();
 		}
+		response.sendRedirect(request.getContextPath() + "/S0010.html");
 
 	}
 

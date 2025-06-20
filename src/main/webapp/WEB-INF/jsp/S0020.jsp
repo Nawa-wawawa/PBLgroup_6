@@ -25,9 +25,9 @@
 				<div class="col-4">
 					<div class="d-flex align-items-center">
 						<input type="date" name="start_date" class="form-control me-2"
-							value="${serch_condition.start_date}"> <span class="me-2">～</span>
+							value="${param['start_date']}"> <span class="me-2">～</span>
 						<input type="date" name="end_date" class="form-control"
-							value="${serch_condition.end_date}">
+							value="${param['end_date']}">
 					</div>
 					<!-- ▼ エラー表示スペース（あらかじめ確保） -->
 					<div class="text-danger small mt-1" style="min-height: 1.5em;">
@@ -79,7 +79,7 @@
 				</div>
 				<div class="col-4">
 					<input type="text" name="product_name" class="form-control"
-						placeholder="商品名を入力">
+						placeholder="商品名を入力" valie = "${param['product_name']}">
 				</div>
 			</div>
 			<div class="row mb-3">
@@ -90,12 +90,7 @@
 				</div>
 				<div class="col-4">
 					<textarea name="remarks" class="form-control" rows="3"
-						placeholder="特記事項などがあれば入力"></textarea>
-
-					<!-- ▼ 検索結果が0件のときのエラーメッセージ -->
-					<div class="text-danger small mt-1" style="min-height: 1.5em;">
-						<c:out value="${noResultsError}" />
-					</div>
+						placeholder="特記事項などがあれば入力"valie = "${param['remarks']}" ></textarea>
 				</div>
 			</div>
 			<div class="row">

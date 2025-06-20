@@ -6,12 +6,16 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.naming.NamingException;
 
-import beans.request;
+import beans.getRequest;
+import beans.sales;
 import utils.Db;
 
 public class Salescheck {
@@ -106,7 +110,7 @@ public class Salescheck {
 		return checker;
 	}
 
-	public Map<String, String> useCheck(request form) {
+	public Map<String, String> useCheck(getRequest form) {
 
 		Map<String, String> errors = new LinkedHashMap<>();
 		Salescheck check = new Salescheck();
@@ -117,7 +121,7 @@ public class Salescheck {
 		int category = 0;
 		int unit_price = 0;
 		int quantity = 0;
-	
+
 		// 販売日チェック（簡易）
 		if (form.saleDate == null || form.saleDate.isEmpty()) {
 			errors.put("error_sale_date_required", "販売日を入力してください。");
@@ -235,6 +239,60 @@ public class Salescheck {
 			errors.put("error_category_not_found", "カテゴリの確認時にエラーが発生しました。");
 		}
 
+		return errors;
+	}
+
+	public Map<String, String> useCheck(int staff, int category) {
+
+		Map<String, String> errors = new LinkedHashMap<>();
+		// --- 2. 存在チェック ---
+
+		// 担当者存在チェック
+		try {
+			Accounts ac = new Accounts();
+			if (!ac.exists(staff)) {
+				errors.put("error_staff_not_found", "アカウントテーブルに存在しません。");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			errors.put("error_staff_not_found", "担当者の確認時にエラーが発生しました。");
+		}
+
+		// カテゴリ存在チェック
+		try {
+			Categories ct = new Categories();
+			if (!ct.exists(category)) {
+				errors.put("error_category_not_found", "商品カテゴリテーブルに存在しません。");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			errors.put("error_category_not_found", "カテゴリの確認時にエラーが発生しました。");
+		}
+		return errors;
+	}
+
+	public boolean useDaycheck(String day) {
+		// フォーマットチェック用
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		sdf.setLenient(false); // 厳密にチェックする
+
+		Date check_date = null;
+		if (day != null && !day.isEmpty()) {
+			try {
+				java.util.Date parsed = sdf.parse(day);
+				check_date = new Date(parsed.getTime());
+			} catch (ParseException e) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public Map<String, String> selectEnptycheck(ArrayList<sales> saleslist) {
+		Map<String, String> errors = new LinkedHashMap<>();
+		if (saleslist.isEmpty()) {
+			errors.put("error_select_not_found", "検索結果がありませんでした。");
+		}
 		return errors;
 	}
 
