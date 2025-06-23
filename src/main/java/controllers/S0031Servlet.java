@@ -42,16 +42,8 @@ public class S0031Servlet extends HttpServlet {
 
 		//System.out.println(roles + name + mail + password);
 
-		byte authority = 0;
-		if (roles != null) {
-			for (String role : roles) {
-				if ("salesregister".equals(role)) {
-					authority |= 1; // 売上登録
-				} else if ("accountregister".equals(role)) {
-					authority |= 2; // アカウント登録
-				}
-			}
-		}
+		AccountService ac = new AccountService();
+		byte authority = ac.authorityConvert(roles);
 
 		accounts account = new accounts(name, mail, password, authority);
 

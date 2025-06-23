@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpSession;
 import beans.AccountSearchCondition;
 import beans.accounts;
 import froms.InsertAccountform;
+import services.AccountService;
 import services.Accountcheck;
 
 @WebServlet("/S0042.html")
@@ -73,16 +74,8 @@ public class S0042Servlet extends HttpServlet {
 		HttpSession session = request.getSession(false);
 		Integer idItg = (Integer) session.getAttribute("id");
 
-		byte authority = 0;
-		if (roles != null) {
-			for (String role : roles) {
-				if ("salesregister".equals(role)) {
-					authority |= 1;
-				} else if ("accountregister".equals(role)) {
-					authority |= 2;
-				}
-			}
-		}
+		AccountService ac = new AccountService();
+		byte authority = ac.authorityConvert(roles);
 
 		accounts account = new accounts(idItg, name, mail, password, authority);
 

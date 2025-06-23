@@ -187,4 +187,17 @@ public class AccountService {
 		return accounts;
 	}
 
+	public byte authorityConvert(String[] n) {
+		byte authority = 0;
+		if (n != null) {
+			for (String role : n) {
+				if ("salesregister".equals(role)) {
+					authority |= 1; // 売上登録
+				} else if ("accountregister".equals(role)) {
+					authority |= 2; // アカウント登録
+				}
+			}
+		}
+		return authority;
+	}
 }

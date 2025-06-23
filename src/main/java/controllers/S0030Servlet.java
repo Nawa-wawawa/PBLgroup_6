@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpSession;
 
 import beans.accounts;
 import froms.InsertAccountform;
+import services.AccountService;
 import services.Accountcheck;
 
 /**
@@ -57,16 +58,9 @@ public class S0030Servlet extends HttpServlet {
 		//System.out.println(roles + name + mail + password);
 
 		//これを呼び出しにする。
-		byte authority = 0;
-		if (roles != null) {
-			for (String role : roles) {
-				if ("salesregister".equals(role)) {
-					authority |= 1; // 売上登録
-				} else if ("accountregister".equals(role)) {
-					authority |= 2; // アカウント登録
-				}
-			}
-		}
+
+		AccountService ac = new AccountService();
+		byte authority = ac.authorityConvert(roles);
 
 		accounts account = new accounts(name, mail, password, authority);
 
@@ -75,8 +69,7 @@ public class S0030Servlet extends HttpServlet {
 		Accountcheck acc = new Accountcheck();
 
 		fieldErrors = acc.useCheck(form);
-		
-		
+
 		if (!fieldErrors.isEmpty()) {
 			// エラーがある → 入力画面に戻す
 			request.setAttribute("fieldErrors", fieldErrors);
@@ -92,7 +85,6 @@ public class S0030Servlet extends HttpServlet {
 		session.setAttribute("roles", roles);
 		session.setAttribute("canRegisterSales", (account.getAuthority() & 1) != 0);
 		session.setAttribute("canRegisterAccounts", (account.getAuthority() & 2) != 0);
-
 
 		response.sendRedirect(request.getContextPath() + "/S0031.html");
 	}
