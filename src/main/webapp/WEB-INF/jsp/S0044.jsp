@@ -19,12 +19,12 @@
         <h1 class="mb-4">アカウント詳細削除確認</h1>
 
         <form action="S0044.html" method="POST">
-            <input type="hidden" name="action" value="delete" />
-            <input type="hidden" name="id" value="${account.account_id}" />
-            <input type="hidden" name="name" value="${account.name}" />
-            <input type="hidden" name="mail" value="${account.mail}" />
-            <input type="hidden" name="password" value="${account.password}" />
-            <input type="hidden" name="confirmPassword" value="${account.password}" />
+<!--            <input type="hidden" name="action" value="delete" />-->
+<!--            <input type="hidden" name="id" value="${account.account_id}" />-->
+<!--            <input type="hidden" name="name" value="${account.name}" />-->
+<!--            <input type="hidden" name="mail" value="${account.mail}" />-->
+<!--            <input type="hidden" name="password" value="${account.password}" />-->
+<!--            <input type="hidden" name="confirmPassword" value="${account.password}" />-->
 
             <c:if test="${hasSalesAuthority}">
                 <input type="hidden" name="role" value="salesregister" />

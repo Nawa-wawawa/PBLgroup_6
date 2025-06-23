@@ -11,6 +11,7 @@ import javax.naming.NamingException;
 
 import beans.accounts;
 import utils.Db;
+
 public class AccountService {
 
 	public List<accounts> select(int n) {
@@ -39,7 +40,6 @@ public class AccountService {
 		return list;
 	}
 
-
 	public void insert(accounts a) {
 		String sql = "INSERT INTO accounts (name, mail, password, authority) VALUES (?, ?, ?, ?)";
 		try (Connection conn = Db.open();
@@ -57,24 +57,23 @@ public class AccountService {
 	}
 
 	public void update(accounts a) {
-	    String sql = "UPDATE accounts SET name = ?, mail = ?, password = ?, authority = ? WHERE mail = ?";
+		String sql = "UPDATE accounts SET name = ?, mail = ?, password = ?, authority = ? WHERE account_id = ?";
 
-	    try (Connection conn = Db.open();
-	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+		try (Connection conn = Db.open();
+				PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-	        pstmt.setString(1, a.getName());
-	        pstmt.setString(2, a.getMail());
-	        pstmt.setString(3, a.getPassword());
-	        pstmt.setInt(4, a.getAuthority());
-	        pstmt.setString(5, a.getMail());  // WHERE句の条件（更新対象）
+			pstmt.setString(1, a.getName());
+			pstmt.setString(2, a.getMail());
+			pstmt.setString(3, a.getPassword());
+			pstmt.setInt(4, a.getAuthority());
+			pstmt.setInt(5, a.getAccount_id()); // WHERE句の条件（更新対象）
 
-	        pstmt.executeUpdate();
+			pstmt.executeUpdate();
 
-	    } catch (SQLException | NamingException e) {
-	        e.printStackTrace();
-	    }
+		} catch (SQLException | NamingException e) {
+			e.printStackTrace();
+		}
 	}
-
 
 	public void delete(accounts a) {
 		String sql = "DELETE FROM accounts WHERE id = ?";
@@ -87,7 +86,7 @@ public class AccountService {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void delete(int id) {
 		String sql = "DELETE FROM accounts WHERE account_id = ?";
 		try (Connection conn = Db.open();
@@ -119,73 +118,73 @@ public class AccountService {
 						rs.getString("mail"),
 						rs.getString("password"),
 						rs.getByte("authority"));
-				
+
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return accounts;
 	}
-	
+
 	public ArrayList<accounts> findByAccount(String name, String mail, byte authority) {
 
-		StringBuilder sql =new StringBuilder ("SELECT * FROM accounts WHERE 1=1 ");
+		StringBuilder sql = new StringBuilder("SELECT * FROM accounts WHERE 1=1 ");
 		ArrayList<Object> params = new ArrayList<>();
 		ArrayList<accounts> accounts = new ArrayList<>();
 
-			if (name != "") {
-				
-				sql.append(" AND name LIKE ?");
-				
-				params.add("%" + name +"%");
+		if (name != "") {
 
-			}
-			if (mail != "") {
+			sql.append(" AND name LIKE ?");
 
-				sql.append (" AND mail = ?");
-				
-				params.add(mail);
-				
-			}
-			if (authority != 0) {
+			params.add("%" + name + "%");
 
-				sql.append(" AND authority = ?");
-				
-				byte hikizan = 1;
-				authority -= hikizan;
-				
-				params.add(authority);
-				
-			
-			}try (Connection conn = Db.open();
-					PreparedStatement pstmt = conn.prepareStatement(sql.toString())) {
-				
-				for(int i = 0 ; i < params.size(); i++) {
-				
-					Object param = params.get(i);
-					
-					if(param instanceof String) {
-						pstmt.setString(i+1, (String)param);
-					}else if(param instanceof Byte) {
-						pstmt.setByte(i+1, (Byte)param);
-					}
+		}
+		if (mail != "") {
+
+			sql.append(" AND mail = ?");
+
+			params.add(mail);
+
+		}
+		if (authority != 0) {
+
+			sql.append(" AND authority = ?");
+
+			byte hikizan = 1;
+			authority -= hikizan;
+
+			params.add(authority);
+
+		}
+		try (Connection conn = Db.open();
+				PreparedStatement pstmt = conn.prepareStatement(sql.toString())) {
+
+			for (int i = 0; i < params.size(); i++) {
+
+				Object param = params.get(i);
+
+				if (param instanceof String) {
+					pstmt.setString(i + 1, (String) param);
+				} else if (param instanceof Byte) {
+					pstmt.setByte(i + 1, (Byte) param);
 				}
-				ResultSet rs = pstmt.executeQuery();
-				
-				while (rs.next()) {
-					accounts account = new accounts(
-							rs.getInt("account_id"),
-							rs.getString("name"),
-							rs.getString("mail"),
-							rs.getString("password"),
-							rs.getByte("authority"));
-					accounts.add(account);					
-				}		
-			}catch (Exception e) {
+			}
+			ResultSet rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				accounts account = new accounts(
+						rs.getInt("account_id"),
+						rs.getString("name"),
+						rs.getString("mail"),
+						rs.getString("password"),
+						rs.getByte("authority"));
+				accounts.add(account);
+			}
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		System.out.println(sql);
 		return accounts;
 	}
 
-	}
+}

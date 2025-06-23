@@ -17,7 +17,7 @@
 
 	<div class="container mt-5">
 		<h1 class="mb-4">アカウント登録</h1>
-		<form action="S0031.html" method="POST">
+		<form action="S0030.html" method="POST">
 
 			<!-- 氏名 -->
 			<div class="mb-3 row">

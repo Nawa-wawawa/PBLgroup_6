@@ -1,15 +1,20 @@
+
 package controllers;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import beans.accounts;
-import services.AccountService;
+import beans.getAccountRequest;
+import services.Accountcheck;
 
 /**
  * Servlet implementation class NewAccountServlet
@@ -42,26 +47,54 @@ public class S0030Servlet extends HttpServlet {
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 
-		String name = request.getParameter("name");
-		String mail = request.getParameter("mail");
-		String password = request.getParameter("password");
-		String[] roles = request.getParameterValues("role");
+		getAccountRequest form = new getAccountRequest(request);
 
+		String[] roles = form.roles;
+		String name = form.name;
+		String mail = form.mail;
+		String password = form.password;
 
-		// 登録処理（正常時）
+		//System.out.println(roles + name + mail + password);
+
+		//これを呼び出しにする。
 		byte authority = 0;
 		if (roles != null) {
 			for (String role : roles) {
-				if ("salesregister".equals(role))
-					authority |= 1;
-				if ("accountregister".equals(role))
-					authority |= 2;
+				if ("salesregister".equals(role)) {
+					authority |= 1; // 売上登録
+				} else if ("accountregister".equals(role)) {
+					authority |= 2; // アカウント登録
+				}
 			}
 		}
 
-		accounts a = new accounts(0, name, mail, password, authority);
-		new AccountService().insert(a);
-		response.sendRedirect("S0031.html");
+		accounts account = new accounts(name, mail, password, authority);
+
+		Map<String, String> fieldErrors = new HashMap<>();
+
+		Accountcheck acc = new Accountcheck();
+
+		fieldErrors = acc.useCheck(form);
+		
+		
+		if (!fieldErrors.isEmpty()) {
+			// エラーがある → 入力画面に戻す
+			request.setAttribute("fieldErrors", fieldErrors);
+			request.setAttribute("account", account);
+			request.setAttribute("isSubmitted", true);
+			request.getRequestDispatcher("/WEB-INF/jsp/S0030.jsp").forward(request, response);
+			return;
+		}
+
+		HttpSession session = request.getSession();
+
+		session.setAttribute("account", account);
+		session.setAttribute("roles", roles);
+		session.setAttribute("canRegisterSales", (account.getAuthority() & 1) != 0);
+		session.setAttribute("canRegisterAccounts", (account.getAuthority() & 2) != 0);
+
+
+		response.sendRedirect(request.getContextPath() + "/S0031.html");
 	}
 
 }

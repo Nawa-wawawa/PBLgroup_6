@@ -33,14 +33,14 @@ public class S0031Servlet extends HttpServlet {
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 
-		String action = request.getParameter("action");
-
 		getAccountRequest form = new getAccountRequest(request);
 
 		String[] roles = form.roles;
 		String name = form.name;
 		String mail = form.mail;
 		String password = form.password;
+
+		//System.out.println(roles + name + mail + password);
 
 		byte authority = 0;
 		if (roles != null) {
@@ -59,7 +59,8 @@ public class S0031Servlet extends HttpServlet {
 
 		Accountcheck acc = new Accountcheck();
 
-		acc.useCheck(form);
+		fieldErrors = acc.useCheck(form);
+
 		if (!fieldErrors.isEmpty()) {
 			// エラーがある → 入力画面に戻す
 			request.setAttribute("fieldErrors", fieldErrors);
@@ -69,30 +70,17 @@ public class S0031Servlet extends HttpServlet {
 			return;
 		}
 
-		if ("register".equals(action)) {
-			// 確認画面のOKが押されたときにDB登録
-			AccountService service = new AccountService();
-			try {
-				service.insert(account);
-				// 登録成功 → 入力画面へリダイレクト（必要に応じて変更）
-				response.sendRedirect("S0030.html");
-			} catch (Exception e) {
-				request.setAttribute("error", "登録に失敗しました: " + e.getMessage());
-				request.setAttribute("account", account);
-				request.getRequestDispatcher("/WEB-INF/jsp/S0031.jsp").forward(request, response);
-			}
-		} else {
-			// 確認画面へ遷移
-
+		// 確認画面のOKが押されたときにDB登録
+		AccountService service = new AccountService();
+		try {
+			service.insert(account);
+			// 登録成功 → 入力画面へリダイレクト（必要に応じて変更）
+			response.sendRedirect("S0030.html");
+		} catch (Exception e) {
+			request.setAttribute("error", "登録に失敗しました: " + e.getMessage());
 			request.setAttribute("account", account);
-			// ここでrolesもセットしておくとjspで使いやすいです（任意）
-			request.setAttribute("roles", roles);
-
-			// ↓ 追加：権限ビットに応じてチェックボックス表示用のフラグをセット
-			request.setAttribute("canRegisterSales", (account.getAuthority() & 1) != 0);
-			request.setAttribute("canRegisterAccounts", (account.getAuthority() & 2) != 0);
-
 			request.getRequestDispatcher("/WEB-INF/jsp/S0031.jsp").forward(request, response);
 		}
+
 	}
 }

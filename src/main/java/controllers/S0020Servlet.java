@@ -56,6 +56,8 @@ public class S0020Servlet extends HttpServlet {
 		String endDateError = null;
 		Salescheck sl = new Salescheck();
 
+		
+		//何かuseDaycheckに引数を渡して、はじめ、終わりの判定。
 		// --- 検索開始日 ---
 		String startStr = request.getParameter("start_date");
 		if (sl.useDaycheck(startStr)) {

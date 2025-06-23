@@ -1,10 +1,6 @@
 package controllers;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
-
-import javax.naming.NamingException;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -14,7 +10,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import services.Sales;
-import utils.Db;
 
 /**
  * Servlet implementation class S0025Servlet
@@ -51,18 +46,9 @@ public class S0025Servlet extends HttpServlet {
 			HttpSession session = request.getSession(false);
 			int saleId = (int) session.getAttribute("saleId");
 
-			try (Connection con = Db.open()) {
-
-				Sales delete = new Sales();
-				//削除の前に削除権限があるのかをログイン中のアカウント権限と参照
-				delete.delete(saleId);
-
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} catch (NamingException e1) {
-				// TODO 自動生成された catch ブロック
-				e1.printStackTrace();
-			}
+			Sales delete = new Sales();
+			//削除の前に削除権限があるのかをログイン中のアカウント権限と参照
+			delete.delete(saleId);
 
 			response.sendRedirect(request.getContextPath() + "/S0021.html");
 		} else {

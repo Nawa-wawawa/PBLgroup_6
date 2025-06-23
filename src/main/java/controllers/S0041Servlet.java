@@ -38,12 +38,6 @@ public class S0041Servlet extends HttpServlet {
 
 		HttpSession session = request.getSession(false);
 
-		if (session == null) {
-
-			response.sendRedirect("S0040.html");
-			return;
-
-		}
 
 		AccountSearchCondition asc = (AccountSearchCondition) session.getAttribute("search_condition");
 
@@ -99,11 +93,10 @@ public class S0041Servlet extends HttpServlet {
 		accounts account = service.findById(id);
 
 		HttpSession session = request.getSession(false);
-		HttpSession newSession = request.getSession(true);
-		HttpSession idSession = request.getSession(true);
 
-		newSession.setAttribute("account", account);
-		idSession.setAttribute("id", id);
+
+		session.setAttribute("account", account);
+		session.setAttribute("id", id);
 		
 		if (session != null) {
 

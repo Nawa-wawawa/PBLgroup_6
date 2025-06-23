@@ -78,7 +78,7 @@ public class S0010Servlet extends HttpServlet {
 		String remarks = form.remarks;
 
 		// --- 5. エラーなし時の処理（セッションにセット） ---
-
+		//formを直接入れるようにする
 		sales salesData = new sales(sale_date, staff, category, product_name, unit_price, quantity, remarks);
 
 		HttpSession session = request.getSession();
