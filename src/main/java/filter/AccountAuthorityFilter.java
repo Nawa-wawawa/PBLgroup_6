@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-@WebFilter(urlPatterns = {"/C0030.html", "/C0031.html", "/S0042.html", "/S0043.html" , "/S0044.html"})
+@WebFilter(urlPatterns = {"/S0030.html", "/S0031.html", "/S0042.html", "/S0043.html" , "/S0044.html"})
 public class AccountAuthorityFilter implements Filter {
 
     @Override

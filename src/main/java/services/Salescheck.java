@@ -14,7 +14,7 @@ import java.util.Map;
 
 import javax.naming.NamingException;
 
-import beans.getRequest;
+import beans.getSaleRequest;
 import beans.sales;
 import utils.Db;
 
@@ -110,7 +110,7 @@ public class Salescheck {
 		return checker;
 	}
 
-	public Map<String, String> useCheck(getRequest form) {
+	public Map<String, String> useCheck(getSaleRequest form) {
 
 		Map<String, String> errors = new LinkedHashMap<>();
 		Salescheck check = new Salescheck();
