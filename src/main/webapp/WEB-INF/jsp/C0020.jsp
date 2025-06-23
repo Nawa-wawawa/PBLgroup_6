@@ -40,7 +40,27 @@
 							<i class="bi bi-bar-chart-fill me-2 fs-4"></i> 全体売上
 						</h4>
 						<div class="d-flex justify-content-around fs-5">
+							<!-- 年間 -->
 							<div>
+								<c:choose>
+									<c:when test="${prevYearCompareTotal >= 0}">
+									前年比:
+										<div class="fw-bold fs-2 text-primary mb-1">
+											+
+											<fmt:formatNumber value="${prevYearCompareTotal}"
+												type="number" maxFractionDigits="2" />
+											%
+										</div>
+									</c:when>
+									<c:otherwise>
+										<div class="fw-bold fs-2 text-danger mb-1">
+											▲
+											<fmt:formatNumber value="${-prevYearCompareTotal}"
+												type="number" maxFractionDigits="2" />
+											%
+										</div>
+									</c:otherwise>
+								</c:choose>
 								<div class="text-muted">年間</div>
 								<div class="fw-bold text-dark">
 									¥
@@ -48,9 +68,30 @@
 										groupingUsed="true" />
 								</div>
 							</div>
+							<!-- 月間 -->
 							<div>
+								<c:choose>
+									<c:when test="${prevMonthCompareTotal >= 0}">
+									前月比:
+										<div class="fw-bold fs-2 text-primary mb-1">
+											+
+											<fmt:formatNumber value="${prevMonthCompareTotal}"
+												type="number" maxFractionDigits="2" />
+											%
+										</div>
+									</c:when>
+									<c:otherwise>
+									前月比:
+										<div class="fw-bold fs-2 text-danger mb-1">
+											▲
+											<fmt:formatNumber value="${-prevMonthCompareTotal}"
+												type="number" maxFractionDigits="2" />
+											%
+										</div>
+									</c:otherwise>
+								</c:choose>
 								<div class="text-muted">月間</div>
-								<div class="fw-bold text-primary">
+								<div class="fw-bold text-dark">
 									¥
 									<fmt:formatNumber value="${monthlyTotal}" type="number"
 										groupingUsed="true" />
@@ -62,6 +103,7 @@
 			</div>
 		</div>
 
+
 		<!-- あなたの売上カード（年間 + 月間） -->
 		<c:if test="${not empty yearlyUserTotal}">
 			<div class="row g-4">
@@ -72,7 +114,27 @@
 								<i class="bi bi-person-fill me-2 fs-4"></i> あなたの売上
 							</h4>
 							<div class="d-flex justify-content-around fs-5">
+								<!-- 年間 -->
 								<div>
+									<c:choose>
+										<c:when test="${prevYearCompareUserTotal >= 0}">
+										前年比:
+											<div class="fw-bold fs-2 text-primary mb-1">
+												+
+												<fmt:formatNumber value="${prevYearCompareUserTotal}"
+													type="number" maxFractionDigits="2" />
+												%
+											</div>
+										</c:when>
+										<c:otherwise>
+											<div class="fw-bold fs-2 text-danger mb-1">
+												▲
+												<fmt:formatNumber value="${-prevYearCompareUserTotal}"
+													type="number" maxFractionDigits="2" />
+												%
+											</div>
+										</c:otherwise>
+									</c:choose>
 									<div class="text-muted">年間</div>
 									<div class="fw-bold text-success">
 										¥
@@ -80,7 +142,28 @@
 											groupingUsed="true" />
 									</div>
 								</div>
+								<!-- 月間 -->
 								<div>
+									<c:choose>
+										<c:when test="${prevMonthCompareUserTotal >= 0}">
+										前月比:
+											<div class="fw-bold fs-2 text-primary mb-1">
+												+
+												<fmt:formatNumber value="${prevMonthCompareUserTotal}"
+													type="number" maxFractionDigits="2" />
+												%
+											</div>
+										</c:when>
+										<c:otherwise>
+											前月比:
+											<div class="fw-bold fs-2 text-danger mb-1">
+												▲
+												<fmt:formatNumber value="${-prevMonthCompareUserTotal}"
+													type="number" maxFractionDigits="2" />
+												%
+											</div>
+										</c:otherwise>
+									</c:choose>
 									<div class="text-muted">月間</div>
 									<div class="fw-bold text-success">
 										¥
@@ -94,6 +177,7 @@
 				</div>
 			</div>
 		</c:if>
+
 
 		<!-- Chart用データ -->
 		<script>

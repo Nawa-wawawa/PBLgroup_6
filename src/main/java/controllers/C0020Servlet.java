@@ -62,6 +62,7 @@ public class C0020Servlet extends HttpServlet {
             double prevMonthCompareTotal = salesService.calcPercentChange(monthlyTotal, prevMonthTotal);
             double prevMonthCompareUser = salesService.calcPercentChange(monthlyUserCount, prevMonthUserCount);
 
+            // カテゴリ別売上
             Map<Integer, String> categoryIdToName = Map.of(
                 2, "食品",
                 3, "衣類",
@@ -92,6 +93,13 @@ public class C0020Servlet extends HttpServlet {
             int yearlyUserTotal = salesService.getUserSales(startYear, today, accountId);
             int monthlyUserTotal = salesService.getUserSales(startMonth, today, accountId);
 
+            // あなたの売上 - 前年・前月比較
+            int prevYearUserTotal = salesService.getUserSales(prevYearStart, prevYearEnd, accountId);
+            int prevMonthUserTotal = salesService.getUserSales(prevMonthStart, prevMonthEnd, accountId);
+
+            double prevYearCompareUserTotal = salesService.calcPercentChange(yearlyUserTotal, prevYearUserTotal);
+            double prevMonthCompareUserTotal = salesService.calcPercentChange(monthlyUserTotal, prevMonthUserTotal);
+
             // JSPに渡す
             request.setAttribute("yearlyTotal", yearlyTotal);
             request.setAttribute("yearlyUserCount", yearlyUserCount);
@@ -101,11 +109,15 @@ public class C0020Servlet extends HttpServlet {
             request.setAttribute("prevYearCompareUser", prevYearCompareUser);
             request.setAttribute("prevMonthCompareTotal", prevMonthCompareTotal);
             request.setAttribute("prevMonthCompareUser", prevMonthCompareUser);
+
             request.setAttribute("categoryLabels", categoryLabels);
             request.setAttribute("categoryData", categoryData);
             request.setAttribute("monthlyCategoryData", monthlyCategoryData);
+
             request.setAttribute("yearlyUserTotal", yearlyUserTotal);
             request.setAttribute("monthlyUserTotal", monthlyUserTotal);
+            request.setAttribute("prevYearCompareUserTotal", prevYearCompareUserTotal);
+            request.setAttribute("prevMonthCompareUserTotal", prevMonthCompareUserTotal);
 
             request.getRequestDispatcher("/WEB-INF/jsp/C0020.jsp").forward(request, response);
 
