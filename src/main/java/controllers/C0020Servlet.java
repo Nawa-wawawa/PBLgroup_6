@@ -20,7 +20,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
+import beans.accounts;
 import utils.Db;
 
 @WebServlet("/C0020.html")
@@ -44,25 +46,21 @@ public class C0020Servlet extends HttpServlet {
             LocalDate prevMonthStart = startMonth.minusMonths(1);
             LocalDate prevMonthEnd = startMonth.minusDays(1);
 
-            // 1. 年間・月間売上合計・ユーザー数
-
             int yearlyTotal = selectSum(conn, startYear, today);
-            int yearlyUser = selectUniqueUsers(conn, startYear, today);
+            int yearlyUserCount = selectUniqueUsers(conn, startYear, today);
             int monthlyTotal = selectSum(conn, startMonth, today);
-            int monthlyUser = selectUniqueUsers(conn, startMonth, today);
+            int monthlyUserCount = selectUniqueUsers(conn, startMonth, today);
 
-            // 2. 比較用データ（前年比・前月比）
             int prevYearTotal = selectSum(conn, prevYearStart, prevYearEnd);
-            int prevYearUser = selectUniqueUsers(conn, prevYearStart, prevYearEnd);
+            int prevYearUserCount = selectUniqueUsers(conn, prevYearStart, prevYearEnd);
             int prevMonthTotal = selectSum(conn, prevMonthStart, prevMonthEnd);
-            int prevMonthUser = selectUniqueUsers(conn, prevMonthStart, prevMonthEnd);
+            int prevMonthUserCount = selectUniqueUsers(conn, prevMonthStart, prevMonthEnd);
 
             double prevYearCompareTotal = calcPercentChange(yearlyTotal, prevYearTotal);
-            double prevYearCompareUser = calcPercentChange(yearlyUser, prevYearUser);
+            double prevYearCompareUser = calcPercentChange(yearlyUserCount, prevYearUserCount);
             double prevMonthCompareTotal = calcPercentChange(monthlyTotal, prevMonthTotal);
-            double prevMonthCompareUser = calcPercentChange(monthlyUser, prevMonthUser);
+            double prevMonthCompareUser = calcPercentChange(monthlyUserCount, prevMonthUserCount);
 
-            // 3. カテゴリーマップ（category_id -> カテゴリ名）
             Map<Integer, String> categoryIdToName = Map.of(
                 2, "食品",
                 3, "衣類",
@@ -71,11 +69,9 @@ public class C0020Servlet extends HttpServlet {
                 6, "書籍"
             );
 
-            // 4. カテゴリー割合（円グラフ用）
             List<String> categoryLabels = categoryIdToName.values().stream().collect(Collectors.toList());
             List<Integer> categoryData = selectCategorySum(conn, startYear, today, categoryIdToName.keySet());
 
-            // 5. 月別カテゴリ別売上（積み上げ棒グラフ用）
             Map<String, List<Integer>> monthlyCategoryData = new LinkedHashMap<>();
             for (Map.Entry<Integer, String> entry : categoryIdToName.entrySet()) {
                 Integer catId = entry.getKey();
@@ -84,11 +80,24 @@ public class C0020Servlet extends HttpServlet {
                 monthlyCategoryData.put(catName, monthlySums);
             }
 
-            // JSPにセット
+            // ログインユーザーの売上取得
+            HttpSession session = request.getSession(false);
+            int accountId = 0; // 初期値
+
+            if (session != null) {
+                accounts user = (accounts) session.getAttribute("user");
+                if (user != null) {
+                    accountId = user.getAccount_id();
+                }
+            }
+
+            int yearlyUserTotal = selectUserSum(conn, startYear, today, accountId);
+            int monthlyUserTotal = selectUserSum(conn, startMonth, today, accountId);
+
             request.setAttribute("yearlyTotal", yearlyTotal);
-            request.setAttribute("yearlyUser", yearlyUser);
+            request.setAttribute("yearlyUserCount", yearlyUserCount);
             request.setAttribute("monthlyTotal", monthlyTotal);
-            request.setAttribute("monthlyUser", monthlyUser);
+            request.setAttribute("monthlyUserCount", monthlyUserCount);
             request.setAttribute("prevYearCompareTotal", prevYearCompareTotal);
             request.setAttribute("prevYearCompareUser", prevYearCompareUser);
             request.setAttribute("prevMonthCompareTotal", prevMonthCompareTotal);
@@ -96,6 +105,8 @@ public class C0020Servlet extends HttpServlet {
             request.setAttribute("categoryLabels", categoryLabels);
             request.setAttribute("categoryData", categoryData);
             request.setAttribute("monthlyCategoryData", monthlyCategoryData);
+            request.setAttribute("yearlyUserTotal", yearlyUserTotal);
+            request.setAttribute("monthlyUserTotal", monthlyUserTotal);
 
             request.getRequestDispatcher("/WEB-INF/jsp/C0020.jsp").forward(request, response);
 
@@ -109,7 +120,6 @@ public class C0020Servlet extends HttpServlet {
         doGet(request, response);
     }
 
-    // 売上合計を取得するユーティリティ
     private int selectSum(Connection conn, LocalDate start, LocalDate end) throws SQLException {
         String sql = "SELECT SUM(unit_price * sale_number) FROM sales WHERE sale_date BETWEEN ? AND ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -124,7 +134,6 @@ public class C0020Servlet extends HttpServlet {
         return 0;
     }
 
-    // ユニークユーザー数を取得するユーティリティ
     private int selectUniqueUsers(Connection conn, LocalDate start, LocalDate end) throws SQLException {
         String sql = "SELECT COUNT(DISTINCT account_id) FROM sales WHERE sale_date BETWEEN ? AND ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -139,13 +148,11 @@ public class C0020Servlet extends HttpServlet {
         return 0;
     }
 
-    // 前年・前月比率計算ユーティリティ
     private double calcPercentChange(int current, int previous) {
         if (previous == 0) return 0.0;
         return ((double)(current - previous) / previous) * 100;
     }
 
-    // カテゴリ別年間売上合計を順番通りにListで返す（categoryIdsの順番に注意）
     private List<Integer> selectCategorySum(Connection conn, LocalDate start, LocalDate end, 
             Iterable<Integer> categoryIds) throws SQLException {
         String sql = "SELECT category_id, SUM(unit_price * sale_number) FROM sales WHERE sale_date BETWEEN ? AND ? GROUP BY category_id";
@@ -159,7 +166,7 @@ public class C0020Servlet extends HttpServlet {
                 }
             }
         }
-        // IterableをListに変換してからstream処理
+
         List<Integer> categoryIdList = StreamSupport.stream(categoryIds.spliterator(), false)
                                                     .collect(Collectors.toList());
 
@@ -168,7 +175,6 @@ public class C0020Servlet extends HttpServlet {
                 .collect(Collectors.toList());
     }
 
-    // 月別カテゴリ売上を1〜12月分Listで返す
     private List<Integer> selectMonthlyCategorySum(Connection conn, int year, int categoryId) throws SQLException {
         List<Integer> monthlySums = new java.util.ArrayList<>();
         for (int month = 1; month <= 12; month++) {
@@ -189,5 +195,24 @@ public class C0020Servlet extends HttpServlet {
             }
         }
         return monthlySums;
+    }
+
+    private int selectUserSum(Connection conn, LocalDate start, LocalDate end, int accountId) throws SQLException {
+        if (accountId == 0) {
+            // ログインしていない、もしくはIDが0なら売上0
+            return 0;
+        }
+        String sql = "SELECT SUM(unit_price * sale_number) FROM sales WHERE sale_date BETWEEN ? AND ? AND account_id = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setDate(1, Date.valueOf(start));
+            ps.setDate(2, Date.valueOf(end));
+            ps.setInt(3, accountId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        }
+        return 0;
     }
 }
