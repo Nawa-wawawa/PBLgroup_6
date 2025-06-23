@@ -43,7 +43,7 @@ public class C0010Servlet extends HttpServlet {
 				session.setAttribute("user", account);
 
 				// 次画面へフォワード
-				request.getRequestDispatcher("/WEB-INF/jsp/C0020.jsp").forward(request, response);
+				request.getRequestDispatcher("/C0020.html").forward(request, response);
 			} else {
 				// 認証失敗 → エラーメッセージを設定してログイン画面へ戻す
 				request.setAttribute("error", "メールアドレスまたはパスワードが間違っています");
