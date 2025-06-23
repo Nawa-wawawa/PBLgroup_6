@@ -1,8 +1,8 @@
-package beans;
+package froms;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-public class getAccountRequest {
+public class InsertAccountform {
 
 	public String name;
 	public String mail;
@@ -10,7 +10,7 @@ public class getAccountRequest {
 	public String confirmPassword;
 	public String[] roles;
 
-	public getAccountRequest(HttpServletRequest request) {
+	public InsertAccountform(HttpServletRequest request) {
 		this.name = request.getParameter("name");
 		this.mail = request.getParameter("mail");
 		this.password = request.getParameter("password");

@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpSession;
 
 import beans.AccountSearchCondition;
 import beans.accounts;
-import beans.getAccountRequest;
+import froms.InsertAccountform;
 import services.Accountcheck;
 
 @WebServlet("/S0042.html")
@@ -63,7 +63,7 @@ public class S0042Servlet extends HttpServlet {
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 
-		getAccountRequest form = new getAccountRequest(request);
+		InsertAccountform form = new InsertAccountform(request);
 
 		String[] roles = form.roles;
 		String name = form.name;

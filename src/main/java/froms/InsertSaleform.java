@@ -1,8 +1,8 @@
-package beans;
+package froms;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-public class getSaleRequest {
+public class InsertSaleform {
 	public String saleDate;
 	public String staff;
 	public String category;
@@ -11,7 +11,7 @@ public class getSaleRequest {
 	public String quantity;
 	public String remarks;
 
-	public getSaleRequest(HttpServletRequest request) {
+	public InsertSaleform(HttpServletRequest request) {
 
 		this.saleDate = request.getParameter("sale_date");
 		this.staff = request.getParameter("staff");

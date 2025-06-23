@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import beans.getAccountRequest;
+import froms.InsertAccountform;
 
 public class Accountcheck {
 
@@ -79,7 +79,7 @@ public class Accountcheck {
 		return Pattern.matches(regex, email);
 	}
 
-	public Map<String, String> useCheck(getAccountRequest form) {
+	public Map<String, String> useCheck(InsertAccountform form) {
 
 		Accountcheck checker = new Accountcheck();
 		Map<String, String> fieldErrors = new HashMap<>();

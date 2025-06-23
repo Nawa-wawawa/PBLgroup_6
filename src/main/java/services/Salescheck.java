@@ -14,8 +14,8 @@ import java.util.Map;
 
 import javax.naming.NamingException;
 
-import beans.getSaleRequest;
 import beans.sales;
+import froms.InsertSaleform;
 import utils.Db;
 
 public class Salescheck {
@@ -110,7 +110,7 @@ public class Salescheck {
 		return checker;
 	}
 
-	public Map<String, String> useCheck(getSaleRequest form) {
+	public Map<String, String> useCheck(InsertSaleform form) {
 
 		Map<String, String> errors = new LinkedHashMap<>();
 		Salescheck check = new Salescheck();
@@ -271,7 +271,11 @@ public class Salescheck {
 		return errors;
 	}
 
-	public boolean useDaycheck(String day) {
+	public String useDaycheck(String day, int n) {
+
+		String startDateError = null;
+		String endDateError = null;
+
 		// フォーマットチェック用
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		sdf.setLenient(false); // 厳密にチェックする
@@ -282,10 +286,21 @@ public class Salescheck {
 				java.util.Date parsed = sdf.parse(day);
 				check_date = new Date(parsed.getTime());
 			} catch (ParseException e) {
-				return true;
+				if (n == 0) {
+
+					startDateError = "販売日（検索開始日）を正しく入力して下さい。";
+
+					return startDateError;
+				} else {
+
+					endDateError = "販売日（検索終了日）を正しく入力して下さい。";
+
+					return endDateError;
+				}
 			}
 		}
-		return false;
+
+		return null;
 	}
 
 	public Map<String, String> selectEnptycheck(ArrayList<sales> saleslist) {
@@ -296,4 +311,15 @@ public class Salescheck {
 		return errors;
 	}
 
+	public String Intcheck(String n) {
+		if (n == null || n.isEmpty()) {
+			return "0";
+		}
+		try {
+			Integer.parseInt(n);
+			return n;
+		} catch (NumberFormatException e) {
+			return "0";
+		}
+	}
 }

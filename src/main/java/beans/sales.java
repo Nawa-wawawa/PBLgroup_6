@@ -2,6 +2,8 @@ package beans;
 
 import java.sql.Date;
 
+import froms.InsertSaleform;
+
 public class sales {
 	private int sale_id;
 	private Date sale_date;
@@ -36,6 +38,17 @@ public class sales {
 		this.unit_price = unit_price;
 		this.sale_number = sale_number;
 		this.note = note;
+	}
+
+	public sales(InsertSaleform form) {
+		this.sale_date = Date.valueOf(form.saleDate);
+		this.account_id = Integer.parseInt(form.staff);
+		this.category_id = Integer.parseInt(form.category);
+		this.trade_name = form.productName;
+		this.unit_price = Integer.parseInt(form.unitPrice);
+		this.sale_number = Integer.parseInt(form.quantity);
+		this.note = form.remarks;
+
 	}
 
 	public int getSale_id() {

@@ -1,7 +1,6 @@
 package controllers;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -13,8 +12,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import beans.getSaleRequest;
 import beans.sales;
+import froms.InsertSaleform;
 import services.Sales;
 import services.Salescheck;
 
@@ -51,7 +50,7 @@ public class S0010Servlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		getSaleRequest form = new getSaleRequest(request);
+		InsertSaleform form = new InsertSaleform(request);
 
 		//サービスにして再度使うとこは呼び出しできるように。
 		Map<String, String> errors = new LinkedHashMap<>();
@@ -69,17 +68,8 @@ public class S0010Servlet extends HttpServlet {
 			return;
 		}
 
-		Date sale_date = Date.valueOf(form.saleDate);
-		int staff = Integer.parseInt(form.staff);
-		int category = Integer.parseInt(form.category);
-		String product_name = form.productName;
-		int unit_price = Integer.parseInt(form.unitPrice);
-		int quantity = Integer.parseInt(form.quantity);
-		String remarks = form.remarks;
-
 		// --- 5. エラーなし時の処理（セッションにセット） ---
-		//formを直接入れるようにする
-		sales salesData = new sales(sale_date, staff, category, product_name, unit_price, quantity, remarks);
+		sales salesData = new sales(form);
 
 		HttpSession session = request.getSession();
 		session.setAttribute("salesData", salesData);

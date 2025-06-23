@@ -2,6 +2,8 @@ package beans;
 
 import java.sql.Date;
 
+import froms.SerchSalesform;
+
 public class salescondition {
 
 	private Date start_date;
@@ -9,18 +11,31 @@ public class salescondition {
 	private int account_id;
 	private int category_id;
 	private String trade_name;
-
 	private String note;
 
-	public salescondition(Date start_date, Date end_date, int account_id, int category_id, String trade_name, String note) {
+	public salescondition(Date start_date, Date end_date, int account_id, int category_id, String trade_name,
+			String note) {
 		super();
 		this.start_date = start_date;
 		this.end_date = end_date;
 		this.account_id = account_id;
 		this.category_id = category_id;
 		this.trade_name = trade_name;
-
 		this.note = note;
+	}
+
+	public salescondition(SerchSalesform form) {
+		if (form.start_date != null && !form.start_date.isEmpty()) {
+			this.start_date = Date.valueOf(form.start_date);
+		}
+		if (form.end_date != null && !form.end_date.isEmpty()) {
+			this.end_date = Date.valueOf(form.end_date);
+		}
+
+		this.account_id = Integer.parseInt(form.staff);
+		this.category_id = Integer.parseInt(form.category);
+		this.trade_name = form.productName;
+		this.note = form.remarks;
 	}
 
 	public Date getStart_date() {
@@ -62,7 +77,6 @@ public class salescondition {
 	public void setTrade_name(String trade_name) {
 		this.trade_name = trade_name;
 	}
-
 
 	public String getNote() {
 		return note;

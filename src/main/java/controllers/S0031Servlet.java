@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import beans.accounts;
-import beans.getAccountRequest;
+import froms.InsertAccountform;
 import services.AccountService;
 import services.Accountcheck;
 
@@ -33,7 +33,7 @@ public class S0031Servlet extends HttpServlet {
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 
-		getAccountRequest form = new getAccountRequest(request);
+		InsertAccountform form = new InsertAccountform(request);
 
 		String[] roles = form.roles;
 		String name = form.name;
