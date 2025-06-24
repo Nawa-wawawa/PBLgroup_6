@@ -58,7 +58,7 @@ public class S0044Servlet extends HttpServlet {
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 
-		String idStr = request.getParameter("id");
+
 		int id = 0;
 
 		try {
@@ -75,13 +75,6 @@ public class S0044Servlet extends HttpServlet {
 			response.sendRedirect("S0041.html"); // 一覧画面へ
 		} catch (Exception e) {
 			request.setAttribute("error", "削除に失敗しました: " + e.getMessage());
-
-			// 再取得して表示用にセット（削除失敗時にも再表示が必要）
-			//                accounts account = service.findById(id);
-			//                request.setAttribute("account", account);
-			//                request.setAttribute("hasSalesAuthority", (account.getAuthority() & 1) != 0);
-			//                request.setAttribute("hasAccountAuthority", (account.getAuthority() & 2) != 0);
-
 			request.getRequestDispatcher("/WEB-INF/jsp/S0044.jsp").forward(request, response);
 		}
 

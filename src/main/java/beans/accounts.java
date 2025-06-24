@@ -1,5 +1,8 @@
 package beans;
 
+import froms.InsertAccountform;
+import services.AccountService;
+
 public class accounts {
 
 	int account_id;
@@ -30,6 +33,18 @@ public class accounts {
 		this.account_id = account_id;
 		this.name = name;
 		this.authority = authority;
+	}
+
+	public accounts(int id, InsertAccountform form) {
+		this.account_id = id;
+		this.name = form.name;
+		this.mail = form.mail;
+		this.password = form.password;
+
+		AccountService ac = new AccountService();
+		byte authority = ac.authorityConvert(form.roles);
+		this.authority = authority;
+
 	}
 
 	public int getAccount_id() {
@@ -73,4 +88,11 @@ public class accounts {
 		this.authority = authority;
 	}
 
+	public boolean getSalesRole() {
+		return (this.authority & 1) != 0;
+	}
+
+	public boolean getAccountRole() {
+		return (this.authority & 2) != 0;
+	}
 }

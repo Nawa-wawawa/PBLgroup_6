@@ -64,15 +64,9 @@ public class S0031Servlet extends HttpServlet {
 
 		// 確認画面のOKが押されたときにDB登録
 		AccountService service = new AccountService();
-		try {
-			service.insert(account);
-			// 登録成功 → 入力画面へリダイレクト（必要に応じて変更）
-			response.sendRedirect("S0030.html");
-		} catch (Exception e) {
-			request.setAttribute("error", "登録に失敗しました: " + e.getMessage());
-			request.setAttribute("account", account);
-			request.getRequestDispatcher("/WEB-INF/jsp/S0031.jsp").forward(request, response);
-		}
 
+		service.insert(account, request, response);
+		// 登録成功 → 入力画面へリダイレクト（必要に応じて変更）
+		response.sendRedirect("S0030.html");
 	}
 }

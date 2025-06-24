@@ -38,7 +38,6 @@ public class S0041Servlet extends HttpServlet {
 
 		HttpSession session = request.getSession(false);
 
-
 		AccountSearchCondition asc = (AccountSearchCondition) session.getAttribute("search_condition");
 
 		if (asc == null) {
@@ -65,6 +64,7 @@ public class S0041Servlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String action = request.getParameter("action");
+
 		String IdStr = request.getParameter("id");
 		int id = 0;
 		System.out.println(action);
@@ -94,20 +94,17 @@ public class S0041Servlet extends HttpServlet {
 
 		HttpSession session = request.getSession(false);
 
-
 		session.setAttribute("account", account);
-		session.setAttribute("id", id);
-		
-		if (session != null) {
 
-			session.removeAttribute("account");
+		if (account != null) {
+
 			//idを送るからウラルに出る
-			if ("edit".equals(action)) {				
-				
+			if ("edit".equals(action)) {
+
 				response.sendRedirect("S0042.html");
 
 			} else if ("delete".equals(action)) {
-				
+
 				response.sendRedirect("S0044.html");
 
 			} else {
