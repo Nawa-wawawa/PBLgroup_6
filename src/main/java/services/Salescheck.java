@@ -142,6 +142,18 @@ public class Salescheck {
 			} catch (NumberFormatException e) {
 				errors.put("error_staff_required", "担当者の値が不正です。");
 			}
+			// 担当者存在チェック
+			if (!errors.containsKey("error_staff_required")) {
+				try {
+					Accounts ac = new Accounts();
+					if (!ac.exists(staff)) {
+						errors.put("error_staff_not_found", "アカウントテーブルに存在しません。");
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+					errors.put("error_staff_not_found", "担当者の確認時にエラーが発生しました。");
+				}
+			}
 		}
 
 		// カテゴリ必須チェック
@@ -152,6 +164,19 @@ public class Salescheck {
 				category = Integer.parseInt(form.category);
 			} catch (NumberFormatException e) {
 				errors.put("error_category_required", "カテゴリの値が不正です。");
+			}
+
+			// カテゴリ存在チェック
+			if (!errors.containsKey("error_category_required")) {
+				try {
+					Categories ct = new Categories();
+					if (!ct.exists(category)) {
+						errors.put("error_category_not_found", "商品カテゴリテーブルに存在しません。");
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+					errors.put("error_category_not_found", "カテゴリの確認時にエラーが発生しました。");
+				}
 			}
 		}
 
@@ -164,17 +189,17 @@ public class Salescheck {
 
 		// 単価チェック
 		// 1. 未入力エラーのチェック
-		if (form.unitPrice == null || form.unitPrice.trim().isEmpty()) {
+		if (form.quantity == null || form.quantity.trim().isEmpty()) {
 			errors.put("error_unit_price_format", "単価を入力して下さい。");
 		}
 		// 2. 形式エラーのチェック
-		else if (!form.unitPrice.matches("^[0-9]+$")) {
+		else if (!form.quantity.matches("^[0-9]+$")) {
 			errors.put("error_unit_price_format", "単価を正しく入力して下さい。");
 		}
 		// 3. 価格長さチェック
 		else {
 			try {
-				unit_price = Integer.parseInt(form.unitPrice);
+				unit_price = Integer.parseInt(form.quantity);
 			} catch (NumberFormatException e) {
 				errors.put("error_unit_price_format", "単価を入力して下さい。");
 			}
@@ -188,54 +213,31 @@ public class Salescheck {
 
 		// 個数チェック
 		// 1. 未入力エラーのチェック
-		if (form.unitPrice == null || form.unitPrice.trim().isEmpty()) {
+		if (form.quantity == null || form.quantity.trim().isEmpty()) {
 			errors.put("error_quantity_format", "個数を入力してください。");
 		}
 		// 2. 形式エラーのチェック
-		if (!form.unitPrice.matches("^[0-9]+$")) {
+		else if (!form.quantity.matches("^[0-9]+$")) {
 			errors.put("error_quantity_format", "個数を正しく入力してください。");
 		}
 		// 3. 個数長さチェック
+		else {
+			try {
+				quantity = Integer.parseInt(form.quantity);
+			} catch (NumberFormatException e) {
+				errors.put("error_quantity_format", "個数を入力してください。");
+			}
 
-		try {
-			quantity = Integer.parseInt(form.unitPrice);
-		} catch (NumberFormatException e) {
-			errors.put("error_quantity_format", "個数を入力してください。");
-		}
-
-		if (!errors.containsKey("error_quantity_format")) {
-			if (check.quantityCheck(quantity)) {
-				errors.put("error_quantity", "個数が長すぎます。");
+			if (!errors.containsKey("error_quantity_format")) {
+				if (check.quantityCheck(quantity)) {
+					errors.put("error_quantity", "個数が長すぎます。");
+				}
 			}
 		}
 
 		//備考長さチェック
 		if (form.remarks != null && check.remarksCheck(form.remarks)) {
 			errors.put("error_remarks", "備考が長すぎます。");
-		}
-
-		// --- 2. 存在チェック ---
-
-		// 担当者存在チェック
-		try {
-			Accounts ac = new Accounts();
-			if (!ac.exists(staff)) {
-				errors.put("error_staff_not_found", "アカウントテーブルに存在しません。");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			errors.put("error_staff_not_found", "担当者の確認時にエラーが発生しました。");
-		}
-
-		// カテゴリ存在チェック
-		try {
-			Categories ct = new Categories();
-			if (!ct.exists(category)) {
-				errors.put("error_category_not_found", "商品カテゴリテーブルに存在しません。");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			errors.put("error_category_not_found", "カテゴリの確認時にエラーが発生しました。");
 		}
 
 		return errors;
