@@ -57,9 +57,9 @@ public class S0020Servlet extends HttpServlet {
 		// --- 検索終了日 ---
 		endDateError = sl.useDaycheck(form.end_date, 1);
 
-		form.setCategory(sl.Intcheck(form.staff));
-		form.setStaff(sl.Intcheck(form.category));
-		
+		form.setCategory(sl.Intcheck(form.category));
+		form.setStaff(sl.Intcheck(form.staff));
+
 		System.out.println(form.end_date);
 
 		// 条件保存
