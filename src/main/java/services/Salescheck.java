@@ -192,21 +192,20 @@ public class Salescheck {
 			errors.put("error_quantity_format", "個数を入力してください。");
 		}
 		// 2. 形式エラーのチェック
-		else if (!form.unitPrice.matches("^[0-9]+$")) {
+		if (!form.unitPrice.matches("^[0-9]+$")) {
 			errors.put("error_quantity_format", "個数を正しく入力してください。");
 		}
 		// 3. 個数長さチェック
-		else {
-			try {
-				quantity = Integer.parseInt(form.unitPrice);
-			} catch (NumberFormatException e) {
-				errors.put("error_quantity_format", "個数を入力してください。");
-			}
 
-			if (!errors.containsKey("error_quantity_format")) {
-				if (check.quantityCheck(quantity)) {
-					errors.put("error_quantity", "個数が長すぎます。");
-				}
+		try {
+			quantity = Integer.parseInt(form.unitPrice);
+		} catch (NumberFormatException e) {
+			errors.put("error_quantity_format", "個数を入力してください。");
+		}
+
+		if (!errors.containsKey("error_quantity_format")) {
+			if (check.quantityCheck(quantity)) {
+				errors.put("error_quantity", "個数が長すぎます。");
 			}
 		}
 
