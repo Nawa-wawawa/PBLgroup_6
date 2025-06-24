@@ -112,7 +112,7 @@ public class S0024Servlet extends HttpServlet {
 
 			sales Newsale = salesData;
 
-			sl.update(Newsale, saleId);
+			sl.update(Newsale, saleId,request, response);
 
 		} catch (SQLException e) {
 			e.printStackTrace();

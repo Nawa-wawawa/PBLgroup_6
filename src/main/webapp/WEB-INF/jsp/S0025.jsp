@@ -12,12 +12,12 @@
 <body>
 
 	<jsp:include page="nav.jsp" />
-	
+
 	<div class="col-3 text-end mt-5">
 		<h2>売上詳細削除確認</h2>
 	</div>
-
 	<div class="container">
+		<jsp:include page="error.jsp" />
 		<form method="post" action="S0025.html">
 			<div class="row mb-3">
 				<div class="col-2 text-end">
@@ -98,11 +98,16 @@
 			</div>
 			<div class="row">
 				<div class="offset-2 col-2 text-end">
-					<button type="submit" class="btn btn-danger" name="action" value="1">OK</button>
-					<button type="submit" class="btn btn-light"name="action" value="0">キャンセル</button>
+					<button type="submit" class="btn btn-danger" name="action"
+						value="1">OK</button>
+					<button type="submit" class="btn btn-light" name="action" value="0">キャンセル</button>
 				</div>
 			</div>
 		</form>
 	</div>
+	<script src="${pageContext.request.contextPath}/js/error.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/js/bootstrap.bundle.min.js"
+		defer></script>
 </body>
 </html>

@@ -2,7 +2,6 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<c:set var="account" value="${requestScope.account}" />
 <c:set var="hasSalesAuthority" value="${requestScope.hasSalesAuthority}" />
 <c:set var="hasAccountAuthority"
 	value="${requestScope.hasAccountAuthority}" />
@@ -12,30 +11,19 @@
 <head>
 <meta charset="UTF-8">
 <title>アカウント詳細削除確認画面</title>
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-	rel="stylesheet">
+<link href="${pageContext.request.contextPath}/css/bootstrap.min.css"
+	rel="stylesheet" />
 </head>
 <body>
 	<jsp:include page="nav.jsp" />
 
 	<div class="container mt-5">
+	
+	<jsp:include page="error.jsp" />
+	
 		<h1 class="mb-4">アカウント詳細削除確認</h1>
 
 		<form action="S0044.html" method="POST">
-			<!--            <input type="hidden" name="action" value="delete" />-->
-			<!--            <input type="hidden" name="id" value="${account.account_id}" />-->
-			<!--            <input type="hidden" name="name" value="${account.name}" />-->
-			<!--            <input type="hidden" name="mail" value="${account.mail}" />-->
-			<!--            <input type="hidden" name="password" value="${account.password}" />-->
-			<!--            <input type="hidden" name="confirmPassword" value="${account.password}" />-->
-
-			<c:if test="${hasSalesAuthority}">
-				<input type="hidden" name="role" value="salesregister" />
-			</c:if>
-			<c:if test="${hasAccountAuthority}">
-				<input type="hidden" name="role" value="accountregister" />
-			</c:if>
 
 			<!-- 表示項目（すべてdisabled） -->
 			<div class="mb-3 row">
@@ -87,8 +75,9 @@
 			</div>
 		</form>
 	</div>
-
+	<script src="${pageContext.request.contextPath}/js/error.js"></script>
 	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+		src="${pageContext.request.contextPath}/js/bootstrap.bundle.min.js"
+		defer></script>
 </body>
 </html>

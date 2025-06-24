@@ -54,7 +54,7 @@ public class AccountService {
 
 			pstmt.executeUpdate();
 		} catch (Exception e) {
-			request.setAttribute("error", "登録に失敗しました: " + e.getMessage());
+			request.setAttribute("error", "登録に失敗しました: " +  "時間を空けて試し下さい");
 			request.setAttribute("account", a);
 			request.getRequestDispatcher("/WEB-INF/jsp/S0031.jsp").forward(request, response);
 		}
@@ -76,22 +76,8 @@ public class AccountService {
 			pstmt.executeUpdate();
 
 		} catch (SQLException | NamingException e) {
-			request.setAttribute("error", "更新に失敗しました: " + e.getMessage());
-			request.setAttribute("hasSales", (a.getAuthority() & 1) != 0);
-			request.setAttribute("hasAccountReg", (a.getAuthority() & 2) != 0);
+			request.setAttribute("error", "更新に失敗しました: " + "時間を空けて試し下さい");
 			request.getRequestDispatcher("/WEB-INF/jsp/S0042.jsp").forward(request, response);
-		}
-	}
-
-	public void delete(accounts a) {
-		String sql = "DELETE FROM accounts WHERE id = ?";
-		try (Connection conn = Db.open();
-				PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-			pstmt.setInt(1, a.getAccount_id());
-			pstmt.executeUpdate();
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -104,7 +90,7 @@ public class AccountService {
 			pstmt.setInt(1, id);
 			pstmt.executeUpdate();
 		} catch (Exception e) {
-			request.setAttribute("error", "削除に失敗しました: " + e.getMessage());
+			request.setAttribute("error", "削除に失敗しました: " +  "時間を空けて試し下さい");
 			request.getRequestDispatcher("/WEB-INF/jsp/S0044.jsp").forward(request, response);
 		}
 	}

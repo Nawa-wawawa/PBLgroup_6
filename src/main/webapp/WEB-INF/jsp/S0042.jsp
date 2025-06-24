@@ -7,9 +7,8 @@
 <head>
 <meta charset="UTF-8">
 <title>アカウント詳細編集</title>
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-	rel="stylesheet">
+<link href="${pageContext.request.contextPath}/css/bootstrap.min.css"
+	rel="stylesheet" />
 <style>
 .error-message {
 	color: red;

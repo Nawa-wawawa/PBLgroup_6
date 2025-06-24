@@ -7,9 +7,8 @@
 <head>
 <meta charset="UTF-8">
 <title>アカウント検索条件入力</title>
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-	rel="stylesheet">
+<link href="${pageContext.request.contextPath}/css/bootstrap.min.css"
+	rel="stylesheet" />
 </head>
 <body>
 	<jsp:include page="nav.jsp" />
@@ -90,6 +89,7 @@
 		</form>
 	</div>
 	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+		src="${pageContext.request.contextPath}/js/bootstrap.bundle.min.js"
+		defer></script>
 </body>
 </html>

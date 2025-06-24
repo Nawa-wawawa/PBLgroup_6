@@ -62,9 +62,6 @@ public class S0020Servlet extends HttpServlet {
 
 		System.out.println(form.end_date);
 
-		// 条件保存
-		salescondition serch_condition = new salescondition(form);
-
 		if (startDateError != null || endDateError != null) {
 			// エラーがある場合は、JSPにフォワード
 			request.setAttribute("startDateError", startDateError);
@@ -73,6 +70,10 @@ public class S0020Servlet extends HttpServlet {
 			request.getRequestDispatcher("/WEB-INF/jsp/S0020.jsp").forward(request, response);
 			return;
 		}
+
+		// 条件保存
+		salescondition serch_condition = new salescondition(form);
+
 		// 正常時
 		HttpSession session = request.getSession();
 		session.setAttribute("serch_condition", serch_condition);

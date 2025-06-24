@@ -15,8 +15,8 @@
 	<div class="col-3 text-end mt-5">
 		<h2>登録確認確認</h2>
 	</div>
-
 	<div class="container">
+		<jsp:include page="error.jsp" />
 		<form method="post" action="S0011.html">
 			<div class="row mb-3">
 				<div class="col-2 text-end">
@@ -110,6 +110,7 @@
 			</div>
 		</form>
 	</div>
+	<script src="${pageContext.request.contextPath}/js/error.js"></script>
 	<script
 		src="${pageContext.request.contextPath}/js/bootstrap.bundle.min.js"
 		defer></script>

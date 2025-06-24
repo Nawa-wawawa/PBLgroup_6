@@ -12,7 +12,7 @@ public class SerchSalesform {
 
 	public SerchSalesform(HttpServletRequest request) {
 		this.start_date = request.getParameter("start_date");
-		this.start_date = request.getParameter("end_date");
+		this.end_date = request.getParameter("end_date");
 		this.staff = request.getParameter("staff");
 		this.category = request.getParameter("category");
 		this.productName = request.getParameter("product_name");

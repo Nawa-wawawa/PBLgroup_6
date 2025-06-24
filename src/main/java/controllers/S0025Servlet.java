@@ -48,7 +48,7 @@ public class S0025Servlet extends HttpServlet {
 
 			SalesService delete = new SalesService();
 			//削除の前に削除権限があるのかをログイン中のアカウント権限と参照
-			delete.delete(saleId);
+			delete.delete(saleId,request, response);
 
 			response.sendRedirect(request.getContextPath() + "/S0021.html");
 		} else {

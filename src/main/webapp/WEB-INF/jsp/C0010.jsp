@@ -14,13 +14,7 @@
 <body class="d-flex justify-content-center min-vh-100">
 	<div class="container p-5 text-center">
 		<!-- エラー表示エリア（ここに常にスペースを確保） -->
-		<div class="mb-3" style="height: 3em;">
-			<c:if test="${error != null}">
-				<div id="errorMessage"
-					class="alert alert-danger text-dark p-2 m-0 animate__animated"
-					role="alert">${error}</div>
-			</c:if>
-		</div>
+		<jsp:include page="error.jsp" />
 
 		<h1>物品売上管理システム</h1>
 
@@ -29,7 +23,8 @@
 				<div class="col-md-5 mb-2 text-start">
 					<label for="mail">メールアドレス <span
 						class="badge bg-secondary m-2">必須</span></label> <input type="mail"
-						class="form-control mb-4" name="mail" placeholder="xxx@xxx.com"> <label for="password">パスワード <span
+						class="form-control mb-4" name="mail" placeholder="xxx@xxx.com">
+					<label for="password">パスワード <span
 						class="badge bg-secondary m-2">必須</span></label> <input type="password"
 						class="form-control mb-4" name="password"
 						placeholder="8文字以上の半角英数字">
@@ -45,18 +40,9 @@
 			src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
 			integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
 			crossorigin="anonymous">
+			
 		</script>
-		<script>
-	document.addEventListener('DOMContentLoaded', function () {
-		const error = document.getElementById('errorMessage');
-		if (error) {
-			setTimeout(() => {
-				error.classList.add('animate__fadeOut');
-			}, 5000); // 5秒後にフェードアウト
-		}
-	});
-</script>
-
+		<script src="${pageContext.request.contextPath}/js/error.js"></script>
 </body>
 
 </html>

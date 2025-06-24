@@ -274,9 +274,6 @@ public class Salescheck {
 
 	public String useDaycheck(String day, int n) {
 
-		String startDateError = null;
-		String endDateError = null;
-
 		// フォーマットチェック用
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		sdf.setLenient(false); // 厳密にチェックする
@@ -288,15 +285,11 @@ public class Salescheck {
 				check_date = new Date(parsed.getTime());
 			} catch (ParseException e) {
 				if (n == 0) {
-
-					startDateError = "販売日（検索開始日）を正しく入力して下さい。";
-
-					return startDateError;
+					return "販売日（検索開始日）を正しく入力して下さい。";
 				} else {
 
-					endDateError = "販売日（検索終了日）を正しく入力して下さい。";
+					return "販売日（検索終了日）を正しく入力して下さい。";
 
-					return endDateError;
 				}
 			}
 		}
@@ -320,7 +313,7 @@ public class Salescheck {
 			Integer.parseInt(n);
 			return n;
 		} catch (NumberFormatException e) {
-			return "0";
+			return "-1";
 		}
 	}
 }

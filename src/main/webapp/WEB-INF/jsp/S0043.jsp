@@ -11,14 +11,15 @@
 <head>
 <meta charset="UTF-8" />
 <title>新規アカウント登録確認画面</title>
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+<link href="${pageContext.request.contextPath}/css/bootstrap.min.css"
 	rel="stylesheet" />
 </head>
 <body>
 	<jsp:include page="nav.jsp" />
 
 	<div class="container mt-5">
+		<!-- エラー表示エリア（ここに常にスペースを確保） -->
+		<jsp:include page="error.jsp" />
 		<h1 class="mb-4">アカウント詳細編集確認</h1>
 
 		<form action="S0043.html" method="POST">
@@ -74,8 +75,9 @@
 			</div>
 		</form>
 	</div>
-
+	<script src="${pageContext.request.contextPath}/js/error.js"></script>
 	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+		src="${pageContext.request.contextPath}/js/bootstrap.bundle.min.js"
+		defer></script>
 </body>
 </html>

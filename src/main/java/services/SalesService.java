@@ -1,5 +1,6 @@
 package services;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -10,7 +11,10 @@ import java.util.List;
 
 import javax.naming.NamingException;
 
+import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import beans.accounts;
 import beans.categories;
@@ -116,7 +120,8 @@ public class SalesService {
 		return salelist;
 	}
 
-	public void insert(sales sale) {
+	public void insert(sales sale, HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
 		String sql = "INSERT INTO sales ( sale_date, account_id, category_id, trade_name, unit_price, sale_number, note) VALUES (?,?,?,?,?,?,?)";
 
@@ -133,16 +138,14 @@ public class SalesService {
 			ps.setString(7, sale.getNote());
 
 			ps.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (NamingException e1) {
-			// TODO 自動生成された catch ブロック
-			e1.printStackTrace();
+		}catch (SQLException | NamingException e) {
+			request.setAttribute("error", "登録に失敗しました: " + "時間を空けて試し下さい");
+			request.getRequestDispatcher("/WEB-INF/jsp/S0011.jsp").forward(request, response);
 		}
-		//return id;
 	}
 
-	public void update(sales sale, int id) {
+	public void update(sales sale, int id, HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		String sql = "UPDATE sales 	SET sale_date = ?, account_id = ?, category_id = ?, trade_name = ?, unit_price = ?, sale_number = ?, note = ?WHERE sale_id = ?";
 		try (
 				Connection use_connection = Db.open();
@@ -159,15 +162,14 @@ public class SalesService {
 
 			ps.executeUpdate();
 			System.out.println("更新の完了");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (NamingException e1) {
-			// TODO 自動生成された catch ブロック
-			e1.printStackTrace();
+		} catch (SQLException | NamingException e) {
+			request.setAttribute("error", "更新に失敗しました: " + "時間を空けて試し下さい");
+			request.getRequestDispatcher("/WEB-INF/jsp/S0024.jsp").forward(request, response);
 		}
 	}
 
-	public void delete(int id) {
+	public void delete(int id, HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		String sql = "DELETE  FROM sales WHERE sale_id = ?";
 
 		try (
@@ -177,13 +179,10 @@ public class SalesService {
 			int result = ps.executeUpdate();
 			System.out.println(result);
 			System.out.println("削除の完了");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (NamingException e1) {
-			// TODO 自動生成された catch ブロック
-			e1.printStackTrace();
+		} catch (SQLException | NamingException e) {
+			request.setAttribute("error", "削除に失敗しました: " + "時間を空けて試し下さい");
+			request.getRequestDispatcher("/WEB-INF/jsp/S0025.jsp").forward(request, response);
 		}
-
 	}
 
 	public String getUsername(int id) {
