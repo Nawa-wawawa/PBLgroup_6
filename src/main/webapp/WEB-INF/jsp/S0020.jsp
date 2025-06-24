@@ -96,7 +96,7 @@
 			<div class="row">
 				<div class="offset-2 col-2 text-end">
 					<button type="submit" class="btn btn-primary">検索</button>
-					<button type="button" class="btn btn-light">クリア</button>
+					<button type="reset" class="btn btn-light">クリア</button>
 				</div>
 			</div>
 		</form>

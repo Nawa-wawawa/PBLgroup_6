@@ -201,7 +201,7 @@ public class Salescheck {
 			try {
 				unit_price = Integer.parseInt(form.unitPrice);
 			} catch (NumberFormatException e) {
-				errors.put("error_unit_price_format", "単価を入力して下さい。");
+				errors.put("error_unit_price_format", "単価を正しく入力して下さい。");
 			}
 
 			if (!errors.containsKey("error_unit_price_format")) {
@@ -225,7 +225,7 @@ public class Salescheck {
 			try {
 				quantity = Integer.parseInt(form.quantity);
 			} catch (NumberFormatException e) {
-				errors.put("error_quantity_format", "個数を入力してください。");
+				errors.put("error_quantity_format", "個数を正しく入力してください。");
 			}
 
 			if (!errors.containsKey("error_quantity_format")) {
