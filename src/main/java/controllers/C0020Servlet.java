@@ -19,7 +19,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import beans.accounts;
-import services.SalesService;
+import services.DashboardService;
 import utils.Db;
 
 @WebServlet("/C0020.html")
@@ -44,7 +44,7 @@ public class C0020Servlet extends HttpServlet {
             LocalDate prevMonthStart = startMonth.minusMonths(1);
             LocalDate prevMonthEnd = startMonth.minusDays(1);
 
-            SalesService salesService = new SalesService(conn);
+            DashboardService salesService = new DashboardService(conn);
 
             // 全体売上とユーザー数
             int yearlyTotal = salesService.getTotalSales(startYear, today);

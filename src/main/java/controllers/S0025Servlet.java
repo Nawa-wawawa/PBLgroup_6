@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import services.Sales;
+import services.SalesService;
 
 /**
  * Servlet implementation class S0025Servlet
@@ -46,7 +46,7 @@ public class S0025Servlet extends HttpServlet {
 			HttpSession session = request.getSession(false);
 			int saleId = (int) session.getAttribute("saleId");
 
-			Sales delete = new Sales();
+			SalesService delete = new SalesService();
 			//削除の前に削除権限があるのかをログイン中のアカウント権限と参照
 			delete.delete(saleId);
 

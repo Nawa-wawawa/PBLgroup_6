@@ -16,7 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import beans.sales;
-import services.Sales;
+import services.SalesService;
 import services.Salescheck;
 import utils.Db;
 
@@ -60,8 +60,8 @@ public class S0024Servlet extends HttpServlet {
 			System.out.println("セッションが存在しません。");
 		}
 
-		categoryName = Sales.getCategoryNameById(categoryId);
-		accountName = Sales.getAccountNameById(staffId);
+		categoryName = SalesService.getCategoryNameById(categoryId);
+		accountName = SalesService.getAccountNameById(staffId);
 
 		request.setAttribute("categoryName", categoryName);
 		request.setAttribute("accountName", accountName);
@@ -108,7 +108,7 @@ public class S0024Servlet extends HttpServlet {
 
 		try (Connection con = Db.open()) {
 
-			Sales sl = new Sales();
+			SalesService sl = new SalesService();
 
 			sales Newsale = salesData;
 

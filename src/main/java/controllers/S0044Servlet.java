@@ -25,31 +25,13 @@ public class S0044Servlet extends HttpServlet {
 
 		HttpSession session = request.getSession(false);
 
-		//    	if(session == null) {
-		//    		
-		//    		response.sendRedirect("S0041.html");
-		//    		return;
-		//    		
-		//    	}
-		//    	
-		//    	Integer idItg = (Integer) session.getAttribute("id");   	
-		//    	
-		//        if (idItg != null) {
-		//            int accountId = idItg;
-		//            AccountService service = new AccountService();
-		//            accounts account = service.findById(accountId);
-		//
-		//            if (account != null) {
-		//                request.setAttribute("account", account);
 		accounts account = (accounts) session.getAttribute("account");
-		request.setAttribute("hasSalesAuthority", (account.getAuthority() & 1) != 0);
-		request.setAttribute("hasAccountAuthority", (account.getAuthority() & 2) != 0);
-		//            } else {
-		//                request.setAttribute("error", "アカウントが見つかりませんでした。");
-		//            }
-		//        } else {
-		//            request.setAttribute("error", "アカウントIDが指定されていません。");
-		//        }
+		if (account == null) {
+
+			response.sendRedirect("S0041.html");
+			return;
+
+		}
 
 		request.getRequestDispatcher("/WEB-INF/jsp/S0044.jsp").forward(request, response);
 	}
@@ -58,25 +40,17 @@ public class S0044Servlet extends HttpServlet {
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 
+		HttpSession session = request.getSession(false);
 
-		int id = 0;
+		accounts account = (accounts) session.getAttribute("account");
+		if (account == null) {
 
-		try {
-			id = Integer.parseInt(idStr);
-		} catch (NumberFormatException e) {
-			request.setAttribute("error", "不正なIDです。");
-			request.getRequestDispatcher("/WEB-INF/jsp/S0044.jsp").forward(request, response);
+			response.sendRedirect("S0041.html");
 			return;
-		}
 
+		}
 		AccountService service = new AccountService();
-		try {
-			service.delete(id); // 削除処理
-			response.sendRedirect("S0041.html"); // 一覧画面へ
-		} catch (Exception e) {
-			request.setAttribute("error", "削除に失敗しました: " + e.getMessage());
-			request.getRequestDispatcher("/WEB-INF/jsp/S0044.jsp").forward(request, response);
-		}
-
+		service.delete(account.getAccount_id(), request, response); // 削除処理
+		response.sendRedirect("S0041.html"); // 一覧画面へ
 	}
 }

@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpSession;
 
 import beans.sales;
 import froms.InsertSaleform;
-import services.Sales;
+import services.SalesService;
 import services.Salescheck;
 
 /**
@@ -40,7 +40,7 @@ public class S0010Servlet extends HttpServlet {
 
 		String today = LocalDate.now().toString();
 
-		Sales.loadAccountAndCategory(request);
+		SalesService.loadAccountAndCategory(request);
 
 		request.setAttribute("today", today);
 
@@ -62,7 +62,7 @@ public class S0010Servlet extends HttpServlet {
 		if (!errors.isEmpty()) {
 			request.setAttribute("errors", errors);
 
-			Sales.loadAccountAndCategory(request);
+			SalesService.loadAccountAndCategory(request);
 
 			request.getRequestDispatcher("/WEB-INF/jsp/S0010.jsp").forward(request, response);
 			return;

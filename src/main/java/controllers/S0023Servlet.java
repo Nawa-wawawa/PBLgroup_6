@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpSession;
 
 import beans.sales;
 import froms.InsertSaleform;
-import services.Sales;
+import services.SalesService;
 import services.Salescheck;
 
 /**
@@ -36,7 +36,7 @@ public class S0023Servlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		Sales.loadAccountAndCategory(request);
+		SalesService.loadAccountAndCategory(request);
 		request.getRequestDispatcher("/WEB-INF/jsp/S0023.jsp").forward(request, response);
 	}
 
@@ -59,7 +59,7 @@ public class S0023Servlet extends HttpServlet {
 			// --- エラー時処理 ---
 			if (!errors.isEmpty()) {
 				request.setAttribute("errors", errors);
-				Sales.loadAccountAndCategory(request);
+				SalesService.loadAccountAndCategory(request);
 				request.getRequestDispatcher("/WEB-INF/jsp/S0023.jsp").forward(request, response);
 				return;
 			}

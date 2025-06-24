@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpSession;
 
 import beans.sales;
 import beans.salescondition;
-import services.Sales;
+import services.SalesService;
 import services.Salescheck;
 
 /**
@@ -39,11 +39,11 @@ public class S0021Servlet extends HttpServlet {
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		salescondition serch_condition = (salescondition) session.getAttribute("serch_condition");
-		Sales select = new Sales();
+		SalesService select = new SalesService();
 		ArrayList<sales> saleslist = select.select(serch_condition);
 		session.setAttribute("saleslist", saleslist);
 
-		Sales.loadAccountAndCategory(request);
+		SalesService.loadAccountAndCategory(request);
 		//ここに検索結果がない場合を記入。
 
 		Map<String, String> errors = new LinkedHashMap<>();

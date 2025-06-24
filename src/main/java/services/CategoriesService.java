@@ -11,7 +11,7 @@ import javax.naming.NamingException;
 import beans.categories;
 import utils.Db;
 
-public class Categories {
+public class CategoriesService {
 
 	public ArrayList<categories> select() {
 		ArrayList<categories> categorylist = new ArrayList<>();

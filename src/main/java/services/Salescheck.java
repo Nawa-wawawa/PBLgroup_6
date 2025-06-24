@@ -145,7 +145,7 @@ public class Salescheck {
 			// 担当者存在チェック
 			if (!errors.containsKey("error_staff_required")) {
 				try {
-					Accounts ac = new Accounts();
+					AccountService ac = new AccountService();
 					if (!ac.exists(staff)) {
 						errors.put("error_staff_not_found", "アカウントテーブルに存在しません。");
 					}
@@ -169,7 +169,7 @@ public class Salescheck {
 			// カテゴリ存在チェック
 			if (!errors.containsKey("error_category_required")) {
 				try {
-					Categories ct = new Categories();
+					CategoriesService ct = new CategoriesService();
 					if (!ct.exists(category)) {
 						errors.put("error_category_not_found", "商品カテゴリテーブルに存在しません。");
 					}
@@ -189,17 +189,17 @@ public class Salescheck {
 
 		// 単価チェック
 		// 1. 未入力エラーのチェック
-		if (form.quantity == null || form.quantity.trim().isEmpty()) {
+		if (form.unitPrice == null || form.unitPrice.trim().isEmpty()) {
 			errors.put("error_unit_price_format", "単価を入力して下さい。");
 		}
 		// 2. 形式エラーのチェック
-		else if (!form.quantity.matches("^[0-9]+$")) {
+		else if (!form.unitPrice.matches("^[0-9]+$")) {
 			errors.put("error_unit_price_format", "単価を正しく入力して下さい。");
 		}
 		// 3. 価格長さチェック
 		else {
 			try {
-				unit_price = Integer.parseInt(form.quantity);
+				unit_price = Integer.parseInt(form.unitPrice);
 			} catch (NumberFormatException e) {
 				errors.put("error_unit_price_format", "単価を入力して下さい。");
 			}
@@ -250,7 +250,7 @@ public class Salescheck {
 
 		// 担当者存在チェック
 		try {
-			Accounts ac = new Accounts();
+			AccountService ac = new AccountService();
 			if (!ac.exists(staff)) {
 				errors.put("error_staff_not_found", "アカウントテーブルに存在しません。");
 			}
@@ -261,7 +261,7 @@ public class Salescheck {
 
 		// カテゴリ存在チェック
 		try {
-			Categories ct = new Categories();
+			CategoriesService ct = new CategoriesService();
 			if (!ct.exists(category)) {
 				errors.put("error_category_not_found", "商品カテゴリテーブルに存在しません。");
 			}

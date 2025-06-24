@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.naming.NamingException;
 
@@ -19,17 +18,14 @@ import utils.Db;
 
 public class AccountService {
 
-	public List<accounts> select(int n) {
-		List<accounts> list = new ArrayList<>();
+	public ArrayList<accounts> select() {
+		ArrayList<accounts> list = new ArrayList<>();
 		String sql = "SELECT * FROM accounts";
-		//				String sql = "SELECT * FROM accounts";
-		//				String sql = "SELECT * FROM accounts";
+
 		try (Connection conn = Db.open();
 				PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-			pstmt.setInt(1, n);
 			ResultSet rs = pstmt.executeQuery();
-			//
 			while (rs.next()) {
 				accounts a = new accounts(
 						rs.getInt("account_id"),
@@ -99,7 +95,8 @@ public class AccountService {
 		}
 	}
 
-	public void delete(int id) {
+	public void delete(int id, HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		String sql = "DELETE FROM accounts WHERE account_id = ?";
 		try (Connection conn = Db.open();
 				PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -107,7 +104,8 @@ public class AccountService {
 			pstmt.setInt(1, id);
 			pstmt.executeUpdate();
 		} catch (Exception e) {
-			e.printStackTrace();
+			request.setAttribute("error", "削除に失敗しました: " + e.getMessage());
+			request.getRequestDispatcher("/WEB-INF/jsp/S0044.jsp").forward(request, response);
 		}
 	}
 
@@ -211,5 +209,47 @@ public class AccountService {
 			}
 		}
 		return authority;
+	}
+
+	public String getAccountname(int id) {
+
+		String accountName = "";
+		String sql = "SELECT name FROM accounts WHERE account_id = ?";
+
+		try (
+				Connection use_connection = Db.open();
+				PreparedStatement ps = use_connection.prepareStatement(sql)) {
+
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
+
+			if (rs.next()) {
+				accountName = rs.getString("name");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+
+		return accountName;
+	}
+
+	public boolean exists(int accountId) {
+		String sql = "SELECT COUNT(*) FROM accounts WHERE account_id = ?";
+		try (Connection con = Db.open();
+				PreparedStatement stmt = con.prepareStatement(sql)) {
+			stmt.setInt(1, accountId);
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				return rs.getInt(1) > 0;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 }

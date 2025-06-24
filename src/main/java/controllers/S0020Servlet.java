@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpSession;
 
 import beans.salescondition;
 import froms.SerchSalesform;
-import services.Sales;
+import services.SalesService;
 import services.Salescheck;
 
 /**
@@ -35,7 +35,7 @@ public class S0020Servlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		Sales.loadAccountAndCategory(request);
+		SalesService.loadAccountAndCategory(request);
 
 		request.getRequestDispatcher("/WEB-INF/jsp/S0020.jsp").forward(request, response);
 	}
@@ -69,14 +69,14 @@ public class S0020Servlet extends HttpServlet {
 			// エラーがある場合は、JSPにフォワード
 			request.setAttribute("startDateError", startDateError);
 			request.setAttribute("endDateError", endDateError);
-			Sales.loadAccountAndCategory(request);
+			SalesService.loadAccountAndCategory(request);
 			request.getRequestDispatcher("/WEB-INF/jsp/S0020.jsp").forward(request, response);
 			return;
 		}
 		// 正常時
 		HttpSession session = request.getSession();
 		session.setAttribute("serch_condition", serch_condition);
-		Sales.loadAccountAndCategory(request);
+		SalesService.loadAccountAndCategory(request);
 		response.sendRedirect(request.getContextPath() + "/S0021.html");
 	}
 }
