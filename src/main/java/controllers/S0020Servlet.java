@@ -1,7 +1,6 @@
 package controllers;
 
 import java.io.IOException;
-import java.sql.Date;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -11,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import beans.salescondition;
+import froms.SerchSalesform;
 import services.Sales;
 import services.Salescheck;
 
@@ -46,54 +46,26 @@ public class S0020Servlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		Date start_date = null;
-		Date end_date = null;
-		int staff = 0;
-		int category = 0;
-
-		boolean hasError = false;
 		String startDateError = null;
 		String endDateError = null;
 		Salescheck sl = new Salescheck();
 
-		
-		//何かuseDaycheckに引数を渡して、はじめ、終わりの判定。
-		// --- 検索開始日 ---
-		String startStr = request.getParameter("start_date");
-		if (sl.useDaycheck(startStr)) {
-			startDateError = "販売日（検索開始日）を正しく入力して下さい。";
-			hasError = true;
-		}
-		// --- 検索終了日 ---
-		String endStr = request.getParameter("end_date");
+		SerchSalesform form = new SerchSalesform(request);
 
-		if (sl.useDaycheck(endStr)) {
-			endDateError = "販売日（検索終了日）を正しく入力して下さい。";
-			hasError = true;
-		}
-		// 担当・カテゴリなど
-		String staffStr = request.getParameter("staff");
-		if (staffStr != null && !staffStr.isEmpty()) {
-			try {
-				staff = Integer.parseInt(staffStr);
-			} catch (NumberFormatException e) {
-				staff = 0;
-			}
-		}
-		String categoryStr = request.getParameter("category");
-		if (categoryStr != null && !categoryStr.isEmpty()) {
-			try {
-				category = Integer.parseInt(categoryStr);
-			} catch (NumberFormatException e) {
-				category = 0;
-			}
-		}
-		String product_name = request.getParameter("product_name");
-		String remarks = request.getParameter("remarks");
+		// --- 検索開始日 ---
+		startDateError = sl.useDaycheck(form.start_date, 0);
+		// --- 検索終了日 ---
+		endDateError = sl.useDaycheck(form.end_date, 1);
+
+		form.setCategory(sl.Intcheck(form.staff));
+		form.setStaff(sl.Intcheck(form.category));
+		
+		System.out.println(form.end_date);
+
 		// 条件保存
-		salescondition serch_condition = new salescondition(start_date, end_date, staff, category, product_name,
-				remarks);
-		if (hasError) {
+		salescondition serch_condition = new salescondition(form);
+
+		if (startDateError != null || endDateError != null) {
 			// エラーがある場合は、JSPにフォワード
 			request.setAttribute("startDateError", startDateError);
 			request.setAttribute("endDateError", endDateError);

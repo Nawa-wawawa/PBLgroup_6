@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import beans.accounts;
-import beans.getAccountRequest;
+import froms.InsertAccountform;
 import services.AccountService;
 import services.Accountcheck;
 
@@ -33,7 +33,7 @@ public class S0031Servlet extends HttpServlet {
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 
-		getAccountRequest form = new getAccountRequest(request);
+		InsertAccountform form = new InsertAccountform(request);
 
 		String[] roles = form.roles;
 		String name = form.name;
@@ -42,16 +42,8 @@ public class S0031Servlet extends HttpServlet {
 
 		//System.out.println(roles + name + mail + password);
 
-		byte authority = 0;
-		if (roles != null) {
-			for (String role : roles) {
-				if ("salesregister".equals(role)) {
-					authority |= 1; // 売上登録
-				} else if ("accountregister".equals(role)) {
-					authority |= 2; // アカウント登録
-				}
-			}
-		}
+		AccountService ac = new AccountService();
+		byte authority = ac.authorityConvert(roles);
 
 		accounts account = new accounts(name, mail, password, authority);
 
@@ -72,15 +64,9 @@ public class S0031Servlet extends HttpServlet {
 
 		// 確認画面のOKが押されたときにDB登録
 		AccountService service = new AccountService();
-		try {
-			service.insert(account);
-			// 登録成功 → 入力画面へリダイレクト（必要に応じて変更）
-			response.sendRedirect("S0030.html");
-		} catch (Exception e) {
-			request.setAttribute("error", "登録に失敗しました: " + e.getMessage());
-			request.setAttribute("account", account);
-			request.getRequestDispatcher("/WEB-INF/jsp/S0031.jsp").forward(request, response);
-		}
 
+		service.insert(account, request, response);
+		// 登録成功 → 入力画面へリダイレクト（必要に応じて変更）
+		response.sendRedirect("S0030.html");
 	}
 }

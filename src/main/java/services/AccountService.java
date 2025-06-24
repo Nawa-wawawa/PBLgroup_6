@@ -1,5 +1,6 @@
 package services;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,6 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.naming.NamingException;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import beans.accounts;
 import utils.Db;
@@ -40,7 +45,8 @@ public class AccountService {
 		return list;
 	}
 
-	public void insert(accounts a) {
+	public void insert(accounts a, HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		String sql = "INSERT INTO accounts (name, mail, password, authority) VALUES (?, ?, ?, ?)";
 		try (Connection conn = Db.open();
 				PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -52,11 +58,14 @@ public class AccountService {
 
 			pstmt.executeUpdate();
 		} catch (Exception e) {
-			e.printStackTrace();
+			request.setAttribute("error", "登録に失敗しました: " + e.getMessage());
+			request.setAttribute("account", a);
+			request.getRequestDispatcher("/WEB-INF/jsp/S0031.jsp").forward(request, response);
 		}
 	}
 
-	public void update(accounts a) {
+	public void update(accounts a, HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		String sql = "UPDATE accounts SET name = ?, mail = ?, password = ?, authority = ? WHERE account_id = ?";
 
 		try (Connection conn = Db.open();
@@ -71,7 +80,10 @@ public class AccountService {
 			pstmt.executeUpdate();
 
 		} catch (SQLException | NamingException e) {
-			e.printStackTrace();
+			request.setAttribute("error", "更新に失敗しました: " + e.getMessage());
+			request.setAttribute("hasSales", (a.getAuthority() & 1) != 0);
+			request.setAttribute("hasAccountReg", (a.getAuthority() & 2) != 0);
+			request.getRequestDispatcher("/WEB-INF/jsp/S0042.jsp").forward(request, response);
 		}
 	}
 
@@ -187,4 +199,17 @@ public class AccountService {
 		return accounts;
 	}
 
+	public byte authorityConvert(String[] n) {
+		byte authority = 0;
+		if (n != null) {
+			for (String role : n) {
+				if ("salesregister".equals(role)) {
+					authority |= 1; // 売上登録
+				} else if ("accountregister".equals(role)) {
+					authority |= 2; // アカウント登録
+				}
+			}
+		}
+		return authority;
+	}
 }

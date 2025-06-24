@@ -60,16 +60,7 @@
 			<div class="mb-3 row">
 				<label class="col-sm-2 col-form-label text-end">権限</label>
 				<div class="col-sm-10">
-					<div class="form-check form-check-inline">
-						<input class="form-check-input" type="checkbox" disabled
-							<c:if test="${hasSales}">checked</c:if> /> <label
-							class="form-check-label">売上登録</label>
-					</div>
-					<div class="form-check form-check-inline">
-						<input class="form-check-input" type="checkbox" disabled
-							<c:if test="${hasAccountReg}">checked</c:if> /> <label
-							class="form-check-label">アカウント登録</label>
-					</div>
+					<jsp:include page="authority.jsp" />
 				</div>
 			</div>
 

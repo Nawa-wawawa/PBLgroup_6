@@ -2,8 +2,6 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<c:set var="account" value="${requestScope.account}" />
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -94,18 +92,7 @@
 			<div class="mb-3 row">
 				<label class="col-sm-2 col-form-label text-end">権限</label>
 				<div class="col-sm-10">
-					<div class="form-check form-check-inline">
-						<input class="form-check-input" type="checkbox" name="role"
-							id="roleRead" value="salesregister"
-							<c:if test="${hasSalesRole}">checked</c:if>> <label
-							class="form-check-label" for="roleRead">売上登録</label>
-					</div>
-					<div class="form-check form-check-inline">
-						<input class="form-check-input" type="checkbox" name="role"
-							id="roleUpdate" value="accountregister"
-							<c:if test="${hasAccountRole}">checked</c:if>> <label
-							class="form-check-label" for="roleUpdate">アカウント登録</label>
-					</div>
+					<jsp:include page="authority.jsp" />
 				</div>
 			</div>
 
