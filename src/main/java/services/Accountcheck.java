@@ -90,28 +90,28 @@ public class Accountcheck {
 		} else if (!form.name.matches("^[\\p{L} 　\\-\\ー]+$")) { // 例：日本語・英字・スペース・ハイフンだけ許可
 			fieldErrors.put("name", "氏名の形式が正しくありません。");
 		} else if (checker.nameCheck(form.name)) {
-			fieldErrors.put("name", "氏名は20文字以内で入力してください。");
+			fieldErrors.put("name", "氏名が長すぎます。");
 		}
 
 		// ■メールアドレス
 		if (form.mail == null || form.mail.trim().isEmpty()) {
 			fieldErrors.put("mail", "メールアドレスを入力してください。");
 		} else if (!checker.isValidEmailFormat(form.mail)) {
-			fieldErrors.put("mail", "メールアドレスの形式が正しくありません。");
+			fieldErrors.put("mail", "メールアドレスを正しく入力して下さい。");
 		} else if (checker.mailCheck(form.mail)) {
-			fieldErrors.put("mail", "メールアドレスは100文字以内で入力してください。");
+			fieldErrors.put("mail", "メールアドレスが長すぎます。");
 		}
 
 		// ■パスワード
 		if (form.password == null || form.password.trim().isEmpty()) {
 			fieldErrors.put("password", "パスワードを入力してください。");
 		} else if (checker.passwordCheck(form.password)) {
-			fieldErrors.put("password", "パスワードは30文字以内で入力してください。");
+			fieldErrors.put("password", "パスワードが長すぎます。");
 		}
 
 		// ■パスワード（確認）
 		if (form.confirmPassword == null || form.confirmPassword.trim().isEmpty()) {
-			fieldErrors.put("confirmPassword", "確認用パスワードを入力してください。");
+			fieldErrors.put("confirmPassword", "パスワード（確認）を入力して下さい。");
 		} else if (!form.confirmPassword.equals(form.password)) {
 			fieldErrors.put("confirmPassword", "パスワードとパスワード（確認）の入力内容が異なっています。");
 		}
