@@ -53,11 +53,9 @@
 						<c:set var="accountName" value="" />
 
 						<c:forEach var="ac" items="${accountslist}">
-
 							<c:if test="${ac.account_id == sales.account_id}">
-								<c:set var="accountName" value="${ac.name}" />
-								${ac.name}
-								</c:if>
+								<c:set var="accountName" value="${ac.name}" /> ${ac.name}</c:if>
+							<c:if test="${ac.account_id != sales.account_id}">---</c:if>
 						</c:forEach>
 						<input type="hidden" name="accountName" value="${accountName}" />
 					</div>

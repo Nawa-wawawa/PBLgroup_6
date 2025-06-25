@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <c:if test="${account == null}">
-	<c:redirect url="S0042.html" />
+	<c:redirect url="S0041.html" />
 </c:if>
 
 <!DOCTYPE html>
@@ -61,7 +61,10 @@
 			<div class="mb-3 row">
 				<label class="col-sm-2 col-form-label text-end">権限</label>
 				<div class="col-sm-10">
-					<jsp:include page="authority.jsp" />
+					<jsp:include page="authority.jsp">
+						<jsp:param name="disabled" value="true" />
+					</jsp:include>
+
 				</div>
 			</div>
 

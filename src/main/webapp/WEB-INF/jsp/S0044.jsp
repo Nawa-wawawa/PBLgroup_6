@@ -18,9 +18,9 @@
 	<jsp:include page="nav.jsp" />
 
 	<div class="container mt-5">
-	
-	<jsp:include page="error.jsp" />
-	
+
+		<jsp:include page="error.jsp" />
+
 		<h1 class="mb-4">アカウント詳細削除確認</h1>
 
 		<form action="S0044.html" method="POST">
@@ -61,7 +61,10 @@
 			<div class="mb-3 row">
 				<label class="col-sm-2 col-form-label text-end">権限</label>
 				<div class="col-sm-10">
-					<jsp:include page="authority.jsp" />
+					<jsp:include page="authority.jsp">
+						<jsp:param name="disabled" value="true" />
+					</jsp:include>
+
 				</div>
 			</div>
 
