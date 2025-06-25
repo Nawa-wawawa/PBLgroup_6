@@ -103,6 +103,7 @@ public class S0024Servlet extends HttpServlet {
 
 		if (!errors.isEmpty()) {
 			request.setAttribute("errors", errors);
+			SalesService.loadAccountAndCategory(request);
 			request.getRequestDispatcher("/WEB-INF/jsp/S0024.jsp").forward(request, response);
 		}
 

@@ -1,6 +1,8 @@
 package controllers;
 
 import java.io.IOException;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -88,19 +90,20 @@ public class S0011Servlet extends HttpServlet {
 		//1-14
 		//1-15
 
-//		//二回チェックしてもいいが、これも呼び出し。
-//		Map<String, String> errors = new LinkedHashMap<>();
-//
-//		errors = check.useCheck(staff, category);
-//
-//		if (!errors.isEmpty()) {
-//			request.setAttribute("errors", errors);
-//			request.getRequestDispatcher("/WEB-INF/jsp/S0010.jsp").forward(request, response);
-//			return;
-//		}
+		//二回チェックしてもいいが、これも呼び出し。
+		Map<String, String> errors = new LinkedHashMap<>();
+
+		errors = check.useCheck(staff, category);
+
+		if (!errors.isEmpty()) {
+			request.setAttribute("errors", errors);
+			SalesService.loadAccountAndCategory(request);
+			request.getRequestDispatcher("/WEB-INF/jsp/S0010.jsp").forward(request, response);
+			return;
+		}
 
 		SalesService sl = new SalesService();
-		sl.insert(salesData,request, response);
+		sl.insert(salesData, request, response);
 		session.removeAttribute("salesData");
 
 		response.sendRedirect(request.getContextPath() + "/S0010.html");
