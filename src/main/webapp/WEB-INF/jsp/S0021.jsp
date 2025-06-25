@@ -79,48 +79,6 @@
 			</form>
 		</c:forEach>
 	</div>
-	<!--		<div class="d-block d-md-none">-->
-	<!--			<c:forEach var="sales" items="${sessionScope.saleslist}">-->
-	<!--				<form method="post" action="S0021.html">-->
-	<!--					 個別レコードブロック -->
-	<!--					<div class="border rounded mb-3 p-2 bg-light">-->
-	<!--						 1段目 -->
-	<!--						<div class="row">-->
-	<!--							<div class="col-3 fw-bold">-->
-	<!--								<button type="submit"-->
-	<!--									class="btn btn-primary d-flex align-items-center">-->
-	<!--									<span class="text-white" style="font-weight: bold;">&check;</span>-->
-	<!--									詳細-->
-	<!--								</button>-->
-	<!--							</div>-->
-	<!--							<div class="col-3">-->
-	<!--								<input type="hidden" name="id" value="${sales.sale_id}">No:-->
-	<!--								${sales.sale_id}-->
-	<!--							</div>-->
-	<!--							<div class="col-6">販売日: ${sales.sale_date}</div>-->
-	<!--						</div>-->
-	<!--						<div class="row mt-1">-->
-	<!--							<div class="col-6">担当: ${sales.account_id}</div>-->
-	<!--							<div class="col-6">カテゴリ: ${sales.category_id}</div>-->
-	<!--						</div>-->
-
-	<!--						 2段目 -->
-	<!--						<div class="row mt-2 border-top pt-2">-->
-	<!--							<div class="col-12 fw-bold">商品情報</div>-->
-	<!--						</div>-->
-	<!--						<div class="row">-->
-	<!--							<div class="col-12">商品名: ${sales.trade_name}</div>-->
-	<!--						</div>-->
-	<!--						<div class="row">-->
-	<!--							<div class="col-4">単価: ${sales.unit_price}</div>-->
-	<!--							<div class="col-4">個数: ${sales.sale_number}</div>-->
-	<!--							<div class="col-4">小計: ${sales.unit_price * sales.sale_number}</div>-->
-	<!--						</div>-->
-	<!--					</div>-->
-	<!--				</form>-->
-	<!--			</c:forEach>-->
-	<!--		</div>-->
-
 	<script
 		src="${pageContext.request.contextPath}/js/bootstrap.bundle.min.js"
 		defer></script>
