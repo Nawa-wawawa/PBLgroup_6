@@ -70,7 +70,6 @@ public class S0020Servlet extends HttpServlet {
 			request.getRequestDispatcher("/WEB-INF/jsp/S0020.jsp").forward(request, response);
 			return;
 		}
-
 		// 条件保存
 		salescondition serch_condition = new salescondition(form);
 
