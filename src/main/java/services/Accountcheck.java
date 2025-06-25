@@ -118,5 +118,29 @@ public class Accountcheck {
 
 		return fieldErrors;
 	}
+	public Map<String, String> loginInputcheck(String mail ,String password){
+		Accountcheck checker = new Accountcheck();
+		Map<String, String> fieldErrors = new HashMap<>();
+		
+		// ■メールアドレス
+		if (mail == null || mail.trim().isEmpty()) {
+			fieldErrors.put("mail", "メールアドレスを入力してください。");
+		} else if (!checker.isValidEmailFormat(mail)) {
+			fieldErrors.put("mail", "メールアドレスを正しく入力して下さい。");
+		} else if (checker.mailCheck(mail)) {
+			fieldErrors.put("mail", "メールアドレスが長すぎます。");
+		}
+		
+		// ■パスワード
+		if (password == null || password.trim().isEmpty()) {
+			fieldErrors.put("password", "パスワードを入力してください。");
+		} else if (checker.passwordCheck(password)) {
+			fieldErrors.put("password", "パスワードが長すぎます。");
+		}
+		
+		
+		return fieldErrors;
+	}
+	
 
 }

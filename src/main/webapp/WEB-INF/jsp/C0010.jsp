@@ -8,6 +8,7 @@
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+<link href="css/style.css" rel="stylesheet">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ログイン｜物品売上管理システム</title>
 </head>
@@ -23,12 +24,21 @@
 				<div class="col-md-5 mb-2 text-start">
 					<label for="mail">メールアドレス <span
 						class="badge bg-secondary m-2">必須</span></label> <input type="mail"
-						class="form-control mb-4" name="mail" placeholder="xxx@xxx.com">
+						class="form-control" name="mail" placeholder="xxx@xxx.com" />
+					<div class="form-error-space mb-2">
+						<c:if test="${isSubmitted and not empty fieldErrors['mail']}">
+							<span class="error-message">${fieldErrors['mail']}</span>
+						</c:if>
+					</div>
 					<label for="password">パスワード <span
 						class="badge bg-secondary m-2">必須</span></label> <input type="password"
-						class="form-control mb-4" name="password"
-						placeholder="8文字以上の半角英数字">
-
+						class="form-control" name="password"
+						placeholder="8文字以上の半角英数字" />
+					<div class="form-error-space mb-2">
+						<c:if test="${isSubmitted and not empty fieldErrors['password']}">
+							<span class="error-message">${fieldErrors['password']}</span>
+						</c:if>
+					</div>
 					<div class="d-grid col-12 mx-auto">
 						<input type="submit" class="btn btn-primary m-1" value="ログイン">
 					</div>
