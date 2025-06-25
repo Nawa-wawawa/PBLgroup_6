@@ -39,7 +39,7 @@ public class S0040Servlet extends HttpServlet {
 		// TODO Auto-generated method stub
 
 		request.getRequestDispatcher("/WEB-INF/jsp/S0040.jsp").forward(request, response);
-		
+
 	}
 
 	/**
@@ -57,22 +57,16 @@ public class S0040Servlet extends HttpServlet {
 		byte authority = 0;
 		authority = Byte.parseByte(role);
 
-		Accountcheck ascheck = new Accountcheck();
-		Map<String, String> errors = new HashMap<>();
+		Map<String, String> fieldErrors = new HashMap<>();
 
-		if (name != null && ascheck.nameCheck(name)) {
+		Accountcheck acc = new Accountcheck();
 
-			errors.put("error1", "氏名の指定が長すぎます。");
+		fieldErrors = acc.serchInputcheck(name, mail);
 
-		}
-		if (mail != null && ascheck.mailSerchCheck(mail)) {
+		if (!fieldErrors.isEmpty()) {
 
-			errors.put("error2", "メールアドレスの指定が長すぎます。");
-
-		}
-		if (!errors.isEmpty()) {
-
-			request.setAttribute("errors", errors);
+			request.setAttribute("fieldErrors", fieldErrors);
+			request.setAttribute("isSubmitted", true);
 			request.getRequestDispatcher("/WEB-INF/jsp/S0040.jsp").forward(request, response);
 			return;
 

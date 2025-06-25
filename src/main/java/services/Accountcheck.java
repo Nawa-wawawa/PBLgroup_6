@@ -34,6 +34,7 @@ public class Accountcheck {
 		}
 		return false;
 	}
+
 	public boolean mailSerchCheck(String mail) {
 		if (mail == null)
 			return true;
@@ -118,10 +119,11 @@ public class Accountcheck {
 
 		return fieldErrors;
 	}
-	public Map<String, String> loginInputcheck(String mail ,String password){
+
+	public Map<String, String> loginInputcheck(String mail, String password) {
 		Accountcheck checker = new Accountcheck();
 		Map<String, String> fieldErrors = new HashMap<>();
-		
+
 		// ■メールアドレス
 		if (mail == null || mail.trim().isEmpty()) {
 			fieldErrors.put("mail", "メールアドレスを入力してください。");
@@ -130,17 +132,40 @@ public class Accountcheck {
 		} else if (checker.mailCheck(mail)) {
 			fieldErrors.put("mail", "メールアドレスが長すぎます。");
 		}
-		
+
 		// ■パスワード
 		if (password == null || password.trim().isEmpty()) {
 			fieldErrors.put("password", "パスワードを入力してください。");
 		} else if (checker.passwordCheck(password)) {
 			fieldErrors.put("password", "パスワードが長すぎます。");
 		}
-		
-		
+
 		return fieldErrors;
 	}
-	
+
+	public Map<String, String> serchInputcheck(String name, String mail) {
+		Accountcheck checker = new Accountcheck();
+		Map<String, String> fieldErrors = new HashMap<>();
+
+		// ■氏名
+		if (name != null && !name.trim().isEmpty()) {
+			fieldErrors.put("name", "氏名を入力してください。");
+			if (!name.matches("^[\\p{L} 　\\-\\ー]+$")) { // 例：日本語・英字・スペース・ハイフンだけ許可
+				fieldErrors.put("name", "氏名の形式が正しくありません。");
+			} else if (checker.nameCheck(name)) {
+				fieldErrors.put("name", "氏名が長すぎます。");
+			}
+		}
+		// ■メールアドレス
+		if (mail != null && !mail.trim().isEmpty()) {
+			fieldErrors.put("mail", "メールアドレスを入力してください。");
+			if (!checker.isValidEmailFormat(mail)) {
+				fieldErrors.put("mail", "メールアドレスを正しく入力して下さい。");
+			} else if (checker.mailCheck(mail)) {
+				fieldErrors.put("mail", "メールアドレスが長すぎます。");
+			}
+		}
+		return fieldErrors;
+	}
 
 }

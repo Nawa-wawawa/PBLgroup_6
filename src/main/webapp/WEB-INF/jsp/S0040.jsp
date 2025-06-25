@@ -9,6 +9,7 @@
 <title>アカウント検索条件入力</title>
 <link href="${pageContext.request.contextPath}/css/bootstrap.min.css"
 	rel="stylesheet" />
+<link href="css/style.css" rel="stylesheet">
 </head>
 <body>
 	<jsp:include page="nav.jsp" />
@@ -23,13 +24,13 @@
 					氏名 <span class="badge rounded-pill text-bg-secondary">部分一致</span>
 				</label>
 				<div class="col-sm-10">
-					<input type="text"
-						class="form-control 
-          <c:if test='${not empty errors.error1}'>is-invalid</c:if> m-1"
-						id="name" name="name" placeholder="氏名">
-					<c:if test="${not empty errors.error1}">
-						<div class="invalid-feedback">${errors.error1}</div>
-					</c:if>
+					<input type="text" class="form-control  m-1" id="name" name="name"
+						placeholder="氏名">
+					<div class="form-error-space">
+						<c:if test="${isSubmitted and not empty fieldErrors['name']}">
+							<span class="error-message">${fieldErrors['name']}</span>
+						</c:if>
+					</div>
 				</div>
 
 				<!-- メールアドレス -->
@@ -37,13 +38,13 @@
 					<label for="email" class="col-sm-2 col-form-label text-end">
 						メールアドレス </label>
 					<div class="col-sm-10">
-						<input type="email"
-							class="form-control
-          <c:if test='${not empty errors.error2}'>is-invalid</c:if> m-1"
-							id="email" name="mail" placeholder="メールアドレス">
-						<c:if test="${not empty errors.error2}">
-							<div class="invalid-feedback">${errors.error2}</div>
-						</c:if>
+						<input type="email" class="form-control m-1" id="email"
+							name="mail" placeholder="メールアドレス">
+						<div class="form-error-space">
+							<c:if test="${isSubmitted and not empty fieldErrors['mail']}">
+								<span class="error-message">${fieldErrors['mail']}</span>
+							</c:if>
+						</div>
 					</div>
 				</div>
 
