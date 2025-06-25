@@ -13,7 +13,7 @@ public class Accountcheck {
 		if (name == null)
 			return true;
 		try {
-			return name.getBytes("UTF-8").length >= 61;
+			return name.getBytes("UTF-8").length >= 21;
 		} catch (UnsupportedEncodingException e) {
 			return true; // エラー時は保守的にエラーと扱う
 		}
