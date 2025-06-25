@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <c:if test="${account == null}">
-	<c:redirect url="S0042Servlet" />
+	<c:redirect url="S0042.html" />
 </c:if>
 
 <!DOCTYPE html>
