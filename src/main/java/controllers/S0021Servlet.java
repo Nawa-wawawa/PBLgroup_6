@@ -39,8 +39,6 @@ public class S0021Servlet extends HttpServlet {
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		salescondition serch_condition = (salescondition) session.getAttribute("serch_condition");
-
-
 		if (serch_condition == null) {
 
 			response.sendRedirect("S0020.html");

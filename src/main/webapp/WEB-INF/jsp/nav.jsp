@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
 	<div class="container-fluid">
 		<span class="navbar-brand">物品売上管理システム</span>
@@ -9,19 +9,39 @@
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="collapse navbar-collapse" id="navbarNav">
-			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-				<li class="nav-item"><a class="nav-link" href="C0020.html">ダッシュボード</a></li>
+			<form method="post" action="Nav.html">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					<li class="nav-item">
+						<button class="nav-link btn btn-link" type="submit" name="menu"
+							value="0">ダッシュボード</button>
+					</li>
 
-				<c:if test="${user.authority == 1 || user.authority == 3}">
-					<li class="nav-item"><a class="nav-link" href="S0010.html">売上登録</a></li>
-				</c:if>
-					<li class="nav-item"><a class="nav-link" href="S0020.html">売上実績</a></li>
+					<c:if test="${user.authority == 1 || user.authority == 3}">
+						<li class="nav-item">
+							<button class="nav-link btn btn-link" type="submit" name="menu"
+								value="1">売上登録</button>
+						</li>
+					</c:if>
 
-				<c:if test="${user.authority == 2 || user.authority == 3}">
-					<li class="nav-item"><a class="nav-link" href="S0030.html">アカウント登録</a></li>
-				</c:if>
-				<li class="nav-item"><a class="nav-link" href="S0040.html">アカウント検索</a></li>
-			</ul>
+					<li class="nav-item">
+						<button class="nav-link btn btn-link" type="submit" name="menu"
+							value="2">売上実績</button>
+					</li>
+
+					<c:if test="${user.authority == 2 || user.authority == 3}">
+						<li class="nav-item">
+							<button class="nav-link btn btn-link" type="submit" name="menu"
+								value="3">アカウント登録</button>
+						</li>
+					</c:if>
+
+					<li class="nav-item">
+						<button class="nav-link btn btn-link" type="submit" name="menu"
+							value="4">アカウント検索</button>
+					</li>
+				</ul>
+			</form>
+
 
 			<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 				<li class="nav-item d-flex align-items-center px-2 text-nowrap">

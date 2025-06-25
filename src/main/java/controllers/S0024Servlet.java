@@ -1,12 +1,8 @@
 package controllers;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
-import javax.naming.NamingException;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -15,11 +11,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import beans.AccountSearchCondition;
 import beans.sales;
+import beans.salescondition;
 import services.SalesService;
 import services.Salescheck;
-import utils.Db;
 
 /**
  * Servlet implementation class S0024Servlet
@@ -49,24 +44,22 @@ public class S0024Servlet extends HttpServlet {
 		String accountName = "";
 
 		sales salesData = null;
-
+		
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession(false); // セッションがなければ null を返す
 
-		AccountSearchCondition asc = (AccountSearchCondition) session.getAttribute("search_condition");
+		salescondition serch_condition = (salescondition) session.getAttribute("serch_condition");
+		salesData = (sales) session.getAttribute("picksale");
 
-		if (asc == null) {
+		if (serch_condition == null || salesData == null) {
 
 			response.sendRedirect("S0020.html");
 			return;
 		}
-		
-		if (session != null) {
-			// 例：int型IDとして使いたい場合（Integer型にキャスト）
-			salesData = (sales) session.getAttribute("picksale");
-			staffId = salesData.getAccount_id();
-			categoryId = salesData.getCategory_id();
-		} 
+
+		// 例：int型IDとして使いたい場合（Integer型にキャスト）
+		staffId = salesData.getAccount_id();
+		categoryId = salesData.getCategory_id();
 
 		categoryName = SalesService.getCategoryNameById(categoryId);
 		accountName = SalesService.getAccountNameById(staffId);
@@ -89,16 +82,18 @@ public class S0024Servlet extends HttpServlet {
 		sales salesData = null;
 
 		HttpSession session = request.getSession(false); // セッションがなければ null を返す
-		if (session != null) {
-			// 例：int型IDとして使いたい場合（Integer型にキャスト）
-			salesData = (sales) session.getAttribute("picksale");
-			saleId = (int) session.getAttribute("saleId");
-			staff = salesData.getAccount_id();
-			category = salesData.getCategory_id();
+		// 例：int型IDとして使いたい場合（Integer型にキャスト）
+		salesData = (sales) session.getAttribute("picksale");
 
-		} else {
-			System.out.println("セッションが存在しません。");
+		if (salesData == null) {
+
+			response.sendRedirect("S0020.html");
+			return;
 		}
+
+		saleId = (int) session.getAttribute("saleId");
+		staff = salesData.getAccount_id();
+		category = salesData.getCategory_id();
 
 		Salescheck check = new Salescheck();
 
@@ -114,21 +109,16 @@ public class S0024Servlet extends HttpServlet {
 			SalesService.loadAccountAndCategory(request);
 			request.getRequestDispatcher("/WEB-INF/jsp/S0024.jsp").forward(request, response);
 		}
+		SalesService sl = new SalesService();
+		sales Newsale = salesData;
+		sl.update(Newsale, saleId, request, response);
 
-		try (Connection con = Db.open()) {
+		session.removeAttribute("saleslist");
+		session.removeAttribute("saleId");
+		session.removeAttribute("aName");
+		session.removeAttribute("cName");
+		session.removeAttribute("picksale");
 
-			SalesService sl = new SalesService();
-
-			sales Newsale = salesData;
-
-			sl.update(Newsale, saleId, request, response);
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (NamingException e1) {
-			// TODO 自動生成された catch ブロック
-			e1.printStackTrace();
-		}
 		response.sendRedirect(request.getContextPath() + "/S0021.html");
 	}
 }

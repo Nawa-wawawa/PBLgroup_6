@@ -44,14 +44,15 @@ public class S0011Servlet extends HttpServlet {
 
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession(false); // セッションがなければ null を返す
-		if (session != null) {
-			// 例：int型IDとして使いたい場合（Integer型にキャスト）
-			sales salesData = (sales) session.getAttribute("salesData");
-			staffId = salesData.getAccount_id();
-			categoryId = salesData.getCategory_id();
-		} else {
-			System.out.println("セッションが存在しません。");
+
+		// 例：int型IDとして使いたい場合（Integer型にキャスト）
+		sales salesData = (sales) session.getAttribute("salesData");
+		if (salesData == null) {
+			response.sendRedirect("S0010.html");
+			return;
 		}
+		staffId = salesData.getAccount_id();
+		categoryId = salesData.getCategory_id();
 
 		categoryName = SalesService.getCategoryNameById(categoryId);
 		accountName = SalesService.getAccountNameById(staffId);

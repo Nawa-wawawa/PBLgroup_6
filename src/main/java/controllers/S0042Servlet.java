@@ -11,7 +11,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import beans.AccountSearchCondition;
 import beans.accounts;
 import froms.InsertAccountform;
 import services.Accountcheck;
@@ -29,11 +28,10 @@ public class S0042Servlet extends HttpServlet {
 
 		HttpSession session = request.getSession(false);
 
-		AccountSearchCondition asc = (AccountSearchCondition) session.getAttribute("search_condition");
+		accounts account = (accounts) session.getAttribute("account");
+		if (account == null) {
 
-		if (asc == null) {
-
-			response.sendRedirect("S0040.html");
+			response.sendRedirect("S0041.html");
 			return;
 		}
 

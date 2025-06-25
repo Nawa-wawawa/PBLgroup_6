@@ -11,8 +11,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import beans.AccountSearchCondition;
 import beans.sales;
+import beans.salescondition;
 import froms.InsertSaleform;
 import services.SalesService;
 import services.Salescheck;
@@ -37,18 +37,16 @@ public class S0023Servlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		HttpSession session = request.getSession(false);
 
-		AccountSearchCondition asc = (AccountSearchCondition) session.getAttribute("search_condition");
-
-		if (asc == null) {
+		salescondition serch_condition = (salescondition) session.getAttribute("serch_condition");
+		if (serch_condition == null) {
 
 			response.sendRedirect("S0020.html");
 			return;
-
 		}
-		
+
 		SalesService.loadAccountAndCategory(request);
 		request.getRequestDispatcher("/WEB-INF/jsp/S0023.jsp").forward(request, response);
 	}
@@ -58,6 +56,7 @@ public class S0023Servlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
 		int action = Integer.parseInt(request.getParameter("action"));
 
 		if (action == 1) {
@@ -82,7 +81,6 @@ public class S0023Servlet extends HttpServlet {
 			sales salesData = new sales(form);
 
 			HttpSession session = request.getSession();
-
 			session.setAttribute("picksale", salesData);
 
 			response.sendRedirect(request.getContextPath() + "/S0024.html");

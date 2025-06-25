@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-@WebFilter(urlPatterns = {"/S0022.html", "/S0023.html", "/S0024.html", "/S0025.html"})
+@WebFilter(urlPatterns = {"/S0010.html", "/S0011.html","/S0022.html", "/S0023.html", "/S0024.html", "/S0025.html"})
 public class SalesAuthorityFilter implements Filter {
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)

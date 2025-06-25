@@ -9,7 +9,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import beans.AccountSearchCondition;
+import beans.sales;
+import beans.salescondition;
 import services.SalesService;
 
 /**
@@ -32,16 +33,16 @@ public class S0025Servlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		sales salesData = null;
 
 		HttpSession session = request.getSession(false);
 
-		AccountSearchCondition asc = (AccountSearchCondition) session.getAttribute("search_condition");
-
-		if (asc == null) {
+		salesData = (sales) session.getAttribute("picksale");
+		salescondition serch_condition = (salescondition) session.getAttribute("serch_condition");
+		if (serch_condition == null || salesData == null) {
 
 			response.sendRedirect("S0020.html");
 			return;
-
 		}
 
 		request.getRequestDispatcher("/WEB-INF/jsp/S0025.jsp").forward(request, response);
@@ -57,10 +58,24 @@ public class S0025Servlet extends HttpServlet {
 		if (action == 1) {
 			HttpSession session = request.getSession(false);
 			int saleId = (int) session.getAttribute("saleId");
+			sales salesData = null;
+			salesData = (sales) session.getAttribute("picksale");
+
+			if (salesData == null) {
+
+				response.sendRedirect("S0020.html");
+				return;
+			}
 
 			SalesService delete = new SalesService();
 			//削除の前に削除権限があるのかをログイン中のアカウント権限と参照
 			delete.delete(saleId, request, response);
+
+			session.removeAttribute("saleslist");
+			session.removeAttribute("saleId");
+			session.removeAttribute("aName");
+			session.removeAttribute("cName");
+			session.removeAttribute("picksale");
 
 			response.sendRedirect(request.getContextPath() + "/S0021.html");
 		} else {

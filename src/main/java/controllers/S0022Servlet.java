@@ -10,8 +10,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import beans.AccountSearchCondition;
 import beans.sales;
+import beans.salescondition;
 
 /**
  * Servlet implementation class S0022Servlet
@@ -39,9 +39,8 @@ public class S0022Servlet extends HttpServlet {
 		int saleId = 0;
 
 		HttpSession session = request.getSession(false);// セッションがなければ null を返す
-		AccountSearchCondition asc = (AccountSearchCondition) session.getAttribute("search_condition");
-
-		if (asc == null) {
+		salescondition serch_condition = (salescondition) session.getAttribute("serch_condition");
+		if (serch_condition == null) {
 
 			response.sendRedirect("S0020.html");
 			return;
@@ -50,13 +49,13 @@ public class S0022Servlet extends HttpServlet {
 		//ここで再度selectする？
 		saleslist = (ArrayList<sales>) session.getAttribute("saleslist");
 		saleId = (int) session.getAttribute("saleId");
-
 		sales picksale = null;
 		for (sales sl : saleslist) {
 			if (sl.getSale_id() == saleId) {
 				picksale = sl;
 			}
 		}
+
 
 		session.setAttribute("picksale", picksale);
 

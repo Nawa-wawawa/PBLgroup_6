@@ -21,20 +21,6 @@
 		<h1 class="mb-4">アカウントを登録してもよろしいですか？</h1>
 
 		<form action="S0031.html" method="POST">
-			<!-- 隠し入力（登録用） -->
-
-			<input type="hidden" name="name" value="${account.name}"> <input
-				type="hidden" name="mail" value="${account.mail}"> <input
-				type="hidden" name="password" value="${account.password}"> <input
-				type="hidden" name="confirmPassword" value="${account.password}">
-
-			<c:if test="${canRegisterSales}">
-				<input type="hidden" name="role" value="salesregister">
-			</c:if>
-			<c:if test="${canRegisterAccounts}">
-				<input type="hidden" name="role" value="accountregister">
-			</c:if>
-
 			<!-- 表示項目（すべてdisabled） -->
 			<div class="mb-3 row">
 				<label class="col-sm-2 col-form-label text-end">氏名</label>
@@ -77,9 +63,6 @@
 
 				</div>
 			</div>
-
-
-
 			<!-- ボタン -->
 			<div class="row">
 				<div class="offset-sm-2 col-sm-10">

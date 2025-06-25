@@ -2,19 +2,16 @@
 package controllers;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import beans.accounts;
-import froms.InsertAccountform;
 import services.AccountService;
-import services.Accountcheck;
 
 @WebServlet("/S0031.html")
 public class S0031Servlet extends HttpServlet {
@@ -26,6 +23,16 @@ public class S0031Servlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		HttpSession session = request.getSession();
+		accounts account = (accounts) session.getAttribute("account");
+		
+		if (account == null) {
+
+			response.sendRedirect("S0030.html");
+			return;
+
+		}
 
 		request.getRequestDispatcher("/WEB-INF/jsp/S0031.jsp").forward(request, response);
 	}
@@ -33,40 +40,14 @@ public class S0031Servlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-
-		InsertAccountform form = new InsertAccountform(request);
-
-		String[] roles = form.roles;
-		String name = form.name;
-		String mail = form.mail;
-		String password = form.password;
-
-		//System.out.println(roles + name + mail + password);
-
-		AccountService ac = new AccountService();
-		byte authority = ac.authorityConvert(roles);
-
-		accounts account = new accounts(name, mail, password, authority);
-
-		Map<String, String> fieldErrors = new HashMap<>();
-
-		Accountcheck acc = new Accountcheck();
-
-		fieldErrors = acc.useCheck(form);
-
-		if (!fieldErrors.isEmpty()) {
-			// エラーがある → 入力画面に戻す
-			request.setAttribute("fieldErrors", fieldErrors);
-			request.setAttribute("account", account);
-			request.setAttribute("isSubmitted", true);
-			request.getRequestDispatcher("/WEB-INF/jsp/S0030.jsp").forward(request, response);
-			return;
-		}
-
+		HttpSession session = request.getSession();
+		accounts account = (accounts) session.getAttribute("account");
 		// 確認画面のOKが押されたときにDB登録
 		AccountService service = new AccountService();
 
 		service.insert(account, request, response);
+		
+		session.removeAttribute("account");
 		// 登録成功 → 入力画面へリダイレクト（必要に応じて変更）
 		response.sendRedirect("S0030.html");
 	}

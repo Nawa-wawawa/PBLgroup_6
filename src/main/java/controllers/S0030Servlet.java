@@ -82,10 +82,6 @@ public class S0030Servlet extends HttpServlet {
 		HttpSession session = request.getSession();
 
 		session.setAttribute("account", account);
-		session.setAttribute("roles", roles);
-		session.setAttribute("canRegisterSales", (account.getAuthority() & 1) != 0);
-		session.setAttribute("canRegisterAccounts", (account.getAuthority() & 2) != 0);
-
 		response.sendRedirect(request.getContextPath() + "/S0031.html");
 	}
 

@@ -51,6 +51,9 @@ public class S0044Servlet extends HttpServlet {
 		}
 		AccountService service = new AccountService();
 		service.delete(account.getAccount_id(), request, response); // 削除処理
+
+		session.removeAttribute("account");
+		
 		response.sendRedirect("S0041.html"); // 一覧画面へ
 	}
 }
