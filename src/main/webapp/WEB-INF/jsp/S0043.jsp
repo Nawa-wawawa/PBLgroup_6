@@ -2,10 +2,6 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<c:if test="${account == null}">
-	<c:redirect url="S0041.html" />
-</c:if>
-
 <!DOCTYPE html>
 <html>
 <head>

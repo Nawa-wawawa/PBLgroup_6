@@ -36,7 +36,7 @@
 		</h2>
 		<c:forEach var="sales" items="${sessionScope.saleslist}">
 			<form method="post" action="S0021.html">
-				<div class="row border-bottom py-2 align-items-center">
+				<div class="row border-bottom py-2 align-items-center" style="text-align: center;">
 					<div class="col-auto">
 						<c:if test="${user.authority == 1 || user.authority == 3}">
 							<button type="submit" class="btn btn-primary">&check; 詳細</button>
@@ -49,16 +49,20 @@
 						<input type="hidden" name="id" value="${sales.sale_id}">${sales.sale_id}
 					</div>
 					<div class="col-1">${sales.sale_date}</div>
+
 					<div class="col-1">
 						<c:set var="accountName" value="" />
+						<c:set var="matched" value="false" />
 
 						<c:forEach var="ac" items="${accountslist}">
 							<c:if test="${ac.account_id == sales.account_id}">
-								<c:set var="accountName" value="${ac.name}" /> ${ac.name}</c:if>
-							<c:if test="${ac.account_id != sales.account_id}">---</c:if>
+								<c:set var="matched" value="true" />
+								<c:set var="accountName" value="${ac.name}" />${ac.name}</c:if>
 						</c:forEach>
+						<c:if test="${not matched}">---</c:if>
 						<input type="hidden" name="accountName" value="${accountName}" />
 					</div>
+
 					<div class="col-2">
 						<c:set var="categoryName" value="" />
 						<c:forEach var="ct" items="${categorylist}">

@@ -12,7 +12,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import beans.AccountSearchCondition;
 import beans.sales;
 import beans.salescondition;
 import services.SalesService;
@@ -40,9 +39,9 @@ public class S0021Servlet extends HttpServlet {
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		salescondition serch_condition = (salescondition) session.getAttribute("serch_condition");
-		AccountSearchCondition asc = (AccountSearchCondition) session.getAttribute("search_condition");
 
-		if (asc == null) {
+
+		if (serch_condition == null) {
 
 			response.sendRedirect("S0020.html");
 			return;
