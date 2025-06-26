@@ -53,6 +53,7 @@
 										</div>
 									</c:when>
 									<c:otherwise>
+									前年比:
 										<div class="fw-bold fs-2 text-danger mb-1">
 											▲
 											<fmt:formatNumber value="${-prevYearCompareTotal}"
@@ -127,6 +128,7 @@
 											</div>
 										</c:when>
 										<c:otherwise>
+										前年比:
 											<div class="fw-bold fs-2 text-danger mb-1">
 												▲
 												<fmt:formatNumber value="${-prevYearCompareUserTotal}"
